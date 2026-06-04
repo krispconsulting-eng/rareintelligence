@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" role="img" aria-label="Rare Intelligence">
+  <defs>
+    <linearGradient id="dGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2D3580"/>
+      <stop offset="0.5" stop-color="#1A4FBF"/>
+      <stop offset="1" stop-color="#00C9B1"/>
+    </linearGradient>
+  </defs>
+  <!-- Aperture ring -->
+  <circle cx="90" cy="90" r="66" fill="#0E1C35"/>
+  <circle cx="90" cy="90" r="66" fill="none" stroke="url(#dGrad)" stroke-width="5"/>
+  <!-- Pulse → signal: heartbeat line rising into intelligence bars -->
+  <polyline points="44,96 64,96 74,72 86,116 98,90 108,96"
+            fill="none" stroke="#80EAD8" stroke-width="4.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+  <g>
+    <rect x="116" y="84" width="7" height="20" rx="3" fill="#0E7FA8"/>
+    <rect x="128" y="72" width="7" height="32" rx="3" fill="#1A4FBF"/>
+    <rect x="140" y="58" width="7" height="46" rx="3" fill="#00C9B1"/>
+  </g>
+  <!-- Wordmark, inline single weight + descriptor -->
+  <text x="190" y="80" font-family="'Bricolage Grotesque', sans-serif" font-weight="800"
+        font-size="44" fill="#EEF8F7" letter-spacing="0.5">Rare Intelligence</text>
+  <text x="192" y="116" font-family="'DM Mono', monospace" font-weight="500"
+        font-size="15" fill="#00C9B1" letter-spacing="4">AI FOR RARE DISEASE LEADERS</text>
+</svg>

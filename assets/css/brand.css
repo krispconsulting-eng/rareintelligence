@@ -1,0 +1,59 @@
+/* =================================================================
+   Rare Intelligence — brand.css
+   "Deep Signal" design tokens · single source of truth.
+   Rare by nature. Intelligent by design.
+   Per Brand Guidelines v1.0 (KrispConsulting, 2026).
+   ================================================================= */
+
+:root {
+  /* ---- Colour · Deep Signal (12-step cool family) ---- */
+  --midnight-navy: #080F1E;  /* page base — the floor of everything */
+  --navy-card:     #0E1C35;  /* default content surface */
+  --navy-lift:     #152844;  /* raised / hover surface */
+  --deep-indigo:   #2D3580;  /* gradient start, cool anchor */
+  --cobalt:        #1A4FBF;  /* links & info accents */
+  --ocean:         #0E7FA8;  /* gradient mid, secondary data */
+  --vivid-teal:    #00C9B1;  /* THE accent — one per view */
+  --aqua:          #3DD6C8;  /* teal hover / lighter accent */
+  --seafoam:       #80EAD8;  /* labels, eyebrows, soft accent */
+  --pale-mint:     #C2F5EE;  /* on-gradient text, highlights */
+  --ghost:         #EEF8F7;  /* default body text on dark */
+  --warm-grey:     #8BA8A5;  /* secondary / muted text */
+  --hairline:      #1D2F4D;  /* borders on dark surfaces */
+
+  /* ---- Brand gradient (indigo → cobalt → ocean → teal) ---- */
+  --grad-strip: linear-gradient(90deg,  #2D3580 0%, #1A4FBF 38%, #0E7FA8 72%, #00C9B1 100%);
+  --grad-hero:  linear-gradient(135deg, #2D3580 0%, #1A4FBF 42%, #0E7FA8 74%, #00C9B1 100%);
+
+  /* ---- Typography ---- */
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif; /* wordmark, headlines, big numbers (700–800) */
+  --font-body:    "Instrument Sans", system-ui, -apple-system, sans-serif; /* all functional text (400–600) */
+  --font-serif:   "Lora", Georgia, serif;        /* taglines & human moments only (italic 500) */
+  --font-mono:    "DM Mono", ui-monospace, monospace; /* stats, eyebrows, captions, code */
+
+  /* ---- Type scale · 1.25 major third on 16px ---- */
+  --fs-display: clamp(2.6rem, 6vw, 4.875rem); /* 78 / 1.05 — hero only */
+  --fs-h1:      clamp(2.2rem, 4.5vw, 2.875rem); /* 46 / 1.1 */
+  --fs-h2:      clamp(1.7rem, 3vw, 1.875rem);   /* 30 / 1.2 */
+  --fs-h3:      1.625rem;                        /* 26 / 1.25 */
+  --fs-lede:    1.25rem;                         /* 20 / 1.5 — Lora italic intro */
+  --fs-body:    1rem;                            /* 16 / 1.7 */
+  --fs-overline:0.8125rem;                       /* 13 · 0.32em — DM Mono eyebrows */
+
+  /* ---- Shape & depth ---- */
+  --radius:      18px;
+  --radius-sm:   12px;
+  --radius-pill: 999px;
+  --shadow-sm:   0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-md:   0 18px 48px rgba(0, 0, 0, 0.45);
+  --shadow-lg:   0 30px 80px rgba(0, 0, 0, 0.55);
+  --shadow-teal: 0 14px 40px rgba(0, 201, 177, 0.20);
+  --container:   1160px;
+  --ease:        cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ---- The zebra · fine 35° diagonal, felt not seen ---- */
+  --zebra-light: repeating-linear-gradient(
+      125deg, transparent 0 8px, rgba(255, 255, 255, 0.05) 8px 10px); /* on dark, ~10% whisper */
+  --zebra-hero: repeating-linear-gradient(
+      125deg, transparent 0 8px, rgba(255, 255, 255, 0.08) 8px 10px); /* heroes, ~18% */
+}
