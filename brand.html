@@ -8,7 +8,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&family=Lora:ital,wght@1,500&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/svg+xml" href="assets/logo/mark.svg" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo/favicon/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/logo/favicon/favicon-16.png" />
+  <link rel="icon" href="assets/logo/favicon/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo/favicon/favicon-180.png" />
+  <meta name="theme-color" content="#080F1E" />
+  <link rel="manifest" href="site.webmanifest" />
   <link rel="stylesheet" href="assets/css/brand.css" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
@@ -34,7 +40,11 @@
     .cw{border-radius:var(--radius-sm);min-height:120px;display:grid;place-items:center;border:1px solid var(--hairline)}
     .cw span{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
     .cw .badge-mini{width:64px;height:64px;border-radius:50%;border:2px solid var(--vivid-teal);background:var(--grad-hero);display:grid;place-items:center;font-family:var(--font-display);font-weight:800;color:var(--ghost)}
-    @media(max-width:760px){.swatch-grid,.colorways{grid-template-columns:repeat(2,1fr)}.logo-grid,.vt{grid-template-columns:1fr}.type-row{grid-template-columns:1fr}}
+    .logo-sheet{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+    .ls-cell{border:1px solid var(--hairline);border-radius:var(--radius-sm);min-height:120px;display:flex;align-items:center;justify-content:center;padding:18px}
+    .ls-cell img{max-width:100%;max-height:70px;height:auto;display:block}
+    .ls-dark{background:var(--midnight-navy)} .ls-light{background:var(--ghost)} .ls-plain{background:var(--navy-card)}
+    @media(max-width:760px){.swatch-grid,.colorways,.logo-sheet{grid-template-columns:repeat(2,1fr)}.logo-grid,.vt{grid-template-columns:1fr}.type-row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -161,6 +171,46 @@
           <article class="card"><h3 style="color:var(--vivid-teal)">Do</h3><ul style="color:var(--ghost);padding-left:18px;display:grid;gap:8px"><li>Keep navy / white as the primary background</li><li>Spend teal as a single accent per view</li><li>Use the gradient on bands &amp; headers only</li><li>Reserve Lora italic for taglines &amp; quotes</li><li>Let the zebra whisper at 10–20%</li><li>Write peer-to-peer, concrete, calm</li></ul></article>
           <article class="card"><h3 style="color:var(--warm-grey)">Don’t</h3><ul style="color:var(--ghost);padding-left:18px;display:grid;gap:8px"><li>Fill large areas with vivid teal</li><li>Stack teal + cobalt + indigo to compete</li><li>Use the gradient as full-page wallpaper</li><li>Set body copy in Lora or DM Mono</li><li>Push texture loud or use literal zebras</li><li>Reach for hype or guru language</li></ul></article>
         </div>
+      </div>
+    </section>
+
+    <!-- LOGO SUITE / DOWNLOADS -->
+    <section class="section" id="downloads">
+      <div class="container">
+        <div class="section-head reveal"><span class="eyebrow">07 · Asset library</span><h2>The logo suite.</h2>
+          <p class="lead">Every lockup and colourway, in self-contained SVG (fonts embedded) plus
+            high-res PNG, with favicon, ICO and print-ready PDF. Drop straight into any document.</p>
+          <a href="assets/downloads/rareintelligence-logo-suite.zip" download class="btn btn-primary btn-arrow" style="margin-top:8px">Download the logo suite (.zip)</a>
+        </div>
+
+        <h3>Horizontal — navy / white / reversed / gradient</h3>
+        <div class="logo-sheet reveal">
+          <div class="ls-cell ls-dark"><img src="assets/logo/primary/png/ri-horizontal-navy.png" alt="Horizontal logo, navy colourway"></div>
+          <div class="ls-cell ls-light"><img src="assets/logo/primary/png/ri-horizontal-white.png" alt="Horizontal logo, white colourway"></div>
+          <div class="ls-cell ls-dark"><img src="assets/logo/primary/png/ri-horizontal-reversed.png" alt="Horizontal logo, reversed mono"></div>
+          <div class="ls-cell ls-plain"><img src="assets/logo/primary/png/ri-horizontal-gradient.png" alt="Horizontal logo on gradient"></div>
+        </div>
+
+        <h3 style="margin-top:36px">Stacked · inline · tagline</h3>
+        <div class="logo-sheet reveal">
+          <div class="ls-cell ls-dark"><img src="assets/logo/primary/png/ri-stacked-navy.png" alt="Stacked logo, navy"></div>
+          <div class="ls-cell ls-light"><img src="assets/logo/primary/png/ri-stacked-white.png" alt="Stacked logo, white"></div>
+          <div class="ls-cell ls-dark"><img src="assets/logo/primary/png/ri-inline-navy.png" alt="Inline logo, navy"></div>
+          <div class="ls-cell ls-dark"><img src="assets/logo/primary/png/ri-tagline-navy.png" alt="Tagline lockup, navy"></div>
+        </div>
+
+        <h3 style="margin-top:36px">Badge &amp; favicons</h3>
+        <div class="logo-sheet reveal">
+          <div class="ls-cell ls-dark"><img src="assets/logo/primary/png/ri-mark-colour.png" alt="Badge, full colour" style="max-height:96px"></div>
+          <div class="ls-cell ls-dark"><img src="assets/logo/primary/png/ri-mark-reversed.png" alt="Badge, reversed mono" style="max-height:96px"></div>
+          <div class="ls-cell ls-light"><img src="assets/logo/favicon/favicon-512.png" alt="App icon" style="max-height:96px;border-radius:18px"></div>
+          <div class="ls-cell ls-light"><img src="assets/logo/favicon/favicon-180.png" alt="Apple touch icon" style="max-height:64px;border-radius:12px"></div>
+        </div>
+
+        <p class="lead" style="margin-top:28px">Formats: <strong style="color:var(--ghost)">SVG</strong>
+          (vector, fonts embedded) · <strong style="color:var(--ghost)">PNG</strong> (transparent) ·
+          <strong style="color:var(--ghost)">PDF</strong> (print) · <strong style="color:var(--ghost)">ICO</strong>
+          &amp; favicon set. <em>EPS</em> exports one click from the SVG/PDF in Illustrator or Inkscape.</p>
       </div>
     </section>
   </main>

@@ -1,0 +1,13 @@
+{
+  "name": "Rare Intelligence",
+  "short_name": "Rare Intel",
+  "description": "AI for rare-disease leaders. Rare by nature. Intelligent by design.",
+  "icons": [
+    { "src": "assets/logo/favicon/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/logo/favicon/favicon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#080F1E",
+  "background_color": "#080F1E",
+  "display": "standalone",
+  "start_url": "index.html"
+}

@@ -14,10 +14,16 @@ assets/logo/
 │   ├── svg/                 # vector, font-embedded
 │   └── png/                 # transparent, ~1000–1700px wide
 ├── options/                 # The four concept options (A–D), svg + png
-├── favicon/                 # favicon.svg + 32 / 180 / 512 px (navy rounded bg)
-├── mark.svg                 # badge-only mark (used as the site favicon)
+├── pdf/                     # print-ready vector PDFs (key lockups)
+├── favicon/                 # favicon.svg, favicon.ico, 16/32/48/180/192/512 px
+├── mark.svg                 # badge-only mark
 └── option-*.svg             # source concept files
 ```
+
+**Formats:** every lockup ships as **SVG** (vector, fonts embedded) and **PNG**
+(transparent). Key lockups also ship as **PDF** (`pdf/`) for print. The favicon folder
+adds **ICO** and the full PNG icon set. EPS isn't included — export it in one click from
+any SVG or PDF in Illustrator or Inkscape (the SVGs are the editable source of truth).
 
 ## Lockups (primary)
 
