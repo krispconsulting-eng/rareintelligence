@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testimonials — Rare Intelligence</title>
+  <meta name="description" content="Results that speak through founder voices — an auto-playing testimonial deck prototype for Rare Intelligence." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&family=Lora:ital,wght@1,500&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo/favicon/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/logo/favicon/favicon-16.png" />
+  <link rel="icon" href="assets/logo/favicon/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo/favicon/favicon-180.png" />
+  <meta name="theme-color" content="#080F1E" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="stylesheet" href="assets/css/brand.css" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- ====================================================================
+       Prototype-only styles for the auto-playing testimonial deck.
+       Kept inline so this page is a clean, self-contained prototype.
+       Uses Deep Signal tokens from brand.css.
+       ==================================================================== -->
+  <style>
+    .tdeck-section { position: relative; overflow: hidden; }
+
+    .tdeck-head { text-align: center; margin-bottom: clamp(2.4rem, 5vw, 3.6rem); }
+
+    /* ---- Stage: holds the stacked deck ---- */
+    .tdeck {
+      --tdeck-accent: var(--vivid-teal);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .tdeck-stage {
+      position: relative;
+      /* room for the 2 stacked cards peeking behind */
+      padding: 14px 14px 26px;
+      min-height: 380px;
+    }
+
+    /* Each testimonial card */
+    .tcard {
+      position: absolute;
+      inset: 0 0 auto 0;
+      margin: 0 auto;
+      background: #ffffff;
+      color: #0b1424;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: clamp(1.6rem, 4vw, 2.5rem);
+      transition: transform .6s var(--ease), opacity .6s var(--ease), filter .6s var(--ease);
+      will-change: transform, opacity;
+    }
+
+    /* Stack positions — front, then two layered behind */
+    .tcard[data-pos="0"] { transform: translateY(0) scale(1);        opacity: 1; z-index: 3; }
+    .tcard[data-pos="1"] { transform: translateY(14px) scale(.955);  opacity: 1; z-index: 2; filter: saturate(.9); }
+    .tcard[data-pos="2"] { transform: translateY(28px) scale(.91);   opacity: 1; z-index: 1; filter: saturate(.8); }
+    /* Anything deeper hides behind the deck */
+    .tcard[data-pos="hidden"] { transform: translateY(34px) scale(.9); opacity: 0; z-index: 0; pointer-events: none; }
+    /* Card leaving the front (peels up and fades) */
+    .tcard[data-pos="out"] { transform: translateY(-26px) scale(1.02); opacity: 0; z-index: 4; pointer-events: none; }
+
+    .tcard-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.4rem;
+    }
+    .tcard-company {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #0b1424;
+    }
+    .tcard-dots { display: flex; gap: 6px; }
+    .tcard-dots i {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #cdd6e0; display: block;
+      transition: background .3s var(--ease);
+    }
+    .tcard-dots i.on { background: var(--tdeck-accent); }
+
+    .tcard-mark {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 3rem;
+      line-height: .6;
+      color: var(--tdeck-accent);
+      display: block;
+      margin-bottom: .6rem;
+      height: 1.4rem;
+    }
+    .tcard-quote {
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: #2b3a4f;
+      margin: 0 0 1.8rem;
+    }
+
+    .tcard-author { display: flex; align-items: center; gap: .85rem; }
+    .tcard-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      object-fit: cover; flex: 0 0 auto;
+      background: var(--grad-hero);
+    }
+    .tcard-meta { line-height: 1.3; }
+    .tcard-name { font-weight: 700; color: #0b1424; font-size: .98rem; }
+    .tcard-role { font-family: var(--font-mono); font-size: .8rem; color: #6b7a8d; }
+    .tcard-li {
+      margin-left: auto;
+      width: 26px; height: 26px; border-radius: 6px;
+      display: grid; place-items: center;
+      background: #0a66c2; color: #fff;
+      font-weight: 700; font-size: .72rem;
+      text-decoration: none;
+      transition: transform .2s var(--ease);
+    }
+    .tcard-li:hover { transform: translateY(-2px); }
+
+    /* ---- Transport controls: play/pause + progress bar ---- */
+    .tdeck-controls {
+      display: flex; align-items: center; gap: 1rem;
+      margin-top: 1.6rem;
+    }
+    .tdeck-toggle {
+      flex: 0 0 auto;
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 1px solid var(--hairline);
+      background: var(--navy-lift);
+      color: var(--ghost);
+      display: grid; place-items: center;
+      cursor: pointer;
+      transition: border-color .25s var(--ease), transform .15s var(--ease);
+    }
+    .tdeck-toggle:hover { border-color: var(--tdeck-accent); }
+    .tdeck-toggle:active { transform: scale(.94); }
+    .tdeck-toggle svg { width: 18px; height: 18px; fill: currentColor; }
+    .tdeck-toggle .icon-play { display: none; }
+    .tdeck.is-paused .tdeck-toggle .icon-play { display: block; }
+    .tdeck.is-paused .tdeck-toggle .icon-pause { display: none; }
+
+    .tdeck-track {
+      position: relative; flex: 1;
+      height: 5px; border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      overflow: hidden;
+    }
+    .tdeck-fill {
+      position: absolute; inset: 0 auto 0 0;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--vivid-teal), var(--aqua));
+    }
+    /* Width is driven by JS each tick for pause-accurate progress */
+
+    @media (max-width: 560px) {
+      .tcard-company { font-size: 1.15rem; }
+      .tcard-quote { font-size: 1rem; }
+      .tdeck-stage { min-height: 420px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tcard { transition: opacity .2s linear; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand">
+        <span class="mark"><span>RI</span></span>
+        Rare Intelligence
+      </a>
+      <nav aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="work-with-me.html">Work With Me</a></li>
+          <li><a href="membership.html">Membership</a></li>
+          <li><a href="impact.html">Impact Project</a></li>
+          <li><a href="resources.html">Resources</a></li>
+        </ul>
+      </nav>
+      <div class="nav-cta">
+        <a href="work-with-me.html" class="btn btn-primary btn-arrow">Work with me</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- TESTIMONIAL DECK -->
+    <section class="section tdeck-section">
+      <div class="container">
+        <div class="tdeck-head reveal">
+          <span class="eyebrow">Testimonials</span>
+          <h2>Results that speak through founder voices.</h2>
+        </div>
+
+        <!-- The deck. data-interval is the autoplay duration per card (ms). -->
+        <div class="tdeck reveal" id="tdeck" data-interval="6000">
+          <div class="tdeck-stage" aria-live="polite">
+
+            <article class="tcard">
+              <div class="tcard-top">
+                <span class="tcard-company">Squire</span>
+                <span class="tcard-dots"><i></i><i></i><i></i></span>
+              </div>
+              <span class="tcard-mark" aria-hidden="true">&ldquo;</span>
+              <p class="tcard-quote">Rare Intelligence consistently turns scattered evidence into
+                clean, usable answers that strike the perfect balance between depth and clarity.
+                Whether it's a complex trial landscape or a quick question from a member, the
+                experience always feels effortless and refined.</p>
+              <div class="tcard-author">
+                <span class="tcard-avatar" role="img" aria-label="Dave Salvant"></span>
+                <span class="tcard-meta">
+                  <span class="tcard-name">Dave Salvant</span><br>
+                  <span class="tcard-role">Co-founder of Squire</span>
+                </span>
+                <a class="tcard-li" href="#" aria-label="Dave Salvant on LinkedIn">in</a>
+              </div>
+            </article>
+
+            <article class="tcard">
+              <div class="tcard-top">
+                <span class="tcard-company">Helix Bio</span>
+                <span class="tcard-dots"><i></i><i></i><i></i></span>
+              </div>
+              <span class="tcard-mark" aria-hidden="true">&ldquo;</span>
+              <p class="tcard-quote">We came in drowning in papers and left with a one-page brief
+                our whole board could act on. It compressed weeks of analysis into an afternoon —
+                and every claim was sourced and ours to question.</p>
+              <div class="tcard-author">
+                <span class="tcard-avatar" role="img" aria-label="Mara Lindqvist"></span>
+                <span class="tcard-meta">
+                  <span class="tcard-name">Mara Lindqvist</span><br>
+                  <span class="tcard-role">CEO, Helix Bio</span>
+                </span>
+                <a class="tcard-li" href="#" aria-label="Mara Lindqvist on LinkedIn">in</a>
+              </div>
+            </article>
+
+            <article class="tcard">
+              <div class="tcard-top">
+                <span class="tcard-company">RareKids</span>
+                <span class="tcard-dots"><i></i><i></i><i></i></span>
+              </div>
+              <span class="tcard-mark" aria-hidden="true">&ldquo;</span>
+              <p class="tcard-quote">For the first time in nine years, I walked into an appointment
+                knowing exactly what to ask. That single shift changed how our whole family
+                advocates for our daughter.</p>
+              <div class="tcard-author">
+                <span class="tcard-avatar" role="img" aria-label="Jordan Okafor"></span>
+                <span class="tcard-meta">
+                  <span class="tcard-name">Jordan Okafor</span><br>
+                  <span class="tcard-role">Founder, RareKids Network</span>
+                </span>
+                <a class="tcard-li" href="#" aria-label="Jordan Okafor on LinkedIn">in</a>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- transport -->
+          <div class="tdeck-controls">
+            <button class="tdeck-toggle" id="tdeckToggle" aria-label="Pause testimonials">
+              <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+              <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="tdeck-track">
+              <div class="tdeck-fill" id="tdeckFill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-banner reveal">
+          <h2>Want results worth quoting?</h2>
+          <p>Start with a free intelligence brief on your condition, organisation or idea —
+            and see what clarity feels like.</p>
+          <a href="resources.html" class="btn btn-light btn-arrow">Get your free brief</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="brand"><span class="mark"><span>RI</span></span> Rare Intelligence</a>
+          <p>Smarter answers for the rare disease community — built on AI, evidence and lived experience.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="work-with-me.html">Work With Me</a></li>
+            <li><a href="membership.html">Membership</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="impact.html">Impact Project</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="resources.html#newsletter">Newsletter</a></li><li><a href="brand.html">Brand</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:hello@rareintelligence.com">hello@rareintelligence.com</a></li>
+            <li><a href="resources.html#podcast">The podcast</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> Rare Intelligence. Information here is educational and not medical advice.</span>
+        <div class="social">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Instagram">ig</a>
+          <a href="#" aria-label="YouTube">yt</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+
+  <!-- ====================================================================
+       Prototype testimonial-deck controller.
+       Auto-advances a stacked deck; play/pause with a live progress bar.
+       Self-contained so it doesn't touch the shared main.js.
+       ==================================================================== -->
+  <script>
+  (function () {
+    "use strict";
+    var deck = document.getElementById("tdeck");
+    if (!deck) return;
+
+    var cards   = Array.prototype.slice.call(deck.querySelectorAll(".tcard"));
+    var fill    = document.getElementById("tdeckFill");
+    var toggle  = document.getElementById("tdeckToggle");
+    var total   = cards.length;
+    var interval = parseInt(deck.getAttribute("data-interval"), 10) || 6000;
+
+    var active   = 0;        // index of the front card
+    var paused   = false;
+    var elapsed  = 0;        // ms accumulated toward the current advance
+    var last     = null;     // timestamp of previous frame
+    var raf      = null;
+
+    var reduceMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Position each card relative to the active one (0=front, 1/2 behind).
+    function layout() {
+      for (var i = 0; i < total; i++) {
+        var rel = (i - active + total) % total;
+        var pos = rel === 0 ? "0" : rel === 1 ? "1" : rel === 2 ? "2" : "hidden";
+        cards[i].setAttribute("data-pos", pos);
+        // light up the dot matching this card's slot in its own row
+        var dots = cards[i].querySelectorAll(".tcard-dots i");
+        dots.forEach(function (d, di) { d.classList.toggle("on", di === active % dots.length); });
+      }
+    }
+
+    function advance() {
+      var prev = cards[active];
+      prev.setAttribute("data-pos", "out");      // peel the front card away
+      active = (active + 1) % total;
+      // let the "out" frame paint, then re-layout the deck
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(layout);
+      });
+      elapsed = 0;
+    }
+
+    function frame(now) {
+      if (last == null) last = now;
+      var dt = now - last;
+      last = now;
+      if (!paused) {
+        elapsed += dt;
+        var pct = Math.min(elapsed / interval, 1);
+        fill.style.width = (pct * 100) + "%";
+        if (elapsed >= interval) { advance(); fill.style.width = "0%"; }
+      }
+      raf = window.requestAnimationFrame(frame);
+    }
+
+    function setPaused(p) {
+      paused = p;
+      deck.classList.toggle("is-paused", p);
+      toggle.setAttribute("aria-label", p ? "Play testimonials" : "Pause testimonials");
+      if (!p) last = null; // avoid a time jump after resuming
+    }
+
+    toggle.addEventListener("click", function () { setPaused(!paused); });
+
+    // Pause when the tab is hidden so progress stays honest.
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) last = null;
+    });
+
+    layout();
+    if (reduceMotion) {
+      // Respect reduced-motion: hold on the first card, no autoplay.
+      setPaused(true);
+    } else {
+      raf = window.requestAnimationFrame(frame);
+    }
+  })();
+  </script>
+</body>
+</html>
