@@ -2,3 +2,7 @@ node_modules/
 package.json
 package-lock.json
 _shot.js
+
+# Python
+__pycache__/
+*.py[cod]
