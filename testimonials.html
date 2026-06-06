@@ -101,13 +101,21 @@
       color: #2b3a4f;
       margin: 0 0 1.8rem;
     }
+    .tcard-quote p { margin: 0 0 .9rem; }
+    .tcard-quote p:last-child { margin-bottom: 0; }
+    /* Long testimonials read a touch smaller so the deck stays tidy */
+    .tcard.is-long .tcard-quote { font-size: .98rem; line-height: 1.6; }
 
-    .tcard-author { display: flex; align-items: center; gap: .85rem; }
     .tcard-avatar {
       width: 46px; height: 46px; border-radius: 50%;
       object-fit: cover; flex: 0 0 auto;
       background: var(--grad-hero);
+      display: grid; place-items: center;
+      color: #fff; font-weight: 700; font-size: .82rem;
+      font-family: var(--font-display); letter-spacing: .02em;
     }
+
+    .tcard-author { display: flex; align-items: center; gap: .85rem; }
     .tcard-meta { line-height: 1.3; }
     .tcard-name { font-weight: 700; color: #0b1424; font-size: .98rem; }
     .tcard-role { font-family: var(--font-mono); font-size: .8rem; color: #6b7a8d; }
@@ -210,59 +218,54 @@
 
             <article class="tcard">
               <div class="tcard-top">
-                <span class="tcard-company">Squire</span>
-                <span class="tcard-dots"><i></i><i></i><i></i></span>
+                <span class="tcard-company">Int'l Bureau for Epilepsy</span>
+                <span class="tcard-dots"><i></i><i></i></span>
               </div>
               <span class="tcard-mark" aria-hidden="true">&ldquo;</span>
-              <p class="tcard-quote">Rare Intelligence consistently turns scattered evidence into
-                clean, usable answers that strike the perfect balance between depth and clarity.
-                Whether it's a complex trial landscape or a quick question from a member, the
-                experience always feels effortless and refined.</p>
+              <div class="tcard-quote">
+                <p>Kris is a highly skilled professional who has delivered significant value to the
+                  Epilepsy Foundation. Respectfully engaging with multiple stakeholders, Kris has
+                  greatly improved the Foundation's ability to support people living with rare and
+                  complex epilepsies, as well as people accessing our services in general.</p>
+              </div>
               <div class="tcard-author">
-                <span class="tcard-avatar" role="img" aria-label="Dave Salvant"></span>
+                <span class="tcard-avatar" role="img" aria-label="Graeme Shears">GS</span>
                 <span class="tcard-meta">
-                  <span class="tcard-name">Dave Salvant</span><br>
-                  <span class="tcard-role">Co-founder of Squire</span>
+                  <span class="tcard-name">Graeme Shears</span><br>
+                  <span class="tcard-role">Treasurer, International Bureau for Epilepsy</span>
                 </span>
-                <a class="tcard-li" href="#" aria-label="Dave Salvant on LinkedIn">in</a>
+                <a class="tcard-li" href="#" aria-label="Graeme Shears on LinkedIn">in</a>
               </div>
             </article>
 
-            <article class="tcard">
+            <article class="tcard is-long">
               <div class="tcard-top">
-                <span class="tcard-company">Helix Bio</span>
-                <span class="tcard-dots"><i></i><i></i><i></i></span>
+                <span class="tcard-company">Int'l Bureau of Epilepsy</span>
+                <span class="tcard-dots"><i></i><i></i></span>
               </div>
               <span class="tcard-mark" aria-hidden="true">&ldquo;</span>
-              <p class="tcard-quote">We came in drowning in papers and left with a one-page brief
-                our whole board could act on. It compressed weeks of analysis into an afternoon —
-                and every claim was sourced and ours to question.</p>
-              <div class="tcard-author">
-                <span class="tcard-avatar" role="img" aria-label="Mara Lindqvist"></span>
-                <span class="tcard-meta">
-                  <span class="tcard-name">Mara Lindqvist</span><br>
-                  <span class="tcard-role">CEO, Helix Bio</span>
-                </span>
-                <a class="tcard-li" href="#" aria-label="Mara Lindqvist on LinkedIn">in</a>
+              <div class="tcard-quote">
+                <p>Kris brought a unique combination of lived experience and professional expertise,
+                  alongside a deep understanding of the rare epilepsy community, which helped us
+                  shape an engaging, inclusive, and meaningful agenda.</p>
+                <p>Her commitment to inclusion and ensuring that lived experience voices were
+                  meaningfully represented was evident at every stage of planning and delivery.
+                  Kris helped us create spaces where participants felt heard, respected, and
+                  empowered to contribute, fostering authentic dialogue across a diverse global
+                  group of leaders and advocates.</p>
+                <p>Despite tight timelines, limited resources and evolving priorities, Kris worked
+                  in an adaptable and collaborative manner to keep the focus on delivering an
+                  impactful event and meaningful participant experience. Her insight,
+                  professionalism, and dedication played a significant role in the success of the
+                  convening.</p>
               </div>
-            </article>
-
-            <article class="tcard">
-              <div class="tcard-top">
-                <span class="tcard-company">RareKids</span>
-                <span class="tcard-dots"><i></i><i></i><i></i></span>
-              </div>
-              <span class="tcard-mark" aria-hidden="true">&ldquo;</span>
-              <p class="tcard-quote">For the first time in nine years, I walked into an appointment
-                knowing exactly what to ask. That single shift changed how our whole family
-                advocates for our daughter.</p>
               <div class="tcard-author">
-                <span class="tcard-avatar" role="img" aria-label="Jordan Okafor"></span>
+                <span class="tcard-avatar" role="img" aria-label="Donna Walsh">DW</span>
                 <span class="tcard-meta">
-                  <span class="tcard-name">Jordan Okafor</span><br>
-                  <span class="tcard-role">Founder, RareKids Network</span>
+                  <span class="tcard-name">Donna Walsh</span><br>
+                  <span class="tcard-role">CEO, International Bureau of Epilepsy</span>
                 </span>
-                <a class="tcard-li" href="#" aria-label="Jordan Okafor on LinkedIn">in</a>
+                <a class="tcard-li" href="#" aria-label="Donna Walsh on LinkedIn">in</a>
               </div>
             </article>
 
@@ -363,8 +366,18 @@
     var last     = null;     // timestamp of previous frame
     var raf      = null;
 
+    var stage   = deck.querySelector(".tdeck-stage");
+
     var reduceMotion = window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Cards are absolutely positioned, so size the stage to the tallest one
+    // (plus room for the stack offset) to avoid clipping long testimonials.
+    function sizeStage() {
+      var tallest = 0;
+      cards.forEach(function (c) { tallest = Math.max(tallest, c.offsetHeight); });
+      if (tallest) stage.style.minHeight = (tallest + 60) + "px";
+    }
 
     // Position each card relative to the active one (0=front, 1/2 behind).
     function layout() {
@@ -416,6 +429,8 @@
       if (document.hidden) last = null;
     });
 
+    sizeStage();
+    window.addEventListener("resize", sizeStage);
     layout();
     if (reduceMotion) {
       // Respect reduced-motion: hold on the first card, no autoplay.
