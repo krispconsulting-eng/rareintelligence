@@ -129,12 +129,12 @@ Fill in each site's details once, then this becomes the only reference anyone ne
 (`Repo` = the `owner/name` shown in GitHub Desktop / the github.com URL.
 `Live URL` = the Vercel address.)
 
-| Site | Repo (GitHub) | Live URL (Vercel) | Custom domain |
-| --- | --- | --- | --- |
-| **Rare Intelligence** | `krispconsulting-eng/rareintelligence` | _add after Vercel deploy_ | _optional_ |
-| **Kris Pierce Consulting** | _add repo_ | _add after Vercel deploy_ | _optional_ |
-| **SCN2A Australia** | _add repo_ | _add after Vercel deploy_ | _optional_ |
-| _…(repeat for each of your sites)_ | | | |
+| Site | Repo (GitHub) | Default branch | Live URL (Vercel) | Custom domain |
+| --- | --- | --- | --- | --- |
+| **Rare Intelligence** | `krispconsulting-eng/rareintelligence` | ⚠️ needs `main` (do Part A2) | _add after Vercel deploy_ | _optional_ |
+| **Kris Pierce Consulting** | `krispconsulting-eng/KrisPierce` | `main` ✅ | _add after Vercel deploy_ | _optional_ |
+| **SCN2A Australia** | `krispconsulting-eng/SCn2A-Website` (private) | `main` ✅ | _add after Vercel deploy_ | _optional_ |
+| _…(repeat for each new site)_ | | | | |
 
 > Tip: keep this same table for all 23 sites. Each row is fully independent —
 > setting up or editing one site never affects the others.
