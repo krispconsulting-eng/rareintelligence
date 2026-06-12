@@ -202,9 +202,9 @@ section { position: relative; }
 .hero-band::before {
   content: ""; position: absolute; inset: 0;
   background:
-    radial-gradient(58% 58% at 76% 68%, rgba(0, 201, 177, 0.14), transparent 72%),
+    radial-gradient(58% 58% at 76% 68%, rgba(0, 201, 177, 0.18), transparent 72%),
     linear-gradient(100deg,
-      rgba(8, 15, 30, 0.90) 0%, rgba(8, 15, 30, 0.66) 55%, rgba(8, 15, 30, 0.30) 100%);
+      rgba(8, 15, 30, 0.66) 0%, rgba(8, 15, 30, 0.34) 52%, rgba(8, 15, 30, 0.04) 100%);
 }
 /* the zebra — hidden thread */
 .hero-band::after {

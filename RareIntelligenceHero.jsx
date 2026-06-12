@@ -44,8 +44,8 @@ const GRADIENT_BRAND_DIAG =
 /* Navy veil over the band — deepest where the copy sits, so text stays AAA;
    plus a quiet teal bloom behind the mascot */
 const BAND_VEIL =
-  "radial-gradient(58% 58% at 76% 68%, rgba(0,201,177,0.14), transparent 72%), " +
-  "linear-gradient(100deg, rgba(8,15,30,0.90) 0%, rgba(8,15,30,0.66) 55%, rgba(8,15,30,0.30) 100%)";
+  "radial-gradient(58% 58% at 76% 68%, rgba(0,201,177,0.18), transparent 72%), " +
+  "linear-gradient(100deg, rgba(8,15,30,0.66) 0%, rgba(8,15,30,0.34) 52%, rgba(8,15,30,0.04) 100%)";
 
 /* The zebra — fine 35° diagonal, felt not seen (layer opacity keeps it ≤20%) */
 const ZEBRA =
