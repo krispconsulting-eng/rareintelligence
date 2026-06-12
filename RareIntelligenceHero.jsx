@@ -47,10 +47,6 @@ const BAND_VEIL =
   "radial-gradient(58% 58% at 76% 68%, rgba(0,201,177,0.18), transparent 72%), " +
   "linear-gradient(100deg, rgba(8,15,30,0.66) 0%, rgba(8,15,30,0.34) 52%, rgba(8,15,30,0.04) 100%)";
 
-/* The zebra — fine 35° diagonal, felt not seen (layer opacity keeps it ≤20%) */
-const ZEBRA =
-  "repeating-linear-gradient(125deg, transparent 0 8px, rgba(255,255,255,0.55) 8px 10px)";
-
 const FONTS_HREF =
   "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Lora:ital,wght@1,500&display=swap";
 
@@ -178,8 +174,6 @@ export default function RareIntelligenceHero() {
         <section className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.75rem]">
           <div aria-hidden="true" className="absolute inset-0" style={{ background: GRADIENT_BRAND_DIAG }} />
           <div aria-hidden="true" className="absolute inset-0" style={{ background: BAND_VEIL }} />
-          {/* the zebra — hidden thread, ~15% */}
-          <div aria-hidden="true" className="absolute inset-0 opacity-[0.15]" style={{ background: ZEBRA }} />
 
           <div className="relative grid items-center gap-14 px-7 py-16 sm:px-12 sm:py-20 lg:min-h-[620px] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12 lg:px-20 lg:py-24">
             {/* Copy */}

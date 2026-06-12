@@ -67,8 +67,6 @@ Run through this in Chrome DevTools:
       are accents, not actions.)
 - [ ] **Gradient is band‑only** — midnight‑navy floor is visible around the
       rounded band; the page background never becomes the gradient.
-- [ ] **Zebra texture is felt, not seen** — faint 35° diagonal inside the
-      band only; if you notice it immediately, it's too strong.
 - [ ] **Reduced motion** — DevTools → Rendering → *Emulate CSS
       prefers‑reduced‑motion: reduce* → mascot stops drifting and stays sharp.
 - [ ] **Mobile stacking** — device toolbar at 390 px → copy first, mascot +
@@ -86,7 +84,6 @@ All in `assets/css/styles.css` (mirror any change in the `.jsx` to stay in sync)
 | Float height / breathing | same frame | `-12px` / `scale(1.04)` | |
 | Veil darkness over copy | `.hero-band::before` linear‑gradient | `.90 / .66 / .30` | lower = more gradient shows |
 | Teal bloom behind mascot | `.hero-band::before` radial‑gradient | `0.14` | |
-| Stripe visibility | `.hero-band::after` opacity | `.9` of an ~8 % stripe | keep ≤ 20 % effective |
 | Ring dot size | inline SVG in `index.html` | `r=10` (companions `6`) | |
 | Mascot size in ring | `.hero-mascot-slot` width | `53%` | |
 | Band height | `.hero-band-inner` min-height | `min(620px, 100vh−240px)` | |
