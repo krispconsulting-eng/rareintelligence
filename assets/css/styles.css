@@ -189,31 +189,62 @@ section { position: relative; }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
-/* ---- Hero ---- */
-.hero { padding: 100px 0 84px; position: relative; overflow: hidden; }
-.hero::before {
-  content: ""; position: absolute; top: -200px; right: -160px;
-  width: 560px; height: 560px;
-  background: radial-gradient(circle at center, rgba(26, 79, 191, 0.30), transparent 64%);
-  z-index: 0;
+/* ---- Home hero — gradient band as punctuation; the floor stays navy ---- */
+.home-hero { padding: 40px 0 12px; }
+.hero-band {
+  position: relative; overflow: hidden;
+  border-radius: 36px;
+  background: var(--grad-hero);
+  box-shadow: var(--shadow-lg);
 }
-.hero::after {
-  content: ""; position: absolute; bottom: -240px; left: -180px;
-  width: 540px; height: 540px;
-  background: radial-gradient(circle at center, rgba(0, 201, 177, 0.16), transparent 64%);
-  z-index: 0;
+/* navy veil — deepest over the copy, so text stays AAA on the gradient */
+.hero-band::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(100deg,
+      rgba(8, 15, 30, 0.88) 0%, rgba(8, 15, 30, 0.62) 55%, rgba(8, 15, 30, 0.28) 100%);
 }
-.hero .container { position: relative; z-index: 1; }
-.hero h1 { font-size: var(--fs-display); max-width: 17ch; }
-.hero .lead { margin: 0 0 32px; font-size: 1.3rem; max-width: 52ch; }
+/* the zebra — hidden thread */
+.hero-band::after {
+  content: ""; position: absolute; inset: 0;
+  background: var(--zebra-hero); opacity: .9; pointer-events: none;
+}
+.hero-band-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1.05fr 0.95fr;
+  align-items: center; gap: 48px;
+  padding: 84px 72px;
+}
+.hero-copy h1 { font-size: var(--fs-display); line-height: 1.05; }
+.hero-copy h1 em { color: var(--vivid-teal); } /* the single teal accent */
+.hero-band .tagline { color: var(--pale-mint); max-width: 40ch; margin: 0 0 36px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
 
-.hero-note { margin-top: 34px; display: flex; align-items: center; gap: 14px; font-size: .95rem; color: var(--warm-grey); }
-.avatars { display: flex; }
-.avatars span { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--midnight-navy); margin-left: -10px; background: var(--grad-hero); }
-.avatars span:nth-child(2) { background: linear-gradient(135deg, var(--ocean), var(--vivid-teal)); }
-.avatars span:nth-child(3) { background: linear-gradient(135deg, var(--cobalt), var(--aqua)); }
-.avatars span:first-child { margin-left: 0; }
+/* CTA orb — circular arrow inside THE teal action */
+.btn-orb { padding-right: 12px; }
+.btn-orb .orb {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--midnight-navy); color: var(--vivid-teal);
+  display: grid; place-items: center;
+  transition: transform .25s var(--ease);
+}
+.btn-orb:hover .orb { transform: translateX(3px); }
+
+/* Signature ring + mascot — only the zebra drifts; the ring stays sharp */
+.hero-visual { position: relative; width: 100%; max-width: 460px; margin: 0 auto; aspect-ratio: 1; }
+.signal-ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-mascot-slot {
+  position: absolute; left: 50%; top: 50%;
+  width: 56%; transform: translate(-50%, -50%);
+}
+.hero-mascot {
+  width: 100%;
+  animation: ri-drift 5s ease-in-out infinite;
+  will-change: filter, transform;
+}
+@keyframes ri-drift {
+  0%, 100% { filter: blur(0); transform: translateY(0) scale(1); }
+  50%      { filter: blur(6px); transform: translateY(-12px) scale(1.04); }
+}
 
 /* ---- Stats / trust bar ---- */
 .stats {
@@ -467,6 +498,8 @@ section { position: relative; }
 
 /* ---- Responsive ---- */
 @media (max-width: 940px) {
+  .hero-band-inner { grid-template-columns: 1fr; gap: 44px; padding: 64px 48px; }
+  .hero-visual { max-width: 380px; }
   .grid-3, .tiers { grid-template-columns: repeat(2, 1fr); }
   .split { grid-template-columns: 1fr; gap: 36px; }
   .split-media { min-height: 300px; order: -1; }
@@ -487,6 +520,8 @@ section { position: relative; }
   .site-header.open .nav-cta .btn { display: inline-flex; }
   .site-header.open .nav-cta { position: absolute; top: calc(76px + 270px); left: 24px; right: 24px; }
   .grid-3, .grid-2, .tiers { grid-template-columns: 1fr; }
+  .hero-band { border-radius: 24px; }
+  .hero-band-inner { padding: 48px 26px; }
   .cta-banner { padding: 44px 28px; }
   .section { padding: 64px 0; }
   .resource { grid-template-columns: 1fr; gap: 12px; text-align: left; }
@@ -498,4 +533,6 @@ section { position: relative; }
   * { scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .btn:hover, .card:hover, .tier:hover, .resource:hover { transform: none; }
+  .hero-mascot { animation: none; }
+  .btn-orb .orb { transition: none; }
 }

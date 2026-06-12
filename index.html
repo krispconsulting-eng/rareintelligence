@@ -45,21 +45,62 @@
   </header>
 
   <main>
-    <!-- HERO -->
-    <section class="hero">
+    <!-- HERO — Deep Signal band: gradient as punctuation, the floor stays navy -->
+    <section class="home-hero">
       <div class="container">
-        <span class="eyebrow">AI · Evidence · Lived experience</span>
-        <h1>Smarter answers for the people the system forgot.</h1>
-        <p class="lead">Rare Intelligence turns scattered research, clinical data and hard-won
-          experience into clear, usable intelligence — so rare disease patients, advocates
-          and founders can stop guessing and start moving.</p>
-        <div class="hero-actions">
-          <a href="work-with-me.html" class="btn btn-coral btn-arrow">Work with me</a>
-          <a href="membership.html" class="btn btn-ghost">Join the membership</a>
-        </div>
-        <div class="hero-note">
-          <span class="avatars"><span></span><span></span><span></span></span>
-          Trusted by patients, advocacy orgs &amp; rare-disease founders worldwide.
+        <div class="hero-band">
+          <div class="hero-band-inner">
+            <div class="hero-copy">
+              <span class="eyebrow">AI for rare disease leaders</span>
+              <h1><em>Rare</em> by nature. Intelligent by design.</h1>
+              <p class="tagline">Putting AI to work for the rare-disease community —
+                practically, calmly, without hype.</p>
+              <div class="hero-actions">
+                <a href="about.html" class="btn btn-primary btn-orb">See how it works
+                  <span class="orb" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M2.5 8h11m0 0L9.3 3.8M13.5 8l-4.2 4.2" stroke="currentColor"
+                            stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <div class="hero-visual">
+              <!-- Signature ring — ten dots cycling the family around a teal core; stays sharp -->
+              <svg class="signal-ring" viewBox="0 0 400 400" aria-hidden="true">
+                <defs>
+                  <linearGradient id="ringDisc" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#152844"/>
+                    <stop offset="1" stop-color="#0E1C35"/>
+                  </linearGradient>
+                  <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#00C9B1" stop-opacity="0.30"/>
+                    <stop offset="55%" stop-color="#00C9B1" stop-opacity="0.10"/>
+                    <stop offset="100%" stop-color="#00C9B1" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="200" cy="200" r="143" fill="url(#ringDisc)" stroke="#1A4FBF" stroke-width="1" opacity="0.9"/>
+                <circle cx="200" cy="200" r="143" fill="url(#ringGlow)"/>
+                <circle cx="200" cy="200" r="168" fill="none" stroke="#00C9B1" stroke-width="2" opacity="0.55"/>
+                <circle cx="200"   cy="32"    r="16" fill="#00C9B1"/>
+                <circle cx="318.8" cy="81.2"  r="16" fill="#3DD6C8"/>
+                <circle cx="368"   cy="200"   r="16" fill="#0E7FA8"/>
+                <circle cx="318.8" cy="318.8" r="16" fill="#1A4FBF"/>
+                <circle cx="200"   cy="368"   r="16" fill="#2D3580"/>
+                <circle cx="81.2"  cy="318.8" r="16" fill="#1A4FBF"/>
+                <circle cx="32"    cy="200"   r="16" fill="#0E7FA8"/>
+                <circle cx="81.2"  cy="81.2"  r="16" fill="#3DD6C8"/>
+                <circle cx="141.2" cy="46.9"  r="10" fill="#80EAD8"/>
+                <circle cx="258.8" cy="46.9"  r="10" fill="#80EAD8"/>
+              </svg>
+              <!-- Only the zebra drifts out of focus (art: mascot.png at site root) -->
+              <div class="hero-mascot-slot">
+                <img src="mascot.png" alt="The Rare Intelligence zebra mascot" class="hero-mascot" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
