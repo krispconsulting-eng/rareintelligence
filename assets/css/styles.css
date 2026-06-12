@@ -206,11 +206,6 @@ section { position: relative; }
     linear-gradient(100deg,
       rgba(8, 15, 30, 0.66) 0%, rgba(8, 15, 30, 0.34) 52%, rgba(8, 15, 30, 0.04) 100%);
 }
-/* the zebra — hidden thread */
-.hero-band::after {
-  content: ""; position: absolute; inset: 0;
-  background: var(--zebra-hero); opacity: .9; pointer-events: none;
-}
 .hero-band-inner {
   position: relative; z-index: 1;
   display: grid; grid-template-columns: 1.05fr 0.95fr;
