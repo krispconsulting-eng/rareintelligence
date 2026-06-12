@@ -76,28 +76,30 @@
                     <stop offset="1" stop-color="#0E1C35"/>
                   </linearGradient>
                   <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#00C9B1" stop-opacity="0.30"/>
-                    <stop offset="55%" stop-color="#00C9B1" stop-opacity="0.10"/>
+                    <stop offset="0%" stop-color="#00C9B1" stop-opacity="0.22"/>
+                    <stop offset="55%" stop-color="#00C9B1" stop-opacity="0.08"/>
                     <stop offset="100%" stop-color="#00C9B1" stop-opacity="0"/>
                   </radialGradient>
                 </defs>
-                <circle cx="200" cy="200" r="143" fill="url(#ringDisc)" stroke="#1A4FBF" stroke-width="1" opacity="0.9"/>
-                <circle cx="200" cy="200" r="143" fill="url(#ringGlow)"/>
-                <circle cx="200" cy="200" r="168" fill="none" stroke="#00C9B1" stroke-width="2" opacity="0.55"/>
-                <circle cx="200"   cy="32"    r="16" fill="#00C9B1"/>
-                <circle cx="318.8" cy="81.2"  r="16" fill="#3DD6C8"/>
-                <circle cx="368"   cy="200"   r="16" fill="#0E7FA8"/>
-                <circle cx="318.8" cy="318.8" r="16" fill="#1A4FBF"/>
-                <circle cx="200"   cy="368"   r="16" fill="#2D3580"/>
-                <circle cx="81.2"  cy="318.8" r="16" fill="#1A4FBF"/>
-                <circle cx="32"    cy="200"   r="16" fill="#0E7FA8"/>
-                <circle cx="81.2"  cy="81.2"  r="16" fill="#3DD6C8"/>
-                <circle cx="141.2" cy="46.9"  r="10" fill="#80EAD8"/>
-                <circle cx="258.8" cy="46.9"  r="10" fill="#80EAD8"/>
+                <circle cx="200" cy="200" r="146" fill="url(#ringDisc)" stroke="#1A4FBF" stroke-width="1" stroke-opacity="0.5"/>
+                <circle cx="200" cy="200" r="146" fill="url(#ringGlow)"/>
+                <circle cx="200" cy="200" r="168" fill="none" stroke="#00C9B1" stroke-width="1.5" opacity="0.5"/>
+                <circle cx="200"   cy="32"    r="10" fill="#00C9B1"/>
+                <circle cx="318.8" cy="81.2"  r="10" fill="#3DD6C8"/>
+                <circle cx="368"   cy="200"   r="10" fill="#0E7FA8"/>
+                <circle cx="318.8" cy="318.8" r="10" fill="#1A4FBF"/>
+                <circle cx="200"   cy="368"   r="10" fill="#2D3580"/>
+                <circle cx="81.2"  cy="318.8" r="10" fill="#1A4FBF"/>
+                <circle cx="32"    cy="200"   r="10" fill="#0E7FA8"/>
+                <circle cx="81.2"  cy="81.2"  r="10" fill="#3DD6C8"/>
+                <circle cx="141.2" cy="46.9"  r="6"  fill="#80EAD8"/>
+                <circle cx="258.8" cy="46.9"  r="6"  fill="#80EAD8"/>
               </svg>
-              <!-- Only the zebra drifts out of focus (art: mascot.png at site root) -->
+              <!-- Only the zebra drifts out of focus (art: mascot.png at site root;
+                   hidden gracefully until the file exists) -->
               <div class="hero-mascot-slot">
-                <img src="mascot.png" alt="The Rare Intelligence zebra mascot" class="hero-mascot" />
+                <img src="mascot.png" alt="The Rare Intelligence zebra mascot" class="hero-mascot"
+                     onerror="this.style.visibility='hidden'" />
               </div>
             </div>
           </div>

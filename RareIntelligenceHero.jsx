@@ -41,9 +41,11 @@ const F = {
 const GRADIENT_BRAND_DIAG =
   `linear-gradient(135deg, ${C.indigo} 0%, ${C.cobalt} 34%, ${C.ocean} 67%, ${C.teal} 100%)`;
 
-/* Navy veil over the band — deepest where the copy sits, so text stays AAA */
+/* Navy veil over the band — deepest where the copy sits, so text stays AAA;
+   plus a quiet teal bloom behind the mascot */
 const BAND_VEIL =
-  "linear-gradient(100deg, rgba(8,15,30,0.88) 0%, rgba(8,15,30,0.62) 55%, rgba(8,15,30,0.28) 100%)";
+  "radial-gradient(58% 58% at 76% 68%, rgba(0,201,177,0.14), transparent 72%), " +
+  "linear-gradient(100deg, rgba(8,15,30,0.90) 0%, rgba(8,15,30,0.66) 55%, rgba(8,15,30,0.30) 100%)";
 
 /* The zebra — fine 35° diagonal, felt not seen (layer opacity keeps it ≤20%) */
 const ZEBRA =
@@ -61,16 +63,16 @@ const NAV_LINKS = ["Home", "Product", "About", "Contact"];
  * Mirrors assets/logo/option-b-signal-ring.svg. Stays sharp — never blurs.
  */
 const RING_DOTS = [
-  { angle: -90,  color: C.teal,    r: 16 },
-  { angle: -45,  color: C.aqua,    r: 16 },
-  { angle:   0,  color: C.ocean,   r: 16 },
-  { angle:  45,  color: C.cobalt,  r: 16 },
-  { angle:  90,  color: C.indigo,  r: 16 },
-  { angle: 135,  color: C.cobalt,  r: 16 },
-  { angle: 180,  color: C.ocean,   r: 16 },
-  { angle: 225,  color: C.aqua,    r: 16 },
-  { angle: -111, color: C.seafoam, r: 10, inset: true },
-  { angle: -69,  color: C.seafoam, r: 10, inset: true },
+  { angle: -90,  color: C.teal,    r: 10 },
+  { angle: -45,  color: C.aqua,    r: 10 },
+  { angle:   0,  color: C.ocean,   r: 10 },
+  { angle:  45,  color: C.cobalt,  r: 10 },
+  { angle:  90,  color: C.indigo,  r: 10 },
+  { angle: 135,  color: C.cobalt,  r: 10 },
+  { angle: 180,  color: C.ocean,   r: 10 },
+  { angle: 225,  color: C.aqua,    r: 10 },
+  { angle: -111, color: C.seafoam, r: 6, inset: true },
+  { angle: -69,  color: C.seafoam, r: 6, inset: true },
 ];
 
 function SignalRing() {
@@ -88,18 +90,18 @@ function SignalRing() {
           <stop offset="1" stopColor={C.card} />
         </linearGradient>
         <radialGradient id="ri-core-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={C.teal} stopOpacity="0.30" />
-          <stop offset="55%" stopColor={C.teal} stopOpacity="0.10" />
+          <stop offset="0%" stopColor={C.teal} stopOpacity="0.22" />
+          <stop offset="55%" stopColor={C.teal} stopOpacity="0.08" />
           <stop offset="100%" stopColor={C.teal} stopOpacity="0" />
         </radialGradient>
       </defs>
 
       {/* quiet navy disc with the vivid-teal core glow */}
-      <circle cx={CX} cy={CX} r={143} fill="url(#ri-core-disc)" stroke={C.cobalt} strokeWidth="1" opacity="0.9" />
-      <circle cx={CX} cy={CX} r={143} fill="url(#ri-core-glow)" />
+      <circle cx={CX} cy={CX} r={146} fill="url(#ri-core-disc)" stroke={C.cobalt} strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx={CX} cy={CX} r={146} fill="url(#ri-core-glow)" />
 
       {/* outer ring */}
-      <circle cx={CX} cy={CX} r={ORBIT} fill="none" stroke={C.teal} strokeWidth="2" opacity="0.55" />
+      <circle cx={CX} cy={CX} r={ORBIT} fill="none" stroke={C.teal} strokeWidth="1.5" opacity="0.5" />
 
       {/* ten dots cycling the family */}
       {RING_DOTS.map(({ angle, color, r, inset }) => {
@@ -179,7 +181,7 @@ export default function RareIntelligenceHero() {
           {/* the zebra — hidden thread, ~15% */}
           <div aria-hidden="true" className="absolute inset-0 opacity-[0.15]" style={{ background: ZEBRA }} />
 
-          <div className="relative grid items-center gap-14 px-7 py-16 sm:px-12 sm:py-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10 lg:px-16 lg:py-24">
+          <div className="relative grid items-center gap-14 px-7 py-16 sm:px-12 sm:py-20 lg:min-h-[620px] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12 lg:px-20 lg:py-24">
             {/* Copy */}
             <div className="max-w-xl">
               <p
@@ -195,7 +197,8 @@ export default function RareIntelligenceHero() {
                   fontFamily: F.display,
                   fontWeight: 800,
                   color: C.ghost,
-                  letterSpacing: "-0.01em",
+                  letterSpacing: "-0.02em",
+                  textWrap: "balance",
                 }}
               >
                 <em style={{ color: C.teal }}>Rare</em> by nature. Intelligent by design.
@@ -216,7 +219,7 @@ export default function RareIntelligenceHero() {
                   className="ri-cta group inline-flex items-center gap-3 rounded-full bg-[#00C9B1] py-3 pl-7 pr-3 text-[17px] font-semibold text-[#080F1E] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#3DD6C8] hover:shadow-[0_14px_40px_rgba(0,201,177,0.25)]"
                 >
                   See how it works
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#080F1E] transition-transform duration-300 group-hover:translate-x-0.5">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#080F1E] transition-transform duration-300 group-hover:translate-x-0.5">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                       <path
                         d="M2.5 8h11m0 0L9.3 3.8M13.5 8l-4.2 4.2"
@@ -235,12 +238,14 @@ export default function RareIntelligenceHero() {
             <div className="relative mx-auto w-full max-w-[400px] sm:max-w-[460px] lg:max-w-[540px]">
               <div className="relative aspect-square">
                 <SignalRing />
-                {/* only the zebra drifts out of focus; the ring stays sharp */}
-                <div className="absolute left-1/2 top-1/2 w-[56%] -translate-x-1/2 -translate-y-1/2">
+                {/* only the zebra drifts out of focus; the ring stays sharp.
+                    Hidden gracefully until /mascot.png exists. */}
+                <div className="absolute left-1/2 top-1/2 w-[53%] -translate-x-1/2 -translate-y-1/2">
                   <img
                     src="/mascot.png"
                     alt="The Rare Intelligence zebra mascot"
                     className="ri-mascot block w-full"
+                    onError={(e) => { e.currentTarget.style.visibility = "hidden"; }}
                   />
                 </div>
               </div>

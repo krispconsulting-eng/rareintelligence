@@ -197,11 +197,14 @@ section { position: relative; }
   background: var(--grad-hero);
   box-shadow: var(--shadow-lg);
 }
-/* navy veil — deepest over the copy, so text stays AAA on the gradient */
+/* navy veil — deepest over the copy, so text stays AAA on the gradient;
+   plus a quiet teal bloom behind the mascot */
 .hero-band::before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(100deg,
-      rgba(8, 15, 30, 0.88) 0%, rgba(8, 15, 30, 0.62) 55%, rgba(8, 15, 30, 0.28) 100%);
+  background:
+    radial-gradient(58% 58% at 76% 68%, rgba(0, 201, 177, 0.14), transparent 72%),
+    linear-gradient(100deg,
+      rgba(8, 15, 30, 0.90) 0%, rgba(8, 15, 30, 0.66) 55%, rgba(8, 15, 30, 0.30) 100%);
 }
 /* the zebra — hidden thread */
 .hero-band::after {
@@ -211,18 +214,22 @@ section { position: relative; }
 .hero-band-inner {
   position: relative; z-index: 1;
   display: grid; grid-template-columns: 1.05fr 0.95fr;
-  align-items: center; gap: 48px;
-  padding: 84px 72px;
+  align-items: center; gap: 56px;
+  padding: 96px 84px;
+  min-height: min(620px, calc(100vh - 240px)); /* first-screen presence */
 }
-.hero-copy h1 { font-size: var(--fs-display); line-height: 1.05; }
+.hero-copy h1 {
+  font-size: var(--fs-display); line-height: 1.04;
+  letter-spacing: -0.02em; text-wrap: balance; margin-bottom: .4em;
+}
 .hero-copy h1 em { color: var(--vivid-teal); } /* the single teal accent */
-.hero-band .tagline { color: var(--pale-mint); max-width: 40ch; margin: 0 0 36px; }
+.hero-band .tagline { color: var(--pale-mint); max-width: 38ch; line-height: 1.6; margin: 0 0 40px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
 
 /* CTA orb — circular arrow inside THE teal action */
-.btn-orb { padding-right: 12px; }
+.btn-orb { padding-right: 11px; }
 .btn-orb .orb {
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
   background: var(--midnight-navy); color: var(--vivid-teal);
   display: grid; place-items: center;
   transition: transform .25s var(--ease);
@@ -230,11 +237,11 @@ section { position: relative; }
 .btn-orb:hover .orb { transform: translateX(3px); }
 
 /* Signature ring + mascot — only the zebra drifts; the ring stays sharp */
-.hero-visual { position: relative; width: 100%; max-width: 460px; margin: 0 auto; aspect-ratio: 1; }
+.hero-visual { position: relative; width: 100%; max-width: 470px; margin: 0 auto; aspect-ratio: 1; }
 .signal-ring { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero-mascot-slot {
   position: absolute; left: 50%; top: 50%;
-  width: 56%; transform: translate(-50%, -50%);
+  width: 53%; transform: translate(-50%, -50%);
 }
 .hero-mascot {
   width: 100%;
