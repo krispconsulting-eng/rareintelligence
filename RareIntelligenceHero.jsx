@@ -44,8 +44,9 @@ const GRADIENT_BRAND_DIAG =
 /* Navy veil over the band — deepest where the copy sits, so text stays AAA;
    plus a quiet teal bloom behind the mascot */
 const BAND_VEIL =
-  "radial-gradient(58% 58% at 76% 68%, rgba(0,201,177,0.18), transparent 72%), " +
-  "linear-gradient(100deg, rgba(8,15,30,0.66) 0%, rgba(8,15,30,0.34) 52%, rgba(8,15,30,0.04) 100%)";
+  "radial-gradient(90% 100% at 82% 56%, rgba(0,201,177,0.15), transparent 82%), " +
+  "linear-gradient(95deg, rgba(8,15,30,0.56) 0%, rgba(8,15,30,0.42) 28%, " +
+  "rgba(8,15,30,0.26) 50%, rgba(8,15,30,0.12) 72%, rgba(8,15,30,0.02) 100%)";
 
 const FONTS_HREF =
   "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Lora:ital,wght@1,500&display=swap";
@@ -206,7 +207,7 @@ export default function RareIntelligenceHero() {
             </div>
 
             {/* Mascot in the signature ring — stacks below copy on mobile */}
-            <div className="relative mx-auto w-full max-w-[360px] sm:max-w-[420px] lg:max-w-[460px]">
+            <div className="relative mx-auto w-full max-w-[300px] sm:max-w-[340px] lg:max-w-[380px]">
               {/* Cool-palette bokeh atmosphere, blurred behind the zebra */}
               <div className="ri-atmos" aria-hidden="true">
                 <span style={{ width: 240, height: 240, left: "2%",   top: "2%",     background: C.cobalt,  opacity: 0.60 }} />
