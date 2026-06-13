@@ -242,17 +242,18 @@ section { position: relative; }
 }
 .btn-orb:hover .orb { transform: translateX(3px); }
 
-/* Mascot — floats on the band with a gentle bob (no blur, no fade) */
+/* Mascot — gently rocks forward and back (no blur, no fade, no bob) */
 .hero-visual { position: relative; width: 100%; max-width: 460px; margin: 0 auto; }
 .hero-mascot {
   display: block; width: 100%; margin: 0 auto;
   filter: drop-shadow(0 26px 50px rgba(8, 15, 30, 0.55));
-  animation: ri-float 6s ease-in-out infinite;
+  transform-origin: 50% 92%;            /* pivot near the chest/base */
+  animation: ri-rock 6s ease-in-out infinite;
   will-change: transform;
 }
-@keyframes ri-float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-16px); }
+@keyframes ri-rock {
+  0%, 100% { transform: perspective(1100px) rotateX(-6deg); }  /* leaning back */
+  50%      { transform: perspective(1100px) rotateX(6deg); }   /* leaning forward */
 }
 
 /* ---- Stats / trust bar ---- */

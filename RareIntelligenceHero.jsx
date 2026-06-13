@@ -64,12 +64,13 @@ export default function RareIntelligenceHero() {
       <link rel="stylesheet" href={FONTS_HREF} />
 
       <style>{`
-        @keyframes ri-float {
-          0%, 100% { transform: translateY(0); }
-          50%      { transform: translateY(-16px); }
+        @keyframes ri-rock {
+          0%, 100% { transform: perspective(1100px) rotateX(-6deg); }
+          50%      { transform: perspective(1100px) rotateX(6deg); }
         }
         .ri-mascot {
-          animation: ri-float 6s ease-in-out infinite;
+          transform-origin: 50% 92%;
+          animation: ri-rock 6s ease-in-out infinite;
           will-change: transform;
           filter: drop-shadow(0 26px 50px rgba(8,15,30,0.55));
         }
