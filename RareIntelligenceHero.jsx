@@ -57,7 +57,11 @@ export default function RareIntelligenceHero() {
   return (
     <div
       className="flex min-h-screen flex-col antialiased"
-      style={{ background: C.midnight, fontFamily: F.body }}
+      style={{
+        /* midnight floor + the zebra whisper pinstripe, just visible */
+        background: `repeating-linear-gradient(125deg, transparent 0 9px, rgba(194,245,238,0.06) 9px 11px), ${C.midnight}`,
+        fontFamily: F.body,
+      }}
     >
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -69,16 +73,35 @@ export default function RareIntelligenceHero() {
           25%      { transform: perspective(1100px) rotateX(6deg); }
           75%      { transform: perspective(1100px) rotateX(-6deg); }
         }
+        .ri-mascot-glow, .ri-mascot {
+          -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,0.32) 82%, transparent 100%);
+                  mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,0.32) 82%, transparent 100%);
+        }
+        .ri-mascot-glow {
+          position: absolute; left: 50%; top: 0; width: 100%;
+          transform: translateX(-50%) scale(1.13);
+          z-index: 1; pointer-events: none;
+          filter: blur(42px) saturate(1.2); opacity: .85;
+        }
+        .ri-noise {
+          position: absolute; inset: -24% -20%; z-index: 1; pointer-events: none;
+          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") repeat;
+          background-size: 180px 180px; opacity: .16; mix-blend-mode: screen;
+          -webkit-mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
+                  mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
+        }
         .ri-mascot {
-          position: relative; z-index: 1;
+          position: relative; z-index: 2;
           transform-origin: 50% 92%;
           transform: perspective(1100px) rotateX(0deg);
           transition: transform .5s cubic-bezier(0.22,1,0.36,1);
           will-change: transform;
-          filter: drop-shadow(0 26px 50px rgba(8,15,30,0.55));
+          filter: drop-shadow(0 22px 44px rgba(8,15,30,0.45));
         }
         .ri-mascot:hover { animation: ri-rock 6s ease-in-out infinite; }
-        .ri-atmos { position: absolute; inset: -14% -10%; z-index: 0; pointer-events: none; filter: blur(26px); opacity: .85; }
+        .ri-atmos { position: absolute; inset: -24% -20%; z-index: 0; pointer-events: none; filter: blur(40px); opacity: 1;
+          -webkit-mask-image: linear-gradient(to bottom, transparent 22%, #000 68%);
+                  mask-image: linear-gradient(to bottom, transparent 22%, #000 68%); }
         .ri-atmos span { position: absolute; border-radius: 9999px; }
         @media (prefers-reduced-motion: reduce) {
           .ri-mascot, .ri-mascot:hover { animation: none; transition: none; }
@@ -186,14 +209,19 @@ export default function RareIntelligenceHero() {
             <div className="relative mx-auto w-full max-w-[360px] sm:max-w-[420px] lg:max-w-[460px]">
               {/* Cool-palette bokeh atmosphere, blurred behind the zebra */}
               <div className="ri-atmos" aria-hidden="true">
-                <span style={{ width: 180, height: 180, left: "4%",  top: "6%",    background: C.cobalt,  opacity: 0.55 }} />
-                <span style={{ width: 120, height: 120, right: "0%", top: "20%",   background: C.ocean,   opacity: 0.50 }} />
-                <span style={{ width: 96,  height: 96,  left: "-2%", top: "50%",   background: C.teal,    opacity: 0.45 }} />
-                <span style={{ width: 58,  height: 58,  right: "10%", top: "56%",  background: C.aqua,    opacity: 0.55 }} />
-                <span style={{ width: 150, height: 150, left: "28%", bottom: "0%", background: C.indigo,  opacity: 0.55 }} />
-                <span style={{ width: 44,  height: 44,  left: "52%", top: "12%",   background: C.seafoam, opacity: 0.40 }} />
-                <span style={{ width: 74,  height: 74,  right: "24%", bottom: "12%", background: C.teal,   opacity: 0.35 }} />
+                <span style={{ width: 240, height: 240, left: "2%",   top: "2%",     background: C.cobalt,  opacity: 0.60 }} />
+                <span style={{ width: 170, height: 170, right: "-4%", top: "16%",    background: C.ocean,   opacity: 0.55 }} />
+                <span style={{ width: 140, height: 140, left: "-6%",  top: "46%",    background: C.teal,    opacity: 0.50 }} />
+                <span style={{ width: 90,  height: 90,  right: "6%",  top: "54%",    background: C.aqua,    opacity: 0.60 }} />
+                <span style={{ width: 210, height: 210, left: "24%",  bottom: "-4%", background: C.indigo,  opacity: 0.60 }} />
+                <span style={{ width: 70,  height: 70,  left: "50%",  top: "8%",     background: C.seafoam, opacity: 0.45 }} />
+                <span style={{ width: 110, height: 110, right: "20%", bottom: "8%",  background: C.teal,    opacity: 0.40 }} />
               </div>
+              {/* Fine grain noise around the zebra */}
+              <div className="ri-noise" aria-hidden="true" />
+              {/* Blurred halo copy so the zebra's edge dissolves into the page */}
+              <img src="/mascot.png" alt="" aria-hidden="true" className="ri-mascot-glow w-full"
+                   onError={(e) => { e.currentTarget.style.display = "none"; }} />
               {/* Zebra: still at rest, rocks forward/back on hover.
                   Hidden gracefully until /mascot.png exists. */}
               <img
