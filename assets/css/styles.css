@@ -153,6 +153,7 @@ section { position: relative; }
 .brand:hover { color: var(--ghost); }
 /* The RI badge — gradient disc + vivid-teal ring */
 .brand .mark {
+  position: relative;
   width: 40px; height: 40px;
   border-radius: 50%;
   background: var(--grad-hero);
@@ -167,6 +168,16 @@ section { position: relative; }
   overflow: hidden;
 }
 .brand .mark span { transform: translateY(-1px); }
+/* Circular zebra logo fills the badge when present; falls back to RI text.
+   When the img loads it covers the badge and hides the RI; if it errors,
+   onerror removes it and the RI monogram shows through. */
+.brand .mark .mark-img {
+  position: absolute; inset: -2px;
+  width: calc(100% + 4px); height: calc(100% + 4px);
+  object-fit: cover; border-radius: 50%;
+  background: var(--midnight-navy);
+}
+.brand .mark .mark-img + span { display: none; }
 
 .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; margin: 0; padding: 0; }
 .nav-links a {
@@ -231,21 +242,17 @@ section { position: relative; }
 }
 .btn-orb:hover .orb { transform: translateX(3px); }
 
-/* Signature ring + mascot — only the zebra drifts; the ring stays sharp */
-.hero-visual { position: relative; width: 100%; max-width: 470px; margin: 0 auto; aspect-ratio: 1; }
-.signal-ring { position: absolute; inset: 0; width: 100%; height: 100%; }
-.hero-mascot-slot {
-  position: absolute; left: 50%; top: 50%;
-  width: 53%; transform: translate(-50%, -50%);
-}
+/* Mascot — floats on the band with a gentle bob (no blur, no fade) */
+.hero-visual { position: relative; width: 100%; max-width: 460px; margin: 0 auto; }
 .hero-mascot {
-  width: 100%;
-  animation: ri-drift 5s ease-in-out infinite;
-  will-change: filter, transform;
+  display: block; width: 100%; margin: 0 auto;
+  filter: drop-shadow(0 26px 50px rgba(8, 15, 30, 0.55));
+  animation: ri-float 6s ease-in-out infinite;
+  will-change: transform;
 }
-@keyframes ri-drift {
-  0%, 100% { filter: blur(0); transform: translateY(0) scale(1); }
-  50%      { filter: blur(6px); transform: translateY(-12px) scale(1.04); }
+@keyframes ri-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-16px); }
 }
 
 /* ---- Stats / trust bar ---- */

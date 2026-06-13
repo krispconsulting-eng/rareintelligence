@@ -52,71 +52,6 @@ const FONTS_HREF =
 
 const NAV_LINKS = ["Home", "Product", "About", "Contact"];
 
-/* ---- Signature ring ----------------------------------------------------
- * Ten dots cycling the family around a vivid-teal core: teal at the top
- * (the signal), descending through aqua → ocean → cobalt to indigo at the
- * bottom (the depth), with two small seafoam companions flanking the top.
- * Mirrors assets/logo/option-b-signal-ring.svg. Stays sharp — never blurs.
- */
-const RING_DOTS = [
-  { angle: -90,  color: C.teal,    r: 10 },
-  { angle: -45,  color: C.aqua,    r: 10 },
-  { angle:   0,  color: C.ocean,   r: 10 },
-  { angle:  45,  color: C.cobalt,  r: 10 },
-  { angle:  90,  color: C.indigo,  r: 10 },
-  { angle: 135,  color: C.cobalt,  r: 10 },
-  { angle: 180,  color: C.ocean,   r: 10 },
-  { angle: 225,  color: C.aqua,    r: 10 },
-  { angle: -111, color: C.seafoam, r: 6, inset: true },
-  { angle: -69,  color: C.seafoam, r: 6, inset: true },
-];
-
-function SignalRing() {
-  const CX = 200;
-  const ORBIT = 168;
-  return (
-    <svg
-      viewBox="0 0 400 400"
-      aria-hidden="true"
-      className="absolute inset-0 h-full w-full"
-    >
-      <defs>
-        <linearGradient id="ri-core-disc" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor={C.lift} />
-          <stop offset="1" stopColor={C.card} />
-        </linearGradient>
-        <radialGradient id="ri-core-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={C.teal} stopOpacity="0.22" />
-          <stop offset="55%" stopColor={C.teal} stopOpacity="0.08" />
-          <stop offset="100%" stopColor={C.teal} stopOpacity="0" />
-        </radialGradient>
-      </defs>
-
-      {/* quiet navy disc with the vivid-teal core glow */}
-      <circle cx={CX} cy={CX} r={146} fill="url(#ri-core-disc)" stroke={C.cobalt} strokeWidth="1" strokeOpacity="0.5" />
-      <circle cx={CX} cy={CX} r={146} fill="url(#ri-core-glow)" />
-
-      {/* outer ring */}
-      <circle cx={CX} cy={CX} r={ORBIT} fill="none" stroke={C.teal} strokeWidth="1.5" opacity="0.5" />
-
-      {/* ten dots cycling the family */}
-      {RING_DOTS.map(({ angle, color, r, inset }) => {
-        const rad = (angle * Math.PI) / 180;
-        const orbit = inset ? ORBIT - 4 : ORBIT;
-        return (
-          <circle
-            key={angle}
-            cx={CX + orbit * Math.cos(rad)}
-            cy={CX + orbit * Math.sin(rad)}
-            r={r}
-            fill={color}
-          />
-        );
-      })}
-    </svg>
-  );
-}
-
 /* ---- Hero -------------------------------------------------------------- */
 export default function RareIntelligenceHero() {
   return (
@@ -129,13 +64,14 @@ export default function RareIntelligenceHero() {
       <link rel="stylesheet" href={FONTS_HREF} />
 
       <style>{`
-        @keyframes ri-drift {
-          0%, 100% { filter: blur(0px); transform: translateY(0) scale(1); }
-          50%      { filter: blur(6px); transform: translateY(-12px) scale(1.04); }
+        @keyframes ri-float {
+          0%, 100% { transform: translateY(0); }
+          50%      { transform: translateY(-16px); }
         }
         .ri-mascot {
-          animation: ri-drift 5s ease-in-out infinite;
-          will-change: filter, transform;
+          animation: ri-float 6s ease-in-out infinite;
+          will-change: transform;
+          filter: drop-shadow(0 26px 50px rgba(8,15,30,0.55));
         }
         @media (prefers-reduced-motion: reduce) {
           .ri-mascot { animation: none; }
@@ -146,7 +82,18 @@ export default function RareIntelligenceHero() {
       {/* Slim transparent nav */}
       <header className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-6 lg:px-10">
         <a href="/" className="flex items-center gap-3">
-          <img src="/favicon.png" alt="" className="h-8 w-8" />
+          {/* Circular zebra logo badge */}
+          <span
+            className="grid h-10 w-10 place-items-center overflow-hidden rounded-full"
+            style={{ border: `2px solid ${C.teal}`, background: C.midnight }}
+          >
+            <img
+              src="/logo-circle.png"
+              alt="Rare Intelligence"
+              className="h-full w-full object-cover"
+              onError={(e) => { e.currentTarget.style.display = "none"; }}
+            />
+          </span>
           <span
             className="text-lg tracking-[0.06em]"
             style={{ fontFamily: F.display, fontWeight: 800, color: C.ghost }}
@@ -229,20 +176,15 @@ export default function RareIntelligenceHero() {
             </div>
 
             {/* Mascot in the signature ring — stacks below copy on mobile */}
-            <div className="relative mx-auto w-full max-w-[400px] sm:max-w-[460px] lg:max-w-[540px]">
-              <div className="relative aspect-square">
-                <SignalRing />
-                {/* only the zebra drifts out of focus; the ring stays sharp.
-                    Hidden gracefully until /mascot.png exists. */}
-                <div className="absolute left-1/2 top-1/2 w-[53%] -translate-x-1/2 -translate-y-1/2">
-                  <img
-                    src="/mascot.png"
-                    alt="The Rare Intelligence zebra mascot"
-                    className="ri-mascot block w-full"
-                    onError={(e) => { e.currentTarget.style.visibility = "hidden"; }}
-                  />
-                </div>
-              </div>
+            <div className="relative mx-auto w-full max-w-[360px] sm:max-w-[420px] lg:max-w-[460px]">
+              {/* Zebra floats on the band; gentle bob, no blur.
+                  Hidden gracefully until /mascot.png exists. */}
+              <img
+                src="/mascot.png"
+                alt="The Rare Intelligence zebra mascot"
+                className="ri-mascot block w-full"
+                onError={(e) => { e.currentTarget.style.visibility = "hidden"; }}
+              />
             </div>
           </div>
         </section>
