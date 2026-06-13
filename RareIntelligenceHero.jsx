@@ -74,8 +74,8 @@ export default function RareIntelligenceHero() {
           75%      { transform: perspective(1100px) rotateX(-6deg); }
         }
         .ri-mascot-glow, .ri-mascot {
-          -webkit-mask-image: radial-gradient(112% 82% at 50% 38%, #000 44%, rgba(0,0,0,0.4) 70%, transparent 100%);
-                  mask-image: radial-gradient(112% 82% at 50% 38%, #000 44%, rgba(0,0,0,0.4) 70%, transparent 100%);
+          -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,0.32) 82%, transparent 100%);
+                  mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,0.32) 82%, transparent 100%);
         }
         .ri-mascot-glow {
           position: absolute; left: 50%; top: 0; width: 100%;
@@ -87,8 +87,8 @@ export default function RareIntelligenceHero() {
           position: absolute; inset: -24% -20%; z-index: 1; pointer-events: none;
           background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") repeat;
           background-size: 180px 180px; opacity: .16; mix-blend-mode: screen;
-          -webkit-mask-image: radial-gradient(74% 72% at 50% 44%, #000 6%, transparent 82%);
-                  mask-image: radial-gradient(74% 72% at 50% 44%, #000 6%, transparent 82%);
+          -webkit-mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
+                  mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
         }
         .ri-mascot {
           position: relative; z-index: 2;
@@ -99,7 +99,9 @@ export default function RareIntelligenceHero() {
           filter: drop-shadow(0 22px 44px rgba(8,15,30,0.45));
         }
         .ri-mascot:hover { animation: ri-rock 6s ease-in-out infinite; }
-        .ri-atmos { position: absolute; inset: -24% -20%; z-index: 0; pointer-events: none; filter: blur(40px); opacity: 1; }
+        .ri-atmos { position: absolute; inset: -24% -20%; z-index: 0; pointer-events: none; filter: blur(40px); opacity: 1;
+          -webkit-mask-image: linear-gradient(to bottom, transparent 22%, #000 68%);
+                  mask-image: linear-gradient(to bottom, transparent 22%, #000 68%); }
         .ri-atmos span { position: absolute; border-radius: 9999px; }
         @media (prefers-reduced-motion: reduce) {
           .ri-mascot, .ri-mascot:hover { animation: none; transition: none; }
