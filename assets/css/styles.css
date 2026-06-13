@@ -255,9 +255,10 @@ section { position: relative; }
   position: absolute; inset: -24% -20%;
   z-index: 0; pointer-events: none;
   filter: blur(40px); opacity: 1;
-  /* concentrate the imagery toward the lower third */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 22%, #000 68%);
-          mask-image: linear-gradient(to bottom, transparent 22%, #000 68%);
+  /* pooled around the zebra, feathered on every edge so it never forms a
+     hard rectangle / vertical seam against the band */
+  -webkit-mask-image: radial-gradient(62% 72% at 54% 74%, #000 0%, #000 22%, transparent 74%);
+          mask-image: radial-gradient(62% 72% at 54% 74%, #000 0%, #000 22%, transparent 74%);
 }
 .hero-atmos span { position: absolute; border-radius: 50%; }
 .hero-atmos span:nth-child(1) { width: 240px; height: 240px; left: 2%;   top: 2%;     background: var(--cobalt);      opacity: .60; }

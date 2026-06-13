@@ -101,8 +101,8 @@ export default function RareIntelligenceHero() {
         }
         .ri-mascot:hover { animation: ri-rock 6s ease-in-out infinite; }
         .ri-atmos { position: absolute; inset: -24% -20%; z-index: 0; pointer-events: none; filter: blur(40px); opacity: 1;
-          -webkit-mask-image: linear-gradient(to bottom, transparent 22%, #000 68%);
-                  mask-image: linear-gradient(to bottom, transparent 22%, #000 68%); }
+          -webkit-mask-image: radial-gradient(62% 72% at 54% 74%, #000 0%, #000 22%, transparent 74%);
+                  mask-image: radial-gradient(62% 72% at 54% 74%, #000 0%, #000 22%, transparent 74%); }
         .ri-atmos span { position: absolute; border-radius: 9999px; }
         @media (prefers-reduced-motion: reduce) {
           .ri-mascot, .ri-mascot:hover { animation: none; transition: none; }
