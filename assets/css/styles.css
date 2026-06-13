@@ -35,15 +35,16 @@ body {
   overflow-x: hidden;
   position: relative;
 }
-/* The zebra — felt, not seen (10% whisper beneath everything) */
+/* The zebra whisper — fine diagonal pinstripe, now just visible across the page */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: var(--zebra-light);
+  background: repeating-linear-gradient(
+      125deg, transparent 0 9px, rgba(194, 245, 238, 0.06) 9px 11px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.6;
+  opacity: 1;
 }
 body > * { position: relative; z-index: 1; }
 

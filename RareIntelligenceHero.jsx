@@ -57,7 +57,11 @@ export default function RareIntelligenceHero() {
   return (
     <div
       className="flex min-h-screen flex-col antialiased"
-      style={{ background: C.midnight, fontFamily: F.body }}
+      style={{
+        /* midnight floor + the zebra whisper pinstripe, just visible */
+        background: `repeating-linear-gradient(125deg, transparent 0 9px, rgba(194,245,238,0.06) 9px 11px), ${C.midnight}`,
+        fontFamily: F.body,
+      }}
     >
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
