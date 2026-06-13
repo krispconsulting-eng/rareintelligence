@@ -247,9 +247,9 @@ section { position: relative; }
 
 /* Atmosphere — cool-palette bokeh blurred behind the zebra (depth of field) */
 .hero-atmos {
-  position: absolute; inset: -22% -18%;
+  position: absolute; inset: -24% -20%;
   z-index: 0; pointer-events: none;
-  filter: blur(34px); opacity: .95;
+  filter: blur(40px); opacity: 1;
 }
 .hero-atmos span { position: absolute; border-radius: 50%; }
 .hero-atmos span:nth-child(1) { width: 240px; height: 240px; left: 2%;   top: 2%;     background: var(--cobalt);      opacity: .60; }
@@ -260,19 +260,30 @@ section { position: relative; }
 .hero-atmos span:nth-child(6) { width: 70px;  height: 70px;  left: 50%;  top: 8%;     background: var(--seafoam);     opacity: .45; }
 .hero-atmos span:nth-child(7) { width: 110px; height: 110px; right: 20%; bottom: 8%;  background: var(--vivid-teal);  opacity: .40; }
 
-/* Soft blurred halo of the zebra so its outline dissolves into the page */
+/* Fine grain "noise", densest around the zebra, fading at the edges */
+.hero-noise {
+  position: absolute; inset: -24% -20%;
+  z-index: 1; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") repeat;
+  background-size: 180px 180px;
+  opacity: .16; mix-blend-mode: screen;
+  -webkit-mask-image: radial-gradient(74% 72% at 50% 44%, #000 6%, transparent 82%);
+          mask-image: radial-gradient(74% 72% at 50% 44%, #000 6%, transparent 82%);
+}
+
+/* Big soft blurred halo of the zebra so its whole outline dissolves */
 .hero-mascot-glow {
   position: absolute; left: 50%; top: 0; width: 100%;
-  transform: translateX(-50%) scale(1.07);
+  transform: translateX(-50%) scale(1.13);
   z-index: 1; pointer-events: none;
-  filter: blur(24px) saturate(1.15);
-  opacity: .6;
+  filter: blur(42px) saturate(1.2);
+  opacity: .85;
 }
-/* Both layers fade at the base so the zebra melts into the band */
+/* Vignette mask dissolves the outline (sides + base) into the band */
 .hero-mascot-glow,
 .hero-mascot {
-  -webkit-mask-image: linear-gradient(to bottom, #000 56%, rgba(0,0,0,0.16) 86%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 56%, rgba(0,0,0,0.16) 86%, transparent 100%);
+  -webkit-mask-image: radial-gradient(112% 82% at 50% 38%, #000 44%, rgba(0,0,0,0.4) 70%, transparent 100%);
+          mask-image: radial-gradient(112% 82% at 50% 38%, #000 44%, rgba(0,0,0,0.4) 70%, transparent 100%);
 }
 .hero-mascot {
   position: relative; z-index: 2;
