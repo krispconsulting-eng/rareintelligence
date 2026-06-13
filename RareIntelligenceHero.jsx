@@ -87,9 +87,9 @@ export default function RareIntelligenceHero() {
         .ri-noise {
           position: absolute; inset: -24% -20%; z-index: 1; pointer-events: none;
           background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") repeat;
-          background-size: 180px 180px; opacity: .16; mix-blend-mode: screen;
-          -webkit-mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
-                  mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
+          background-size: 180px 180px; opacity: .13; mix-blend-mode: screen;
+          -webkit-mask-image: radial-gradient(56% 60% at 54% 80%, #000 0%, #000 18%, transparent 68%);
+                  mask-image: radial-gradient(56% 60% at 54% 80%, #000 0%, #000 18%, transparent 68%);
         }
         .ri-mascot {
           position: relative; z-index: 2;
