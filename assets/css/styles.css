@@ -209,14 +209,18 @@ section { position: relative; }
   background: var(--grad-hero);
   box-shadow: var(--shadow-lg);
 }
-/* navy veil — deepest over the copy, so text stays AAA on the gradient;
-   plus a quiet teal bloom behind the mascot */
+/* navy veil — smooth edge-to-edge fade (no mid-band seam); deepest over
+   the copy for AA text, easing to clear under the mascot + a wide teal bloom */
 .hero-band::before {
   content: ""; position: absolute; inset: 0;
   background:
-    radial-gradient(58% 58% at 76% 68%, rgba(0, 201, 177, 0.18), transparent 72%),
-    linear-gradient(100deg,
-      rgba(8, 15, 30, 0.66) 0%, rgba(8, 15, 30, 0.34) 52%, rgba(8, 15, 30, 0.04) 100%);
+    radial-gradient(90% 100% at 82% 56%, rgba(0, 201, 177, 0.15), transparent 82%),
+    linear-gradient(95deg,
+      rgba(8, 15, 30, 0.56) 0%,
+      rgba(8, 15, 30, 0.42) 28%,
+      rgba(8, 15, 30, 0.26) 50%,
+      rgba(8, 15, 30, 0.12) 72%,
+      rgba(8, 15, 30, 0.02) 100%);
 }
 .hero-band-inner {
   position: relative; z-index: 1;
@@ -244,7 +248,7 @@ section { position: relative; }
 .btn-orb:hover .orb { transform: translateX(3px); }
 
 /* Mascot — sits still, rocks forward and back only while hovered */
-.hero-visual { position: relative; width: 100%; max-width: 460px; margin: 0 auto; }
+.hero-visual { position: relative; width: 100%; max-width: 380px; margin: 0 auto; }
 
 /* Atmosphere — cool-palette bokeh blurred behind the zebra (depth of field) */
 .hero-atmos {
@@ -270,10 +274,11 @@ section { position: relative; }
   z-index: 1; pointer-events: none;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") repeat;
   background-size: 180px 180px;
-  opacity: .16; mix-blend-mode: screen;
-  /* grain concentrated in the lower third where the zebra meets the page */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
-          mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
+  opacity: .13; mix-blend-mode: screen;
+  /* grain pooled around the zebra's lower body, feathered on every edge
+     so it never forms a hard rectangle / vertical seam */
+  -webkit-mask-image: radial-gradient(56% 60% at 54% 80%, #000 0%, #000 18%, transparent 68%);
+          mask-image: radial-gradient(56% 60% at 54% 80%, #000 0%, #000 18%, transparent 68%);
 }
 
 /* Big soft blurred halo of the zebra so its whole outline dissolves */
