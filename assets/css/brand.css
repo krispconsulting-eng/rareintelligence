@@ -35,7 +35,7 @@
   --grad-hero:  linear-gradient(135deg, #2D3580 0%, #1A4FBF 42%, #0E7FA8 74%, #00C9B1 100%);
 
   /* ---- Typography ---- */
-  --font-display: "Bricolage Grotesque", system-ui, sans-serif; /* wordmark, headlines, big numbers (700–800) */
+  --font-display: "Schibsted Grotesk", system-ui, sans-serif; /* wordmark, headlines, big numbers (700–800) */
   --font-body:    "Instrument Sans", system-ui, -apple-system, sans-serif; /* all functional text (400–600) */
   --font-serif:   "Lora", Georgia, serif;        /* taglines & human moments only (italic 500) */
   --font-mono:    "DM Mono", ui-monospace, monospace; /* stats, eyebrows, captions, code */

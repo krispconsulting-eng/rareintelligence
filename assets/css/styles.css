@@ -193,14 +193,17 @@ section { position: relative; }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
-/* ---- Home hero — gradient band as punctuation; the floor stays navy ---- */
-.home-hero { padding: 40px 0 12px; }
+/* ---- Home hero — full-bleed gradient (no dark frame around it) ---- */
+.home-hero { padding: 0 0 12px; }
+.home-hero .container { max-width: 100%; padding: 0; }
 .hero-band {
   position: relative; overflow: hidden;
-  border-radius: 36px;
+  border-radius: 0 0 36px 36px;   /* flush to top & sides; soft bottom only */
   background: var(--grad-hero);
   box-shadow: var(--shadow-lg);
 }
+/* keep the copy on the same reading column as the rest of the page */
+.hero-band-inner { max-width: calc(var(--container) + 168px); margin-inline: auto; }
 /* navy veil — smooth edge-to-edge fade (no mid-band seam); deepest over
    the copy for AA text, easing to clear under the mascot + a wide teal bloom */
 .hero-band::before {
