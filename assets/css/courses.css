@@ -70,6 +70,18 @@
 .price-tag small { font-family: var(--font-body); font-weight: 600; font-size: .8rem; color: var(--slate-soft); }
 .price-tag.free { color: var(--vivid-teal); }
 
+/* Featured layout — a tier with a single course spans the full shelf */
+.course-card.wide {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: 1fr 240px; column-gap: 36px; align-items: start;
+}
+.course-card.wide .c-meta { margin-top: 14px; }
+.course-card.wide .c-foot {
+  grid-column: 2; grid-row: 1 / span 4; margin: 0; align-self: stretch;
+  flex-direction: column; align-items: flex-end; justify-content: center; gap: 14px;
+  border-left: 1px solid var(--line-soft); padding-left: 32px;
+}
+
 /* ---- Bundle / pathway callout (gradient band) ---- */
 .bundle {
   position: relative; overflow: hidden;
@@ -78,6 +90,9 @@
   display: grid; grid-template-columns: 1.4fr auto; gap: 28px; align-items: center;
 }
 .bundle::before { content: ""; position: absolute; inset: 0; background: radial-gradient(90% 120% at 90% 10%, rgba(0,201,177,0.2), transparent 60%); }
+/* Pathway bundles sit on flat navy so the gradient stays reserved for the hero
+   and the whole pack — one gradient moment per scroll. */
+.bundle.subtle { background: var(--navy-card); border: 1px solid var(--hairline); box-shadow: var(--shadow-md); }
 .bundle > * { position: relative; z-index: 1; }
 .bundle h3 { color: var(--ghost); font-size: 1.5rem; margin-bottom: .3em; }
 .bundle p { color: var(--pale-mint); margin: 0; max-width: 46ch; }
@@ -153,4 +168,9 @@
   .course-hero .band { padding: 44px 26px; }
   .download { grid-template-columns: 1fr; text-align: left; gap: 12px; }
   .program-head { flex-direction: column; }
+}
+
+@media (max-width: 720px) {
+  .course-card.wide { display: flex; flex-direction: column; }
+  .course-card.wide .c-foot { flex-direction: row; align-items: center; justify-content: space-between; border-left: none; padding-left: 0; }
 }
