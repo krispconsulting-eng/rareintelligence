@@ -27,7 +27,7 @@
   --paper-sink:    #E9F0F2;  /* light inset / alternate band */
   --ink-navy:      #0E1C35;  /* headings on light (navy) */
   --slate:         #45606C;  /* body text on light — AA on --paper */
-  --slate-soft:    #5E757F;  /* muted meta on light — large / semibold only */
+  --slate-soft:    #556A73;  /* muted meta on light — AA (4.9:1) on paper & sink */
   --line-soft:     #DCE7EA;  /* borders & rules on light */
 
   /* ---- Brand gradient (indigo → cobalt → ocean → teal) ---- */

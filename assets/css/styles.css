@@ -569,7 +569,11 @@ section { position: relative; }
   font-family: var(--font-body); font-size: 1rem;
 }
 .newsletter input::placeholder { color: var(--warm-grey); }
-.newsletter input:focus { outline: none; border-color: var(--vivid-teal); }
+.newsletter input:focus-visible { outline: none; border-color: var(--vivid-teal); box-shadow: 0 0 0 3px rgba(0, 201, 177, 0.35); }
+
+/* ---- Focus visibility (keyboard) — branded ring on every interactive element ---- */
+:focus-visible { outline: 2px solid var(--vivid-teal); outline-offset: 2px; border-radius: 3px; }
+.btn:focus-visible { outline-offset: 3px; }
 
 /* ---- Page header (interior) ---- */
 .page-hero { padding: 84px 0 56px; position: relative; overflow: hidden; }
