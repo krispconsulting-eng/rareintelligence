@@ -8,15 +8,16 @@
 /* ---- Section rhythm reused from styles.css (.section) ---- */
 .courses-main { padding-bottom: 8px; }
 
-/* ---- Catalogue hero — a single gradient band as punctuation ---- */
-.course-hero { padding: 34px 0 8px; }
+/* ---- Catalogue hero — full-bleed gradient (no white paper border) ---- */
+.course-hero { padding: 0 0 8px; }
+.course-hero > .container { max-width: 100%; padding: 0; }
 .course-hero .hero-band { padding: 0; }
 .course-hero .band {
   position: relative; overflow: hidden;
-  border-radius: 32px;
+  border-radius: 0 0 32px 32px;   /* flush to top & sides; soft bottom only */
   background: var(--grad-hero);
-  box-shadow: var(--shadow-lg);
-  padding: 68px 64px;
+  /* full-bleed gradient, copy centred on the page's reading column */
+  padding: 64px max(calc((100% - var(--container)) / 2), 40px);
   color: var(--ghost);
 }
 .course-hero .band::before {
