@@ -1,9 +1,11 @@
 # Platform architecture
 
-How Rare Intelligence is sold and delivered on your own stack, with Stripe live
-from launch and no paid LMS. This fits the site you already have: a multi-page
-Vite and React build on Vercel, with serverless functions (the pattern already
-used in `engagement-platform/api/`).
+How Rare Intelligence courses are sold and delivered on your own stack, with
+Stripe live from launch and no paid LMS. This fits the site you already have: a
+plain multi-page HTML, CSS and JavaScript site on Vercel with `cleanUrls`, and no
+build step. Payments, accounts and the certificate run as Vercel Serverless
+Functions in an `/api` directory. There is no framework, no bundler, and nothing
+to compile.
 
 ## Principle
 
@@ -17,12 +19,13 @@ either already paid for (Vercel, Kit) or free at this scale.
 | Layer | Tool | Cost | Why |
 |---|---|---|---|
 | Hosting and pages | Vercel (existing) | Already paid | Your site already lives here. |
-| Course pages | Vite multi-page build, content from this repo | $0 | Same build you use now; courses are new entries. |
+| Course pages | Static HTML in `/courses`, in the existing brand | $0 | Same kind of hand-authored page as `about.html` or `membership.html`; courses are new pages, not a build. |
+| Serverless logic | Vercel Functions in `/api` | $0 at launch scale | The webhook, entitlement checks and certificate run here. No separate server. |
 | Payments | Stripe (Checkout + webhooks) | Per sale only (about 1.75% + 30c AU domestic) | No monthly fee. Hosted checkout, so no card data touches your servers. |
 | Accounts and data | Supabase (free tier) | $0 at launch scale | Postgres, plus passwordless magic-link auth, in one. Removes most custom auth code. |
-| Marketing email and list | Kit (existing) | Already paid | List, tags, funnels, per the `kit-lead-capture` and `funnel-tracking` skills. |
+| Marketing email and list | Kit (existing) | Already paid | Your existing list and funnels. |
 | Transactional email | Resend (free tier, 3,000/month) | $0 at launch scale | Receipts and the certificate email. Kit can also do this if you prefer one tool. |
-| Analytics | Vercel Web Analytics (existing) | Already paid | Custom events per the `funnel-tracking` skill. |
+| Analytics | Vercel Web Analytics (existing) | Already paid | Custom events for the funnel. |
 
 Supabase and Resend are the only new accounts, both free at this scale. If you
 would rather stay entirely in-platform, Vercel Postgres and Vercel KV can replace
@@ -32,7 +35,7 @@ is Supabase, because auth-plus-database in one saves the most build.
 ## How the pieces fit
 
 ```
-                 krispierce.com.au/learn  (Vite multi-page, on Vercel)
+                 rareintelligence.com/courses  (static HTML on Vercel)
                  ┌───────────────────────────────────────────────┐
    visitor  ──▶  │  catalogue  ─▶  course sales page  ─▶  checkout │
                  └───────────────────────────────────────────────┘
@@ -72,15 +75,16 @@ purchased_by, seats_used), and seats issue entitlements as members join.
 
 ## Access control
 
-The courses are paid, so pages must be gated. On a static site this is done with
-a thin serverless check, not by hiding markup in the browser.
+The courses are paid, so lesson pages must be gated. On a static site this is
+done with a thin serverless check, not by hiding markup in the browser.
 
 1. A learner logs in with a magic link (Supabase Auth emails a one-time link; no
    password).
 2. Their session is a signed token in a cookie.
-3. Course lesson content is served through a function (or a lightweight
-   client fetch to `/api/lesson`) that checks the session and the entitlement
-   before returning the lesson body. No entitlement, no content.
+3. Lesson content is served through a function (`/api/lesson`) that checks the
+   session and the entitlement before returning the lesson body. No entitlement,
+   no content. The gated page is a thin static shell that fetches its lesson body
+   from that function after login.
 4. Sales pages, the catalogue, and the free intro course are fully public and
    static, so the marketing surface stays fast and indexable.
 
@@ -96,8 +100,8 @@ You can start selling with almost no code, then deepen.
 - Stripe **Payment Links** for each product (created in the Stripe dashboard, no
   code).
 - The sales page links to the Payment Link.
-- A single Stripe **webhook** function records the entitlement in Supabase and
-  tags the buyer in Kit.
+- A single Stripe **webhook** function (`/api/stripe-webhook`) records the
+  entitlement in Supabase and tags the buyer in Kit.
 - Course content delivered on gated pages as above.
 
 This is enough to sell and deliver from day one.
@@ -112,17 +116,21 @@ This is enough to sell and deliver from day one.
 
 ## Course content pipeline
 
-The content already lives in this repo as markdown. The build renders it to
-pages; the git repo stays the single source of truth, which is what makes the
+The content already lives in this repo as markdown. Because the site has no build
+step, the course pages are static HTML in the brand, exactly like the rest of the
+site. The git repo stays the single source of truth, which is what makes the
 content-governance mechanism in `03-content-governance.md` work.
 
 - Each course is a folder of lesson markdown files with frontmatter (title,
   order, `last_reviewed`, `next_review`, `regulatory_refs`).
-- The Vite build turns each lesson into a page in the `/learn` section, applying
-  the Rare Intelligence design (see `05-design-specs.md`).
-- Updating content is a normal edit-and-commit. A push redeploys the affected
-  pages. There is no separate CMS to keep in sync, and no LMS content to
-  re-upload.
+- Each lesson becomes a static page under `/courses`, built in the brand
+  (`assets/css/brand.css`, `assets/css/styles.css`) to match the existing pages.
+  Author the pages directly, or run a small standalone Node script that renders
+  each lesson's markdown into an HTML page from a shared template. Either way it
+  is plain HTML at rest, not a framework build.
+- Updating content is a normal edit-and-commit. A push redeploys the site (if you
+  use the render script, run it before committing). There is no separate CMS to
+  keep in sync, and no LMS content to re-upload.
 
 ## What this costs to run
 
@@ -139,5 +147,5 @@ content-governance mechanism in `03-content-governance.md` work.
 - Create a Supabase project (free tier) and the three tables above.
 - Create a Resend account (free tier) or decide to send transactional email
   through Kit.
-- Give the go-ahead to scaffold the `/learn` section, the webhook function, and
-  the gated course player in the repo.
+- Give the go-ahead to scaffold the `/courses` section, the `/api` webhook
+  function, and the gated course player in the repo.

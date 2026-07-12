@@ -29,7 +29,7 @@ provided as a self-contained page alongside this blueprint.
   700 to 900ms for reveals. All motion respects `prefers-reduced-motion`.
 - **Shadows:** always the cooled base `rgba(29,28,33,...)`, never pure black.
 
-## Surface 1: the catalogue (`/learn`)
+## Surface 1: the catalogue (`/courses`)
 
 The shelf. It has to make the two programs legible in one glance and route a
 visitor to the right course.
@@ -58,7 +58,7 @@ visitor to the right course.
 - **Responsive:** three columns at desktop, two at tablet, one at mobile. Cards
   keep a consistent height per row; the button sits at the card foot.
 
-## Surface 2: the course sales page (`/learn/[course]`)
+## Surface 2: the course sales page (`/courses/[course]`)
 
 One page per course, public and indexable. This is where the sale is made, so it
 is generous with substance and free of hype.
@@ -86,7 +86,7 @@ Structure, top to bottom:
 - **Sticky buy affordance** on desktop: a slim summary with price and button that
   follows as the visitor scrolls the syllabus. Never a pop-up, never a timer.
 
-## Surface 3: the course player (`/learn/[course]/[lesson]`, gated)
+## Surface 3: the course player (`/courses/[course]/[lesson]`, gated)
 
 Where the learning happens. Calm, readable, and focused. This surface sits behind
 the access gate.
@@ -140,4 +140,4 @@ Specified in `01-brand-identity.md`; the design detail:
 
 - Review the live sales and catalogue prototype provided with this blueprint.
 - Confirm the blue-led accent reads correctly against the consulting site.
-- Approve the surfaces so they can be built as pages in the `/learn` section.
+- Approve the surfaces so they can be built as pages in the `/courses` section.

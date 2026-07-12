@@ -22,15 +22,15 @@ brand (`assets/css/brand.css`, `WEBSITE-PLAYBOOK.md`, `HERO-GUIDE.md`).
 - **Pricing.** Free intro, a flat $145 per course, program pathways ($590
   families, $790 organisations), and a whole pack (both programs, $1,190) that is
   the only place the three bonuses live.
-- **No AI tutor in the courses.** The courses are self-paced. The differentiators
-  are the depth of the content, the design, and that it stays current.
+- **Self-paced.** The courses are self-paced. The differentiators are the depth
+  of the content, the design, and that it stays current.
 
 ## Notes for this repository
 
-- `02-platform-architecture.md` was written assuming a Vite and React host. This
-  site is plain HTML, CSS and JavaScript on Vercel, so adapt the specifics (the
-  Stripe webhook, entitlements and certificate can still run as Vercel functions;
-  the course pages are static pages here rather than a build).
+- `02-platform-architecture.md` targets this repository directly: plain HTML, CSS
+  and JavaScript on Vercel with `cleanUrls`, course pages as static pages under
+  `/courses`, and the Stripe webhook, entitlements and certificate running as
+  Vercel Serverless Functions in `/api`. No framework and no build step.
 - `05-design-specs.md` describes the surfaces and the accessibility bar. Take the
   structure and the WCAG guidance; replace the colour and type tokens with this
   repository's brand.

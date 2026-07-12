@@ -37,11 +37,10 @@ Diseases for policy, the NHMRC Statement on Consumer and Community Involvement f
 research involvement, and the Medicines Australia Code of Conduct for any
 industry-facing delivery.
 
-## One decision to make
+## Where the courses sit
 
-The site currently positions Rare Intelligence around AI (the SIGNAL Method,
-intelligence briefs). These courses are deliberately self-paced and not
-AI-driven. Decide how the two sit together: courses as a distinct "Academy" or
-"Courses" section of the Rare Intelligence site, framed to complement the AI and
-advisory work rather than compete with it. That framing decision shapes the
-navigation and the course landing pages, not the course content itself.
+The courses are a distinct "Courses" section of the Rare Intelligence site, at
+`/courses`. They are self-paced and stand on their own: the reason to buy is the
+depth of the content and that it stays current, stated plainly (see
+`commercial/00-commercial-strategy.md`). This is a navigation and landing-page
+decision, not a change to the course content itself.
