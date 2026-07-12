@@ -8,6 +8,7 @@ brand (`assets/css/brand.css`, `WEBSITE-PLAYBOOK.md`, `HERO-GUIDE.md`).
 | File | What it covers |
 |---|---|
 | `00-commercial-strategy.md` | Positioning, packaging, pricing, the funnel, and a staged launch. |
+| `01-site-architecture.md` | The `/courses` page map and funnel — how the section is laid out to sell. |
 | `02-platform-architecture.md` | Selling and delivering on your own stack with Stripe, no paid LMS. |
 | `03-content-governance.md` | The mechanism that keeps courses current as TGA, PBAC, MSAC, ACNC and policy change, with a visible currency date. |
 | `04-automation-signup-to-certificate.md` | The end-to-end automation, from purchase to certificate delivery. |

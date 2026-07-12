@@ -21,6 +21,15 @@
   --warm-grey:     #8BA8A5;  /* secondary / muted text */
   --hairline:      #1D2F4D;  /* borders on dark surfaces */
 
+  /* ---- Light / white-forward surfaces (the counterweight to navy) ---- */
+  --paper:         #F3F7F8;  /* light page base — cool near-white */
+  --paper-raise:   #FFFFFF;  /* light cards & raised surfaces */
+  --paper-sink:    #E9F0F2;  /* light inset / alternate band */
+  --ink-navy:      #0E1C35;  /* headings on light (navy) */
+  --slate:         #45606C;  /* body text on light — AA on --paper */
+  --slate-soft:    #5E757F;  /* muted meta on light — large / semibold only */
+  --line-soft:     #DCE7EA;  /* borders & rules on light */
+
   /* ---- Brand gradient (indigo → cobalt → ocean → teal) ---- */
   --grad-strip: linear-gradient(90deg,  #2D3580 0%, #1A4FBF 38%, #0E7FA8 72%, #00C9B1 100%);
   --grad-hero:  linear-gradient(135deg, #2D3580 0%, #1A4FBF 42%, #0E7FA8 74%, #00C9B1 100%);
@@ -50,10 +59,5 @@
   --shadow-teal: 0 14px 40px rgba(0, 201, 177, 0.20);
   --container:   1160px;
   --ease:        cubic-bezier(0.22, 1, 0.36, 1);
-
-  /* ---- The zebra · fine 35° diagonal, felt not seen ---- */
-  --zebra-light: repeating-linear-gradient(
-      125deg, transparent 0 8px, rgba(255, 255, 255, 0.05) 8px 10px); /* on dark, ~10% whisper */
-  --zebra-hero: repeating-linear-gradient(
-      125deg, transparent 0 8px, rgba(255, 255, 255, 0.08) 8px 10px); /* heroes, ~18% */
+  --shadow-soft: 0 18px 44px rgba(14, 28, 53, 0.10); /* depth on light surfaces */
 }

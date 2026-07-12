@@ -20,7 +20,7 @@ this was authored has been left behind on purpose.
 | `course-suite-organisations.md` | The built suite for groups: seven courses across four tiers, plus a leadership strand. |
 | `event-blueprint-families-and-advocates-two-day.md` | A sample two-day face-to-face agenda for the individuals suite. |
 | `event-blueprint-org-two-day.md` | A sample two-day face-to-face agenda for the organisations suite. |
-| `commercial/` | How the courses are sold and run: pricing and packaging, the own-stack platform, the content-currency mechanism, and the purchase-to-certificate automation. |
+| `commercial/` | How the courses are sold and run: pricing and packaging, the own-stack platform, the content-currency mechanism, and the purchase-to-certificate automation. The page and funnel map for the section is `commercial/01-site-architecture.md`. |
 
 ## The commercial model in one line
 

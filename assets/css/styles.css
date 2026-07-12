@@ -35,18 +35,10 @@ body {
   overflow-x: hidden;
   position: relative;
 }
-/* The zebra whisper — fine diagonal pinstripe, now just visible across the page */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-      125deg, transparent 0 9px, rgba(194, 245, 238, 0.06) 9px 11px);
-  pointer-events: none;
-  z-index: 0;
-  opacity: 1;
-}
 body > * { position: relative; z-index: 1; }
+
+/* White-forward page: light base with the navy header/footer as the brand frame */
+body.light { background: var(--paper); color: var(--slate); }
 
 img { max-width: 100%; display: block; }
 
@@ -337,7 +329,7 @@ section { position: relative; }
 .section-head { max-width: 60ch; margin-bottom: 52px; }
 .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
 
-/* Feature band — navy lift + gradient top rule + zebra (gradient is punctuation) */
+/* Feature band — navy lift + gradient top rule (gradient is punctuation) */
 .section-plum {
   background: var(--navy-card);
   border-top: 2px solid transparent;
@@ -346,13 +338,69 @@ section { position: relative; }
   overflow: hidden;
 }
 .section-plum::before {
-  content: ""; position: absolute; inset: 0;
-  background: var(--zebra-hero); opacity: .5; pointer-events: none;
+  content: ""; position: absolute; top: -140px; right: -120px;
+  width: 460px; height: 460px;
+  background: radial-gradient(circle, rgba(26, 79, 191, 0.20), transparent 66%);
+  pointer-events: none;
 }
 .section-plum .container { position: relative; z-index: 1; }
 .section-plum .eyebrow { color: var(--seafoam); }
 
 .section-cream2 { background: var(--navy-card); }
+
+/* =====================================================================
+   White-forward surfaces — the light counterweight to the navy field.
+   Wrap any section in .surface-light (or .surface-paper for the tinted
+   inset) to flip it to a light treatment. Navy remains for headings so
+   the two families stay one system; teal and cobalt stay as accents.
+   ===================================================================== */
+.surface-light { background: var(--paper-raise); color: var(--slate); }
+.surface-paper { background: var(--paper); color: var(--slate); }
+.surface-sink  { background: var(--paper-sink); color: var(--slate); }
+.surface-light, .surface-paper, .surface-sink { position: relative; }
+.surface-light h1, .surface-light h2, .surface-light h3, .surface-light h4,
+.surface-paper h1, .surface-paper h2, .surface-paper h3, .surface-paper h4,
+.surface-sink h1,  .surface-sink h2,  .surface-sink h3,  .surface-sink h4 { color: var(--ink-navy); }
+.surface-light p, .surface-paper p, .surface-sink p { color: var(--slate); }
+.surface-light .lead, .surface-paper .lead, .surface-sink .lead { color: var(--slate-soft); }
+.surface-light .eyebrow, .surface-paper .eyebrow, .surface-sink .eyebrow { color: var(--cobalt); }
+.surface-light .tagline, .surface-paper .tagline, .surface-sink .tagline { color: var(--ocean); }
+.surface-light a, .surface-paper a, .surface-sink a { color: var(--cobalt); }
+.surface-light a:hover, .surface-paper a:hover, .surface-sink a:hover { color: var(--ocean); }
+.surface-light .grad-text, .surface-paper .grad-text, .surface-sink .grad-text {
+  background: var(--grad-hero); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Cards on light */
+.surface-light .card, .surface-paper .card, .surface-sink .card {
+  background: var(--paper-raise);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-soft);
+}
+.surface-paper .card, .surface-sink .card { background: var(--paper-raise); }
+.surface-light .card:hover, .surface-paper .card:hover, .surface-sink .card:hover {
+  border-color: rgba(0, 201, 177, 0.55);
+  box-shadow: 0 26px 60px rgba(14, 28, 53, 0.14);
+}
+.surface-light .card h3, .surface-paper .card h3, .surface-sink .card h3 { color: var(--ink-navy); }
+.surface-light .card p, .surface-paper .card p, .surface-sink .card p { color: var(--slate); }
+.surface-light .card .icon, .surface-paper .card .icon, .surface-sink .card .icon {
+  background: rgba(0, 201, 177, 0.12); border-color: rgba(0, 201, 177, 0.32);
+}
+
+/* Buttons on light */
+.surface-light .btn-ghost, .surface-paper .btn-ghost, .surface-sink .btn-ghost {
+  color: var(--ink-navy); border-color: rgba(14, 28, 53, 0.22);
+}
+.surface-light .btn-ghost:hover, .surface-paper .btn-ghost:hover, .surface-sink .btn-ghost:hover {
+  border-color: var(--ocean); color: var(--ocean); background: rgba(14, 127, 168, 0.06);
+}
+
+/* Chips, hairlines, and the eyebrow tick on light */
+.surface-light .chip, .surface-paper .chip, .surface-sink .chip {
+  background: var(--paper-raise); border-color: var(--line-soft); color: var(--ink-navy);
+}
+.surface-light hr, .surface-paper hr, .surface-sink hr { border: none; border-top: 1px solid var(--line-soft); }
 
 /* ---- Cards ---- */
 .grid { display: grid; gap: 26px; }
@@ -405,7 +453,7 @@ section { position: relative; }
 }
 .split-media::after {
   content: ""; position: absolute; inset: 0;
-  background: var(--zebra-hero); opacity: .9;
+  background: radial-gradient(120% 100% at 15% 12%, rgba(255, 255, 255, 0.14), transparent 60%);
 }
 .split-media.alt { background: linear-gradient(150deg, var(--ocean), var(--deep-indigo)); }
 .split-media .glass {
@@ -505,7 +553,7 @@ section { position: relative; }
   box-shadow: var(--shadow-lg);
   position: relative; overflow: hidden;
 }
-.cta-banner::before { content: ""; position: absolute; inset: 0; background: var(--zebra-hero); opacity: .8; }
+.cta-banner::before { content: ""; position: absolute; inset: 0; background: radial-gradient(90% 120% at 85% 10%, rgba(0, 201, 177, 0.18), transparent 60%); }
 .cta-banner > * { position: relative; z-index: 1; }
 .cta-banner h2 { color: var(--ghost); max-width: 22ch; margin-left: auto; margin-right: auto; }
 .cta-banner p { color: var(--pale-mint); max-width: 50ch; margin-left: auto; margin-right: auto; }
