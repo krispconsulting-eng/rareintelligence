@@ -100,7 +100,7 @@ section { position: relative; }
   font-weight: 600;
   font-size: 1rem;
   padding: 14px 28px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-btn);
   border: 1.5px solid transparent;
   cursor: pointer;
   transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease), color .2s, border-color .2s;
@@ -565,7 +565,7 @@ section { position: relative; }
 /* ---- Newsletter ---- */
 .newsletter form { display: flex; gap: 12px; max-width: 520px; margin-top: 22px; }
 .newsletter input {
-  flex: 1; padding: 15px 20px; border-radius: var(--radius-pill);
+  flex: 1; padding: 15px 20px; border-radius: var(--radius-btn);
   border: 1.5px solid var(--hairline);
   background: var(--navy-lift);
   color: var(--ghost);
