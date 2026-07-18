@@ -523,6 +523,19 @@ section { position: relative; }
 .newsletter input::placeholder { color: var(--warm-grey); }
 .newsletter input:focus { outline: none; border-color: var(--vivid-teal); }
 
+/* One-line collection notice above form submit rows */
+.form-note { font-size: .82rem; color: var(--warm-grey); margin: 18px 0 10px; line-height: 1.5; }
+.form-note a { color: var(--seafoam); text-decoration: underline; }
+.form-note a:hover { color: var(--vivid-teal); }
+
+/* ---- Legal pages (privacy / terms) ---- */
+.legal { max-width: 720px; }
+.legal-updated { font-family: var(--font-mono); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--seafoam); }
+.legal h2 { font-size: 1.45rem; margin-top: 2.2em; }
+.legal p, .legal li { color: var(--warm-grey); }
+.legal strong { color: var(--ghost); }
+.legal ul { padding-left: 1.2em; margin: 0 0 1.1em; display: grid; gap: 8px; }
+
 /* ---- Page header (interior) ---- */
 .page-hero { padding: 84px 0 56px; position: relative; overflow: hidden; }
 .page-hero::before {
