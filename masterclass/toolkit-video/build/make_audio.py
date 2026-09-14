@@ -182,14 +182,15 @@ def music() -> np.ndarray:
     buf = np.zeros((int(TOTAL * SR), 2), dtype=np.float64)
     bars = int(TOTAL / BAR)
     first_lab_bar = int(INTRO / BAR)
-    last_lab_bar = first_lab_bar + len(LABS)
+    last_lab_bar = int(round(FINAL / BAR))
+    lab_bars = max(1, last_lab_bar - first_lab_bar)
 
     for bar in range(bars):
         start = bar * BAR
         in_labs = first_lab_bar <= bar < last_lab_bar
         chord = PROGRESSION[(bar - first_lab_bar) % len(PROGRESSION)] if in_labs else "Am"
         root, tones, pad_tones = CHORDS[chord]
-        build = 0.85 + 0.15 * min(1.0, max(0.0, (bar - first_lab_bar) / (len(LABS) - 1)))
+        build = 0.85 + 0.15 * min(1.0, max(0.0, (bar - first_lab_bar) / max(1, lab_bars - 1)))
 
         add(buf, start, pad(pad_tones, BAR + 0.6))
 
@@ -202,14 +203,14 @@ def music() -> np.ndarray:
         if not in_labs:
             continue
 
-        for beat in (0, 1, 2):          # beat 4 belongs to the landing thud
-            add(buf, start + beat * BAR / 4, kick(0.13 * build))
+        for beat in range(4):
+            add(buf, start + beat * BAR / 4, kick(0.12 * build))
         for at in (0.0, 0.75, 1.0, 1.75):
             add(buf, start + at, bass(root, 0.09 * build))
         for eighth, idx in enumerate(PLUCK_PATTERN):
             at = start + eighth * BAR / 8
             add(buf, at, pluck(tones[idx], 0.06 * build), -0.2)
-            if bar >= first_lab_bar + 6 and eighth % 2 == 1:
+            if bar >= first_lab_bar + lab_bars // 2 and eighth % 2 == 1:
                 add(buf, at, pluck(tones[idx] * 2, 0.028 * build, 0.25), 0.35)
 
     t = np.arange(buf.shape[0]) / SR

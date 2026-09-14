@@ -1,6 +1,6 @@
 # Kris Pierce Toolkit: the video
 
-Two finished cuts, both vertical 9:16, 1080 x 1920, 30fps, 34 seconds:
+Two finished cuts, both vertical 9:16, 1080 x 1920, 30fps, 28 seconds:
 
 - `kris-pierce-toolkit-sound.mp4` has the sound design and is the one to post.
 - `kris-pierce-toolkit.mp4` is the same picture with no audio, for adding a music track
@@ -39,16 +39,15 @@ grid is below.
 
 | Time | What happens |
 |---|---|
-| 0.0–4.0 | Opens on the finished frame, bag and title in place, so frame one doubles as the cover on every platform. "Twelve AI labs. One toolkit." / "What MasterClass Executive is adding to my work in rare disease, policy and HTA" |
-| 4.0–28.0 | Twelve labs, two seconds each: pop in, hold with the title and LAB nn / 12, drop, land |
-| 28.0–34.0 | The pull-back. The bag lifts a fraction, its reflection deepens, and the camera pulls back until it stands small under one spotlight on a stage whose floor runs to the horizon. "This is the start." in gold serif, then the eyebrow, then out. |
+| 0.0–4.0 | Opens on the finished frame, bag and title in place, so frame one doubles as the cover on every platform. "Twelve AI labs. One toolkit." / "What MasterClass Executive is adding across all aspects of my work" |
+| 4.0–22.0 | Twelve labs, one every 1.5 seconds: pop in, hold with the title and LAB nn / 12, drop, and land as the next one pops in |
+| 22.0–28.0 | The pull-back. The bag lifts a fraction, its reflection deepens, and the camera pulls back until it stands small under one spotlight on a stage whose floor runs to the horizon. "This is the start." in gold serif, then the eyebrow, then out. |
 
 ## Adding music
 
-Optional. The cut runs on a 120 bpm grid with a landing on the fourth beat of every
-bar, so any 120 bpm track drops straight in with no nudging. Landings are at 5.5, 7.5,
-9.5, 11.5, 13.5, 15.5, 17.5, 19.5, 21.5, 23.5, 25.5 and 27.5 seconds. Pick something
-driving rather than ambient. Instagram and TikTok can add a licensed track over the
+Optional. The cut runs on a 120 bpm grid with every landing on a beat, so any 120 bpm
+track drops straight in with no nudging. Landings are every 1.5 seconds from 5.5 to
+22.0. Pick something driving rather than ambient. Instagram and TikTok can add a licensed track over the
 sound version in-app; for LinkedIn, mix a track under `kris-pierce-toolkit.mp4` in the
 edit.
 

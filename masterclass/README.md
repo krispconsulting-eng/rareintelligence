@@ -3,7 +3,7 @@
 Kris Pierce's MasterClass Executive programme. First project: the Kris Pierce Toolkit
 video, in `toolkit-video/`.
 
-`toolkit-video/kris-pierce-toolkit-sound.mp4` is the finished cut: vertical 9:16, 34
+`toolkit-video/kris-pierce-toolkit-sound.mp4` is the finished cut: vertical 9:16, 28
 seconds, with sound. Twelve official lab buttons drop one at a time into a black
 leather bag marked KRIS PIERCE TOOLKIT, then the camera pulls back to leave it standing
 small under one spotlight. A silent version sits beside it for adding a music track;
