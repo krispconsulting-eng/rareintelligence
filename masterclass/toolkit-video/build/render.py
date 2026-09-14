@@ -45,7 +45,8 @@ BPM = 120.0
 BEAT = 60.0 / BPM
 
 INTRO = 4 * BEAT * 2          # 4.0s, two bars
-PER_BUTTON = 4 * BEAT         # 2.0s, one bar
+PER_BUTTON = 3 * BEAT         # 1.5s between buttons: the next pops in as the last lands
+SETTLE = 0.5                  # how long a landing's flare and bag squash run into the next button
 OUTRO = 4 * BEAT * 3          # 6.0s, three bars: the pull-back needs room
 
 # The closing pull-back: where the horizon sits, where the bag ends up standing, how
@@ -55,9 +56,11 @@ STAGE_BASE = 1250
 STAGE_SCALE = 0.32
 REFL_H = 260
 
+# Each button's own timeline. It lands at 1.50, which is also when the next one pops
+# in, so the settle after a landing plays under the next button's hold.
 POP_END = 0.18
 DROP_START = 1.10             # a 0.40s fall: quick, still easing into the bag
-IMPACT = 1.50                 # beat 4 of the bar
+IMPACT = 1.50                 # on the beat
 TITLE_FADE = (1.02, 1.20)     # clears before the falling button reaches the caption
 
 # Measured on the supplied bag artwork (1210x1218 after keying).
@@ -446,7 +449,13 @@ class Scene:
         landed = self.landed_count(kind, local, index)
 
         colour = self.colours[index] if kind == "button" else GOLD
-        impact_age = local - IMPACT if kind == "button" and local >= IMPACT else None
+        # The button that has just landed is the previous one; its flare and the bag's
+        # squash run for SETTLE seconds under the current button's entrance.
+        impact_age, impact_colour = None, colour
+        if kind == "button" and index > 0 and local < SETTLE:
+            impact_age, impact_colour = local, self.colours[index - 1]
+        elif kind == "outro" and local < SETTLE:
+            impact_age, impact_colour = local, self.colours[-1]
 
         # Light in the scene: a travelling ribbon behind the button and a pool of the
         # button's colour on the floor that flares as it lands.
@@ -458,17 +467,16 @@ class Scene:
                 p = min(1.0, (local - DROP_START) / (IMPACT - DROP_START))
                 y = 520 + (self.rim_y - 520) * drop_curve(p)
                 add_glow(img, (self.trail_x(index, p), y), 900, colour, 0.26)
-        pool = 0.18
+        add_glow(img, (540, self.rim_y + 40), 1500, colour, 0.18)
         if impact_age is not None:
-            pool += 0.40 * math.exp(-impact_age * 4.0)
-        add_glow(img, (540, self.rim_y + 40), 1500, colour, pool)
+            add_glow(img, (540, self.rim_y + 40), 1500, impact_colour, 0.40 * math.exp(-impact_age * 4.0))
 
         if kind == "outro":
-            img = self.draw_outro_scene(img, local)
+            img = self.draw_outro_scene(img, local, impact_age)
             img.alpha_composite(self.vig)
             return img
 
-        self.draw_bag(img, kind, local, impact_age, landed, colour)
+        self.draw_bag(img, kind, local, impact_age, landed, impact_colour)
         if kind == "button":
             self.draw_button(img, index, local, colour)
         else:
@@ -587,16 +595,20 @@ class Scene:
         d.text((540, 430 + rise), "Twelve AI labs.", font=self.f_big, fill=(*WHITE, 255), anchor="ma")
         d.text((540, 530 + rise), "One toolkit.", font=self.f_big, fill=(*GOLD, 255), anchor="ma")
         d.text((540, 668 + rise), "What MasterClass Executive is adding", font=self.f_sub, fill=(*MUTED, 255), anchor="ma")
-        d.text((540, 716 + rise), "to my work in rare disease, policy and HTA", font=self.f_sub, fill=(*MUTED, 255), anchor="ma")
+        d.text((540, 716 + rise), "across all aspects of my work", font=self.f_sub, fill=(*MUTED, 255), anchor="ma")
         layer.putalpha(layer.getchannel("A").point(lambda v: int(v * a * out)))
         img.alpha_composite(layer)
 
-    def draw_outro_scene(self, img: Image.Image, local: float) -> Image.Image:
+    def draw_outro_scene(self, img: Image.Image, local: float, impact_age: float | None) -> Image.Image:
         """The pull-back. The bag lifts a fraction and its reflection deepens, then the
         camera pulls back until it stands small under one spotlight on a stage whose
         floor runs off to the horizon. One line, the eyebrow, and out."""
         lift_p = ease_out(clamp((local - 0.2) / 0.9))
         p = drop_curve(clamp((local - 0.7) / 3.5))
+
+        if impact_age is not None:
+            add_glow(img, (self.drop_x[-1], self.rim_y - 10), 560, self.colours[-1],
+                     0.55 * math.exp(-impact_age * 4.5))
 
         chrome_fade = 1.0 - clamp(local / 0.5)
         if chrome_fade > 0:
@@ -643,8 +655,8 @@ class Scene:
             if i < landed:
                 fill = (*self.colours[i], 255)
                 r = 9
-                if kind == "button" and i == landed - 1 and local >= IMPACT and local < IMPACT + 0.3:
-                    r = 9 + int(5 * math.exp(-(local - IMPACT) * 12))
+                if kind == "button" and i == landed - 1 and local < 0.3:
+                    r = 9 + int(5 * math.exp(-local * 12))
             else:
                 fill, r = (255, 255, 255, 40), 6
             d.ellipse([x - r, DOTS_Y - r, x + r, DOTS_Y + r], fill=fill)
