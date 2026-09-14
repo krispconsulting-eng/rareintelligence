@@ -7,5 +7,9 @@ _shot.js
 __pycache__/
 *.py[cod]
 
-# MasterClass video project: the delivered cut is committed, the render scratch is not
+# MasterClass video project: the rendered media lives in the private masterclass repo,
+# not in this public one. build/render.py rebuilds it from the artwork in about 2.5 min.
 masterclass/toolkit-video/build/out/
+masterclass/toolkit-video/kris-pierce-toolkit.mp4
+masterclass/toolkit-video/poster.png
+masterclass/toolkit-video/assets/bag/
