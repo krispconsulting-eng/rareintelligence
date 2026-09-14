@@ -56,9 +56,9 @@ STAGE_SCALE = 0.32
 REFL_H = 260
 
 POP_END = 0.18
-DROP_START = 0.95
+DROP_START = 1.10             # a 0.40s fall: quick, still easing into the bag
 IMPACT = 1.50                 # beat 4 of the bar
-TITLE_FADE = (0.95, 1.15)     # clears before the falling button reaches the caption
+TITLE_FADE = (1.02, 1.20)     # clears before the falling button reaches the caption
 
 # Measured on the supplied bag artwork (1210x1218 after keying).
 BAG_FRONT_Y = 500             # top edge of the front panel: the line a button drops behind
