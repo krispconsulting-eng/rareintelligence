@@ -697,8 +697,12 @@ def main() -> int:
     cmd = [
         "ffmpeg", "-y", "-loglevel", "error",
         "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-        "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-pix_fmt", "yuv420p",
-        "-movflags", "+faststart", args.out,
+        # Conservative H.264: Main profile, no B-frames (so presentation order is decode
+        # order and there is no edit list), a keyframe every second. Any platform's
+        # thumbnailer can read frame one from this.
+        "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p",
+        "-profile:v", "main", "-level", "4.0", "-bf", "0", "-g", "30", "-keyint_min", "30",
+        "-sc_threshold", "0", "-movflags", "+faststart", args.out,
     ]
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
