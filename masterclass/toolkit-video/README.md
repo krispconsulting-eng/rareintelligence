@@ -14,16 +14,23 @@ bag fills up as it goes, and the dots across the top track twelve of twelve.
 
 ## The sound
 
-Sound design rather than music: a whoosh on each drop, a weighted impact on each
-landing, and a very quiet bed underneath so it is never dead silent. The twelve
-landings are tuned to an ascending A minor pentatonic, so the bag audibly fills up
-as it visually does, and the closing card lands on an A minor chord. Every hit is on
-its frame, peaks at -1 dBFS, and the mix is balanced so the impacts still read on a
+Two layers, both built by `build/make_audio.py` from the same timing constants as
+the picture.
+
+Sound design on top: a whoosh on each drop, a soft weighted thump on each landing,
+and the twelve landings tuned to an ascending A minor pentatonic so the bag audibly
+fills up as it visually does. The closing card lands on an A minor chord.
+
+A quiet music bed underneath, at 120 bpm in A minor: four-on-the-floor kick, eighth-note
+hats, a syncopated bass and a rolling pentatonic pluck, building through the twelve
+labs and dropping to a pad alone under the closing card. It sits about 6 dB under the
+landings and ducks briefly on each one so the hits stay clear. Every hit is on its
+frame, the mix peaks at -1 dBFS, and it is balanced so the landings still read on a
 phone speaker.
 
-It stands on its own for Reels and TikTok, and it sits under a music track if you
-add one there or in the edit. `build/make_audio.py` builds it from the same timing
-constants as the picture.
+The bed is synthesised, not a licensed track, so it is deliberately understated. If you
+want something with more character, mix a track under the silent cut instead; the beat
+grid is below.
 
 ## What is in the cut
 

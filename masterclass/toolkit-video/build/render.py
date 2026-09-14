@@ -86,9 +86,9 @@ BAG_W = 780
 # Reels and TikTok put their own controls over roughly the bottom 260px, so the bag
 # and every caption stay above that.
 BAG_BOTTOM_MARGIN = 265
-CARD_CENTRE = (540, 440)
-CARD_SIZE = 300
-TITLE_TOP = 698
+CARD_CENTRE = (540, 450)
+CARD_SIZE = 264
+TITLE_TOP = 690
 PEEK_SIZE = 116
 EYEBROW_Y = 104
 DOTS_Y = 170
@@ -111,6 +111,11 @@ def ease_out_back(t: float) -> float:
 
 def ease_in(t: float) -> float:
     return t * t
+
+
+def drop_curve(t: float) -> float:
+    """Gathers speed, then eases off into the bag: a pillow landing, not a hard hit."""
+    return t * t * (3.0 - 2.0 * t)
 
 
 def ease_out(t: float) -> float:
@@ -136,6 +141,16 @@ def dominant_colour(img: Image.Image) -> tuple[int, int, int]:
     h, l, s = colorsys.rgb_to_hls(*(c / 255 for c in best))
     r, g, b = colorsys.hls_to_rgb(h, min(max(l, 0.46), 0.62), max(s, 0.66))
     return tuple(int(c * 255) for c in (r, g, b))
+
+
+def upscale(art: Image.Image, size: int) -> Image.Image:
+    """The artwork arrived at 80x80. Lanczos in two steps with an unsharp mask keeps
+    edges crisp; it cannot add detail that is not there, so full-size originals
+    dropped into masterclass/ will always beat this."""
+    mid = art.resize((size * 2, size * 2), Image.LANCZOS)
+    mid = mid.filter(ImageFilter.UnsharpMask(radius=3, percent=90, threshold=1))
+    out = mid.resize((size, size), Image.LANCZOS)
+    return out.filter(ImageFilter.UnsharpMask(radius=1.2, percent=70, threshold=2))
 
 
 _glow_cache: dict[int, Image.Image] = {}
@@ -228,7 +243,7 @@ class Scene:
             self.buttons.append(art)
             self.titles.append(title)
             self.colours.append(dominant_colour(art))
-            self.cards.append(self.make_card(art))
+            self.cards.append(self.make_card(art, CARD_SIZE))
         self.peeks = [self.make_peek(art, i) for i, art in enumerate(self.buttons)]
 
         self.f_eyebrow = font("InterDisplay-Medium.ttf", 26)
@@ -251,7 +266,7 @@ class Scene:
         """One button as a rounded card: upscaled artwork, hairline edge, soft shadow."""
         pad = 26
         canvas = Image.new("RGBA", (size + pad * 2, size + pad * 2), (0, 0, 0, 0))
-        face = art.resize((size, size), Image.LANCZOS)
+        face = upscale(art, size)
         mask = Image.new("L", (size, size), 0)
         ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=size // 7, fill=255)
 
@@ -273,7 +288,7 @@ class Scene:
     def make_peek(self, art: Image.Image, index: int) -> Image.Image:
         """A button as it sits in the bag: smaller, rounded, angled, shaded by the bag."""
         size = PEEK_SIZE
-        face = art.resize((size, size), Image.LANCZOS)
+        face = upscale(art, size)
         mask = Image.new("L", (size, size), 0)
         ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=size // 7, fill=255)
         face.putalpha(mask)
@@ -348,11 +363,11 @@ class Scene:
                 add_glow(img, (540, 520), 1000, colour, 0.20 * lead)
             else:
                 p = min(1.0, (local - DROP_START) / (IMPACT - DROP_START))
-                y = 520 + (self.rim_y - 520) * ease_in(p)
+                y = 520 + (self.rim_y - 520) * drop_curve(p)
                 add_glow(img, (self.trail_x(index, p), y), 900, colour, 0.26)
         pool = 0.18
         if impact_age is not None:
-            pool += 0.55 * math.exp(-impact_age * 6.0)
+            pool += 0.40 * math.exp(-impact_age * 4.0)
         add_glow(img, (540, self.rim_y + 40), 1500, colour, pool)
 
         self.draw_bag(img, kind, local, impact_age, landed, colour)
@@ -373,8 +388,9 @@ class Scene:
 
     def draw_bag(self, img, kind, local, impact_age, landed, colour) -> None:
         squash = 1.0
-        if impact_age is not None and impact_age < 0.42:
-            squash = 1.0 - 0.022 * math.exp(-impact_age * 9.0) * math.cos(impact_age * 26.0)
+        if impact_age is not None and impact_age < 0.5:
+            # One soft compression that eases back out; no rebound, so nothing shakes.
+            squash = 1.0 - 0.009 * math.exp(-impact_age * 5.0) * min(1.0, impact_age / 0.06)
         bag = self.bag
         y = self.bag_y
         if abs(squash - 1.0) > 0.001:
@@ -404,9 +420,9 @@ class Scene:
         for strap, pos in self.straps:
             img.alpha_composite(strap, pos)
 
-        if impact_age is not None and impact_age < 0.5:
+        if impact_age is not None and impact_age < 0.7:
             add_glow(img, (self.drop_x[min(landed, len(LABS)) - 1], self.rim_y - 10),
-                     560, colour, 0.9 * math.exp(-impact_age * 8.0))
+                     560, colour, 0.55 * math.exp(-impact_age * 4.5))
 
     def draw_button(self, img, index, local, colour) -> None:
         card = self.cards[index]
@@ -421,27 +437,27 @@ class Scene:
             x, y = cx, cy + 7 * math.sin((local - POP_END) * 3.1)
         elif local < IMPACT:
             p = (local - DROP_START) / (IMPACT - DROP_START)
-            e = ease_in(p)
+            e = drop_curve(p)
             scale = 1.0 - 0.62 * e
             x = self.trail_x(index, e)
             y = cy + (self.rim_y + 70 - cy) * e
-            rot, alpha = 11 * e, 1.0
+            rot, alpha = 6 * e, 1.0
         else:
             return
 
-        size = max(8, int(CARD_SIZE * scale * (card.width / CARD_SIZE)))
-        drawn = card.resize((size, size), Image.LANCZOS)
+        size = max(8, int(scale * card.width))
+        drawn = card if size == card.width else card.resize((size, size), Image.LANCZOS)
         if rot:
             drawn = drawn.rotate(-rot, Image.BICUBIC, expand=True)
 
         if local >= DROP_START:
             p = (local - DROP_START) / (IMPACT - DROP_START)
-            for g in range(1, 5):
-                gp = max(0.0, ease_in(p) - g * 0.075)
+            for g in range(1, 4):
+                gp = max(0.0, drop_curve(p) - g * 0.07)
                 gx = cx + (self.drop_x[index] - cx) * gp
                 gy = cy + (self.rim_y + 70 - cy) * gp
                 ghost = drawn.copy()
-                ghost.putalpha(ghost.getchannel("A").point(lambda v, g=g: int(v * (0.24 - g * 0.05))))
+                ghost.putalpha(ghost.getchannel("A").point(lambda v, g=g: int(v * (0.16 - g * 0.04))))
                 img.alpha_composite(ghost, (int(gx - ghost.width / 2), int(gy - ghost.height / 2)))
 
         if alpha < 1.0:
@@ -516,9 +532,9 @@ class Scene:
 
     def camera(self, img: Image.Image, t: float) -> Image.Image:
         kind, local, index = self.phase(t)
+        # A slow push-in across the whole cut and a gentle one over the closing card.
+        # No kick on the landings: the bag takes the weight, the frame stays still.
         zoom = 1.0 + 0.016 * (t / TOTAL)
-        if kind == "button" and local >= IMPACT:
-            zoom += 0.022 * math.exp(-(local - IMPACT) * 7.0)
         if kind == "outro":
             zoom += 0.022 * ease_out(min(1.0, local / OUTRO))
         if zoom <= 1.0005:

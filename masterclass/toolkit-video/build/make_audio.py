@@ -70,21 +70,22 @@ def bell(freq: float, length: float = 1.6, gain: float = 0.32) -> np.ndarray:
     return body * gain
 
 
-def thud(length: float = 0.55, gain: float = 0.42) -> np.ndarray:
-    """The weight of the landing: a short sine with the pitch dropping away."""
+def thud(length: float = 0.55, gain: float = 0.30) -> np.ndarray:
+    """The weight of the landing: a short sine with the pitch dropping away. A few
+    milliseconds of attack keep it a soft thump rather than a hit."""
     t = np.arange(int(length * SR)) / SR
     freq = 38.0 + 52.0 * np.exp(-t / 0.055)
     phase = 2 * np.pi * np.cumsum(freq) / SR
-    return np.sin(phase) * np.exp(-t / 0.13) * gain
+    return np.sin(phase) * np.exp(-t / 0.16) * (1 - np.exp(-t / 0.006)) * gain
 
 
-def knock(gain: float = 0.30) -> np.ndarray:
+def knock(gain: float = 0.16) -> np.ndarray:
     """The midrange of the landing. Phone speakers roll off below about 500 Hz, so
     without this the impacts are felt on headphones and lost on a phone."""
     t = np.arange(int(0.14 * SR)) / SR
     rng = np.random.default_rng(11)
     noise = rng.standard_normal(t.size)
-    band = lowpass(noise, 1500.0) - lowpass(noise, 260.0)
+    band = lowpass(noise, 900.0) - lowpass(noise, 220.0)
     band /= np.abs(band).max() or 1.0
     tone = np.sin(2 * np.pi * (520.0 + 240.0 * np.exp(-t / 0.02)) * t)
     return (band * 0.75 + tone * 0.45) * np.exp(-t / 0.038) * gain
@@ -119,6 +120,108 @@ def tick(gain: float = 0.05) -> np.ndarray:
     return body / (np.abs(body).max() or 1.0) * np.exp(-t / 0.008) * gain
 
 
+BAR = 4 * (60.0 / 120.0)
+
+# Bass root, pluck tones and pad tones per chord, in Hz. A minor with its VI and VII,
+# plucks kept to notes that sit inside the pentatonic the landing bells use.
+CHORDS = {
+    "Am": (110.00, [220.00, 261.63, 329.63, 440.00], [220.00, 261.63, 329.63]),
+    "F": (87.31, [174.61, 220.00, 261.63, 349.23], [174.61, 220.00, 261.63]),
+    "G": (98.00, [196.00, 293.66, 392.00, 587.33], [196.00, 293.66, 392.00]),
+}
+PROGRESSION = ["Am", "Am", "F", "G"]
+PLUCK_PATTERN = [0, 1, 2, 3, 2, 1, 0, 1]
+
+
+def kick(gain: float = 0.13) -> np.ndarray:
+    t = np.arange(int(0.28 * SR)) / SR
+    freq = 44.0 + 60.0 * np.exp(-t / 0.03)
+    phase = 2 * np.pi * np.cumsum(freq) / SR
+    return np.sin(phase) * np.exp(-t / 0.085) * (1 - np.exp(-t / 0.002)) * gain
+
+
+def hat(length: float = 0.03, gain: float = 0.03, seed: int = 5) -> np.ndarray:
+    t = np.arange(int(max(length * 4, 0.08) * SR)) / SR
+    rng = np.random.default_rng(seed)
+    noise = rng.standard_normal(t.size)
+    high = noise - lowpass(noise, 5500.0)
+    high /= np.abs(high).max() or 1.0
+    return high * np.exp(-t / length) * gain
+
+
+def pluck(freq: float, gain: float = 0.06, length: float = 0.35) -> np.ndarray:
+    t = np.arange(int(length * SR)) / SR
+    w = np.sin(2 * np.pi * freq * t)
+    w += 0.28 * np.sin(2 * np.pi * 2 * freq * t) * np.exp(-t / 0.05)
+    w += 0.08 * np.sin(2 * np.pi * 3 * freq * t)
+    return w * np.exp(-t / 0.10) * (1 - np.exp(-t / 0.0012)) * gain
+
+
+def bass(freq: float, gain: float = 0.09, length: float = 0.3) -> np.ndarray:
+    t = np.arange(int(length * SR)) / SR
+    w = np.sin(2 * np.pi * freq * t) + 0.35 * np.sin(2 * np.pi * 2 * freq * t)
+    return w * np.exp(-t / 0.14) * (1 - np.exp(-t / 0.004)) * gain
+
+
+def pad(freqs: list[float], length: float, gain: float = 0.026) -> np.ndarray:
+    t = np.arange(int(length * SR)) / SR
+    w = np.zeros_like(t)
+    for f in freqs:
+        for detune in (-0.4, 0.0, 0.4):
+            w += np.sin(2 * np.pi * (f + detune) * t + detune)
+    w /= 3 * len(freqs)
+    attack = 1 - np.exp(-t / 0.5)
+    release = np.clip((length - t) / 0.6, 0, 1)
+    return w * attack * release * gain
+
+
+def music() -> np.ndarray:
+    """A quiet, driving bed at 120 bpm: four-on-the-floor kick, eighth-note hats, a
+    syncopated bass and a rolling pentatonic pluck. It builds through the twelve labs,
+    then drops to the pad alone under the closing card."""
+    buf = np.zeros((int(TOTAL * SR), 2), dtype=np.float64)
+    bars = int(TOTAL / BAR)
+    first_lab_bar = int(INTRO / BAR)
+    last_lab_bar = first_lab_bar + len(LABS)
+
+    for bar in range(bars):
+        start = bar * BAR
+        in_labs = first_lab_bar <= bar < last_lab_bar
+        chord = PROGRESSION[(bar - first_lab_bar) % len(PROGRESSION)] if in_labs else "Am"
+        root, tones, pad_tones = CHORDS[chord]
+        build = 0.85 + 0.15 * min(1.0, max(0.0, (bar - first_lab_bar) / (len(LABS) - 1)))
+
+        add(buf, start, pad(pad_tones, BAR + 0.6))
+
+        if bar >= first_lab_bar - 1 and bar < last_lab_bar:
+            for eighth in range(8):
+                at = start + eighth * BAR / 8
+                is_open = eighth in (3, 7)
+                add(buf, at, hat(0.07 if is_open else 0.03, (0.038 if is_open else 0.028) * build, seed=eighth), 0.25)
+
+        if not in_labs:
+            continue
+
+        for beat in (0, 1, 2):          # beat 4 belongs to the landing thud
+            add(buf, start + beat * BAR / 4, kick(0.13 * build))
+        for at in (0.0, 0.75, 1.0, 1.75):
+            add(buf, start + at, bass(root, 0.09 * build))
+        for eighth, idx in enumerate(PLUCK_PATTERN):
+            at = start + eighth * BAR / 8
+            add(buf, at, pluck(tones[idx], 0.06 * build), -0.2)
+            if bar >= first_lab_bar + 6 and eighth % 2 == 1:
+                add(buf, at, pluck(tones[idx] * 2, 0.028 * build, 0.25), 0.35)
+
+    t = np.arange(buf.shape[0]) / SR
+    duck = np.ones_like(t)
+    for at in LANDINGS + [FINAL]:
+        age = t - at
+        duck = np.minimum(duck, np.where(age >= 0, 1 - 0.55 * np.exp(-age / 0.16), 1.0))
+    outro = np.clip((TOTAL - 1.0 - t) / 3.0, 0, 1)
+    outro = np.where(t < FINAL, 1.0, outro)
+    return buf * (duck * outro)[:, None]
+
+
 def bed(length: float) -> np.ndarray:
     """Barely-there drone, so the cut is not dead silent between hits."""
     t = np.arange(int(length * SR)) / SR
@@ -132,6 +235,10 @@ def bed(length: float) -> np.ndarray:
 def build() -> np.ndarray:
     buf = np.zeros((int(TOTAL * SR), 2), dtype=np.float64)
     add(buf, 0.0, bed(TOTAL))
+    tune = music()
+    buf += tune
+    music_rms = float(np.sqrt((tune ** 2).mean()))
+    print(f"music bed rms {20*np.log10(music_rms):.1f} dBFS before normalisation")
 
     add(buf, 0.1, riser(0.9, 0.09))
     add(buf, 1.0, thud(0.7, 0.34))
@@ -142,15 +249,15 @@ def build() -> np.ndarray:
         add(buf, at - 0.42, whoosh(), pan * 0.6)
         add(buf, at, thud())
         add(buf, at, knock(), pan * 0.4)
-        add(buf, at, tick(), pan)
+        add(buf, at, tick(0.025), pan)
         add(buf, at, bell(NOTES[i]), pan)
 
     for at in POPS:
         add(buf, at, tick(0.028), 0.0)
 
     add(buf, FINAL - 1.1, riser(1.1, 0.13))
-    add(buf, FINAL, thud(0.9, 0.50))
-    add(buf, FINAL, knock(0.34))
+    add(buf, FINAL, thud(0.9, 0.40))
+    add(buf, FINAL, knock(0.22))
     for freq, pan in ((220.0, -0.3), (261.63, 0.0), (329.63, 0.3), (440.0, -0.15)):
         add(buf, FINAL, bell(freq, 3.2, 0.20), pan)
 

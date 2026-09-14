@@ -25,8 +25,9 @@ rounds the corners, adds a hairline edge and a shadow, and rotates them a few de
 Nothing is recoloured or retitled.
 
 They arrived at 80 x 80 pixels, which is the one real constraint on this cut. On screen
-they are shown at 300 pixels, which is as far as they stretch before the softness
-shows. If full-size originals turn up, drop them in and the cards get sharper with no
+they are shown at 264 pixels, upscaled in two Lanczos steps with an unsharp mask at
+each, which keeps edges crisp but cannot invent detail. If full-size originals turn up,
+drop them into `masterclass/` under the same filenames and the cards sharpen with no
 other change.
 
 Because the artwork carries no lettering, every title is set as type beneath the card
@@ -41,10 +42,12 @@ comes from the labs themselves, not from a fixed scheme.
 
 ## Motion
 
-Fast and physical, on purpose: a scale-up with overshoot on entry, a gravity curve on
-the drop, a tilt, a four-step ghost trail, and on landing a bag bump, a flare and a
-three per cent camera kick that eases back out. There is also a slow push-in across the
-whole 32 seconds and a stronger one over the closing card.
+Quick on the way in, soft on the way down. A scale-up with overshoot on entry, then a
+drop that gathers speed and eases off into the bag rather than hitting it, with a slight
+tilt and a faint three-step trail. On landing the bag gives about one per cent and eases
+back with no rebound, and a flare of the button's colour blooms at the mouth. The frame
+itself does not move on a landing; the only camera movement is a slow push-in across
+the whole 32 seconds and a gentle one over the closing card.
 
 No strobing and no flicker anywhere, deliberately. Flares are short and single, never
 repeated fast enough to flash.
