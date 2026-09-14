@@ -318,18 +318,19 @@ def main() -> int:
         video = HERE.parent / "kris-pierce-toolkit.mp4"
         out = HERE.parent / "kris-pierce-toolkit-sound.mp4"
         poster = HERE.parent / "poster.png"
-        # The poster rides along as embedded cover art for players that show one
-        # (Files, WhatsApp, some messengers). Social platforms ignore it and use frame
-        # one, which is why the picture now opens on the finished title frame.
+        # The poster is written beside the video for platforms that take a custom
+        # thumbnail. It is deliberately not embedded as cover art: that adds a second
+        # video track, and some uploaders then fail to pull a thumbnail or treat the
+        # file as a generic attachment. Frame one is the title frame, which is what
+        # platforms use.
         subprocess.run(
             ["ffmpeg", "-y", "-loglevel", "error", "-ss", "0.5", "-i", str(video), "-frames:v", "1", str(poster)],
             check=True,
         )
         subprocess.run(
-            ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video), "-i", str(wav), "-i", str(poster),
-             "-map", "0:v:0", "-map", "1:a:0", "-map", "2:v:0",
-             "-c:v:0", "copy", "-c:a", "aac", "-b:a", "192k", "-c:v:1", "png",
-             "-disposition:v:1", "attached_pic", "-movflags", "+faststart", str(out)],
+            ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video), "-i", str(wav),
+             "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+             "-movflags", "+faststart", str(out)],
             check=True,
         )
         print(out)
