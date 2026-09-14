@@ -1,51 +1,47 @@
 # Accompanying post
 
-Draft for Kris to edit. LinkedIn first, trim for Instagram. The video shows the twelve
-buttons; the post is where the detail goes. The one-line descriptions are written from
-the lab titles, so check each against what the lab actually covered before posting.
+Kris's own final text, as written by her on 14 September 2026. Post it verbatim.
+Mandar and MasterClass Executive are tagged by Kris after publishing.
 
 ---
 
-What is MasterClass Executive adding to my toolkit?
+Mandar said something in one of the expert sessions about how we are all picking up
+nuggets from these conversations and building a toolkit as we go.
 
-I came in with deep experience across rare disease, lived experience, patient and
-consumer engagement, research, health policy and HTA. I joined to build on that, not to
-replace it. Twelve labs, and here is what each one adds.
+That stuck with me.
 
-Data Analysis with AI. Getting from raw data to something you can actually act on.
+So I made a video about it.
 
-Build Full Marketing Campaigns with AI. Taking a campaign from idea to assets without
-losing the thread.
+Twelve labs. One bag. Each one drops in as I get to it.
 
-Training AI Agents: From Domain Expertise to Working Agent. Turning what I know into
-something that can do part of the work.
+The toolkit is nowhere near finished. I am only about a third of the way through.
 
-Financial Analysis and Modeling with AI. Building and testing the numbers behind a
-proposal.
+I have missed heaps of sessions and I am doing it at my own pace. One of the great
+things about the programme is that they have been really generous and given us 12
+months to work our way through it all.
 
-Answer Engine Optimization: AI Search Beyond SEO. Making expertise findable and
-citable now that people ask AI first.
+What has surprised me is which sessions stay with me.
 
-Build Prototypes with AI. Going from an unmet need to something testable, fast.
+It is rarely the ones I would have picked as being most relevant to my work. I have sat
+in sessions with no obvious connection to rare disease, health policy or consumer
+engagement and still come away with something useful.
 
-How AI Teams Build and Govern Agents. Evaluation, oversight and accountability for
-AI-supported work.
+Sometimes I know exactly where it fits.
 
-Turn Your Workflow into an AI Superpower. Finding the repetitive work worth handing
-over.
+Sometimes it gets filed under: not yet.
 
-Customer Research with Synthetic Users. Sense-checking assumptions before you spend
-real people's time.
+And even a third of the way through, I am already using it.
 
-Build AI Agents for Sales and GTM. Taking an offer to the people who need it.
+I have built a website. Built my own fundraising platform. I am prototyping ideas,
+playing with AI tools and automating pieces of work that used to chew through whole
+days.
 
-Storytelling and Slide Decks with AI. Getting complex evidence into a form people act
-on.
+Twelve months ago, I would not have attempted half of this.
 
-AI for Customer Support. Answering repeat questions well and at scale.
+That has probably been the biggest shift for me. I am much more willing to try things,
+build things and work out what is possible.
 
-The real gain is how they connect: from an unmet need, to evidence, to a prototype, to
-something useful, responsible and worth paying for.
+Thanks to Mandar, and to all the experts who give their time and share what they know
+in these sessions.
 
-None of this replaces what I already know. It strengthens how I use it, with
-organisations, communities and the health sector.
+Still building the toolkit.
