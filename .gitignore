@@ -7,13 +7,5 @@ _shot.js
 __pycache__/
 *.py[cod]
 
-# MasterClass video project: media stays in Drive, not git
-masterclass/**/backgrounds/
-masterclass/**/renders/
-masterclass/**/exports/
-masterclass/**/*.mp4
-masterclass/**/*.mov
-masterclass/**/*.wav
-masterclass/**/*.mp3
-masterclass/**/*.aif
-masterclass/**/*.aiff
+# MasterClass video project: the delivered cut is committed, the render scratch is not
+masterclass/toolkit-video/build/out/

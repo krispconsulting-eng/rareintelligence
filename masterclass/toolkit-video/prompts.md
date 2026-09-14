@@ -1,3 +1,9 @@
+> Not used in the delivered cut. The background in `kris-pierce-toolkit.mp4` is
+> generated in code by `build/render.py`, which keeps it in sync with each button's
+> colour and with the beat. Keep these prompts only if you ever want to rebuild the
+> backgrounds with a video model instead; the scene numbering below predates the final
+> twelve-lab sequence and no longer matches `sequence.md`.
+
 # Background prompts
 
 Paste the master direction, then the scene direction, into the generator. Generate at

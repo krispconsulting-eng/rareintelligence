@@ -1,47 +1,59 @@
-# Kris Pierce Toolkit: video production brief
+# Kris Pierce Toolkit: the video
 
-A short vertical video for MasterClass Executive. Twelve official lab buttons drop, one
-after another, into a black leather bag marked KRIS PIERCE TOOLKIT. The point: each lab
-adds a practical capability to the sector expertise Kris already brings to her work.
+`kris-pierce-toolkit.mp4` is the finished cut. Vertical 9:16, 1080 x 1920, 30fps, 32
+seconds, no audio yet.
 
-## Direction
+Twelve official MasterClass Executive lab buttons pop in one at a time, each held long
+enough to read, then drop into the black leather bag marked KRIS PIERCE TOOLKIT. The
+bag fills up as it goes, and the dots across the top track twelve of twelve.
 
-- Short and clear. About 46 seconds. The opening caption says what the video is, the
-  closing caption says what it means. Narration fits the edit; the edit is never
-  extended to fit narration.
-- Engaging. Buttons drop with weight, land on the beat and light the bag up. Upbeat
-  music, fast purposeful motion. Energy comes from speed and rhythm, never from
-  strobing or flashing (an epilepsy-aware rule, kept deliberately).
-- Original graphics only. The bag and the official button artwork are used unchanged
-  and added as separate layers in the edit. Nothing generative touches lettering or
-  artwork.
-- Continuous. The bag never resets; every earlier button stays in.
-- Front-facing camera. Push-ins and the closing zoom are applied to the finished
-  composition, never generated.
+`poster.png` is a frame for the thumbnail.
 
-## Format
+## What is in the cut
 
-Vertical 9:16, 1080 x 1920. Music-led, with an optional 20-second narration over the
-open and the close.
+| Time | What happens |
+|---|---|
+| 0.0–4.0 | Bag reveals. "Twelve AI labs. One toolkit." / "What MasterClass Executive is adding to my work in rare disease, policy and HTA" |
+| 4.0–28.0 | Twelve labs, two seconds each: pop in, hold with the title and LAB nn / 12, drop, land |
+| 28.0–32.0 | "KRIS PIERCE TOOLKIT" / "Twelve labs. New capability, applied to my work." |
+
+## Before it goes out
+
+Add music. The cut runs on a 120 bpm grid with a landing on the fourth beat of every
+bar, so any 120 bpm track drops straight in with no nudging. Landings are at 5.5, 7.5,
+9.5, 11.5, 13.5, 15.5, 17.5, 19.5, 21.5, 23.5, 25.5 and 27.5 seconds. Pick something
+driving rather than ambient, and put a short impact sound on each landing.
+
+Narration is optional and the twenty-second script in `voiceover.md` fits this cut.
+Music alone works, with `post.md` carrying the detail.
+
+## Rebuilding it
+
+```bash
+pip install pillow numpy            # ffmpeg must be on the path
+cd build
+python3 prepare_bag.py              # keys the checkerboard out of the supplied bag
+python3 render.py                   # writes ../kris-pierce-toolkit.mp4, about 2.5 min
+python3 render.py --stills 6.35 20  # single frames instead, for checking a change
+```
+
+Set `TOOLKIT_FONT_DIR` to a folder of Inter TTFs to match the delivered cut; without it
+the renderer falls back to Liberation Sans and the type will differ slightly.
+
+Everything is driven by constants at the top of `build/render.py`: `PER_BUTTON` for
+dwell time, `BPM`, the layout positions, and `LABS` for the titles and their order.
+`edit-guide.md` explains how the animation is put together.
 
 ## Files
 
-| File | Use it for |
+| File | What it is |
 |---|---|
-| `sequence.md` | Order and timing of the ten scenes. |
-| `prompts.md` | Generating the background clips. |
-| `edit-guide.md` | Layers, the drop animation, music, captions. |
-| `voiceover.md` | Deciding on narration and recording it. |
-| `post.md` | The accompanying post. |
-| `assets/README.md` | Where files go, how they are named, what has been supplied. |
-
-## Checklist
-
-- [ ] Twelve full-size buttons collected and titles confirmed (`assets/README.md`)
-- [ ] Bag PNG in `assets/bag/` and the front-edge matte cut from it
-- [ ] Track chosen, about 120 bpm; scene lengths set to whole bars
-- [ ] Background clips generated from `prompts.md`
-- [ ] Edit assembled; every landing on a downbeat; bag never resets
-- [ ] Narration decision: music-led, or the 20-second script
-- [ ] Graphics checked at full size; export
-- [ ] Post finalised from `post.md`
+| `kris-pierce-toolkit.mp4` | The cut |
+| `poster.png` | Thumbnail frame |
+| `sequence.md` | The timeline, lab by lab |
+| `edit-guide.md` | How the animation works and how to change it |
+| `voiceover.md` | Narration scripts |
+| `post.md` | Draft of the accompanying post |
+| `assets/` | The keyed bag and where the source artwork lives |
+| `prompts.md` | Unused: prompts for generating the backgrounds with a video model instead |
+| `build/` | `prepare_bag.py` and `render.py` |
