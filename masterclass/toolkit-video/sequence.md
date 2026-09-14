@@ -32,8 +32,8 @@ lab 03 is *Training AI Agents: From Domain Expertise to Working Agent* and lab 0
 | Beat | Time in bar | What happens |
 |---|---|---|
 | 1 | 0.00 | Button pops in at the upper centre, scaling up with a slight overshoot |
-| 1–2 | 0.00–0.95 | Holds still enough to read, title and LAB nn / 12 beneath it |
-| 3 | 0.95–1.50 | Drops, gathering speed then easing off into the bag, tilting slightly, with a faint colour trail |
+| 1–3 | 0.00–1.10 | Holds still enough to read, title and LAB nn / 12 beneath it |
+| 3–4 | 1.10–1.50 | Drops in four tenths of a second, gathering speed then easing off into the bag, tilting slightly, with a faint colour trail |
 | 4 | 1.50 | Lands: passes behind the bag's front panel, the bag gives a little and settles, a flare in the button's own colour blooms at the mouth |
 | 4 | 1.50–2.00 | Settles. The button is now visible peeking out of the bag and its dot fills |
 
