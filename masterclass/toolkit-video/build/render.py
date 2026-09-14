@@ -491,12 +491,8 @@ class Scene:
             nh = max(1, int(self.bag.height * squash))
             bag = self.bag.resize((BAG_W, nh), Image.BILINEAR)
             y = self.bag_y + (self.bag.height - nh)
-        if kind == "intro":
-            reveal = min(1.0, local / 0.9)
-            if reveal < 1.0:
-                bag = bag.copy()
-                bag.putalpha(bag.getchannel("A").point(lambda v: int(v * ease_out(reveal))))
-                y += int(60 * (1 - ease_out(reveal)))
+        # No fade-in on the bag: platforms use frame one as the cover, so the opening
+        # frame has to be the finished composition, not black.
         img.alpha_composite(bag, (self.bag_x, y))
 
         for i in range(landed):
@@ -584,9 +580,10 @@ class Scene:
     def draw_intro(self, img, local) -> None:
         layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
-        a = min(1.0, max(0.0, (local - 0.45) / 0.6))
+        # Full opacity from frame one (it doubles as the thumbnail); only a slow settle.
+        a = 1.0
         out = 1.0 if local < INTRO - 0.5 else max(0.0, (INTRO - local) / 0.5)
-        rise = int(20 * (1 - ease_out(a)))
+        rise = int(14 * (1 - ease_out(min(1.0, local / 1.2))))
         d.text((540, 430 + rise), "Twelve AI labs.", font=self.f_big, fill=(*WHITE, 255), anchor="ma")
         d.text((540, 530 + rise), "One toolkit.", font=self.f_big, fill=(*GOLD, 255), anchor="ma")
         d.text((540, 668 + rise), "What MasterClass Executive is adding", font=self.f_sub, fill=(*MUTED, 255), anchor="ma")

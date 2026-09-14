@@ -39,7 +39,7 @@ grid is below.
 
 | Time | What happens |
 |---|---|
-| 0.0–4.0 | Bag reveals. "Twelve AI labs. One toolkit." / "What MasterClass Executive is adding to my work in rare disease, policy and HTA" |
+| 0.0–4.0 | Opens on the finished frame, bag and title in place, so frame one doubles as the cover on every platform. "Twelve AI labs. One toolkit." / "What MasterClass Executive is adding to my work in rare disease, policy and HTA" |
 | 4.0–28.0 | Twelve labs, two seconds each: pop in, hold with the title and LAB nn / 12, drop, land |
 | 28.0–34.0 | The pull-back. The bag lifts a fraction, its reflection deepens, and the camera pulls back until it stands small under one spotlight on a stage whose floor runs to the horizon. "This is the start." in gold serif, then the eyebrow, then out. |
 
