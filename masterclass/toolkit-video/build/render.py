@@ -633,10 +633,12 @@ class Scene:
         ta = ease_out(clamp((local - 3.0) / 1.0))
         if ta > 0:
             rise = int(22 * (1 - ta))
-            d.text((540, 720 + rise), "This is the start.", font=self.f_serif, fill=(*GOLD, int(255 * ta)), anchor="ma")
-        ea = clamp((local - 4.4) / 0.6)
+            for i, line in enumerate(("Building expertise", "one skill at a time.")):
+                d.text((540, 700 + i * 104 + rise), line, font=self.f_serif,
+                       fill=(*GOLD, int(255 * ta)), anchor="ma")
+        ea = clamp((local - 4.6) / 0.6)
         if ea > 0:
-            tracked_text(d, (540, 862), "MASTERCLASS EXECUTIVE", self.f_eyebrow, (*GOLD, int(220 * ea)), 7.0)
+            tracked_text(d, (540, 940), "MASTERCLASS EXECUTIVE", self.f_eyebrow, (*GOLD, int(220 * ea)), 7.0)
         img.alpha_composite(text)
 
         black = clamp((local - (OUTRO - 1.0)) / 1.0)
