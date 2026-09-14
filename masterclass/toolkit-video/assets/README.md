@@ -1,74 +1,55 @@
 # Assets
 
-## Before you add anything
+## What is where
 
-This repository is public and is deployed as a static site, so every committed file is
-publicly reachable. Keep the official MasterClass lab-button artwork out of it: hold it
-in the private `masterclass` repository once that exists, or in the MasterClass
-Executive Drive folders until then. The bag image is Kris's own asset and can be
-committed here.
+| Path | What |
+|---|---|
+| `../../Codex Image 14 Sept 2026, 15_44_19.png` | The bag as supplied |
+| `../../ai-lab-01…12-*.png` | The twelve official lab-button artworks as supplied |
+| `bag/kris-pierce-toolkit-bag.png` | The bag with a real alpha channel, built by `../build/prepare_bag.py` |
 
-Video and audio files under `masterclass/` are ignored by git (root `.gitignore`), so
-generated clips, music and renders stay in Drive too. Small text files such as a music
-licence can be committed.
-
-## Folders
-
-| Folder | Contents | Naming |
-|---|---|---|
-| `bag/` | The toolkit bag PNG and the front-edge matte cut from it | `kris-pierce-toolkit-bag.png`, `kris-pierce-toolkit-bag-front-edge.png` |
-| `buttons/` | Official lab-button artwork, unchanged (held outside this public repository) | `NN-lab-title.png`, NN being the scene number in `../sequence.md` |
-| `backgrounds/` | Generated 9:16 clips, one per scene | `scene-NN-short-title.mp4` |
-| `music/` | The chosen track and its licence | |
-| `renders/` | Exports | `kris-pierce-toolkit-v01.mp4` and so on |
+The source files sit at the top of `masterclass/` where they were uploaded. The
+renderer reads them from there, so leave them alone or update the paths in
+`../build/render.py`.
 
 ## The bag
 
-Supplied 14 September 2026 as a transparent PNG. Front-facing black leather tote with
-gold hardware; "MasterClass Executive" in gold serif lettering across the front panel;
-a narrow six-colour strip beneath it (blue, orange, yellow, green, dark green, pale
-blue); "KRIS PIERCE TOOLKIT" in small gold capitals below the strip. Save it as
-`bag/kris-pierce-toolkit-bag.png`. Cut the front-edge matte from it in the edit (see
-`../edit-guide.md`) and save that beside the original.
+Supplied as RGB with the transparency checkerboard flattened into the pixels, so it had
+to be keyed: mark the grey, bright pixels, keep the ones connected to the border plus
+the large enclosed gap between the handles, then pull the matte in a pixel and soften it
+to kill the fringe the checker left on antialiased edges. That is
+`../build/prepare_bag.py`, and `bag/kris-pierce-toolkit-bag.png` is the result.
 
-## The twelve official lab buttons
+Front-facing black leather tote with gold hardware; "MasterClass Executive" in gold
+serif across the front panel; a six-colour strip beneath it; "KRIS PIERCE TOOLKIT" in
+small gold capitals below that.
 
-Twelve individual artworks were supplied as thumbnails on 14 September 2026, listed
-here in the order received. Thumbnails are too small to composite, so collect the
-full-size originals from the MasterClass Executive platform or the lab Drive folders.
-Two things to confirm from the full-size files: the exact title of each lab (the
-artwork is the authority; note that the Drive folder for the analysis lab is titled
-"Data Analysis with AI" while the sequence says "Financial Analysis with AI"), and
-whether the title is printed on the artwork. If it is not, the title goes on as a
-caption in the edit (`../edit-guide.md`).
+Two positions are measured off this artwork and hard-coded in `../build/render.py`:
+`BAG_FRONT_Y = 500` is the top edge of the front panel, the line a falling button
+disappears behind, and `BAG_MOUTH = (250, 970)` is the span of the open mouth. Both are
+in the keyed image's own pixels, so they only need changing if the bag artwork is
+replaced.
 
-| # | Artwork as supplied | Lab title (from the artwork) | Scene |
-|---|---|---|---|
-| 1 | Stacked coloured shapes (blue, green, orange, yellow) on a post above a small pool, dark background | | |
-| 2 | Typewriter with a small plant on a beach, sea and sky behind | | |
-| 3 | Tall tower of stacked blocks with tiny figures and one red block, blue sky | | |
-| 4 | Cube travelling along a dark road with converging light lines | | |
-| 5 | Stacked coloured shapes on a post above a small pool, dark background (a second artwork with this composition; tell the two apart from the full-size files) | | |
-| 6 | Hand holding a pen, reaching down inside a blue-lit room | | |
-| 7 | Single figure in the doorway of a huge pale monolith | | |
-| 8 | Elevated blue road with orange and red panels beneath, dark sky | | |
-| 9 | Small figure on a green hill with a long shadow | | |
-| 10 | Tree with a round canopy dotted with orange fruit, pale sky | | |
-| 11 | Orange ball floating on rippled water | | |
-| 12 | Rows of dark auditorium seats beneath a white oval ceiling light | | |
+## The twelve buttons
 
-File names once each title is confirmed:
+All twelve are 80 x 80 pixels and carry no lettering. Two consequences, both handled in
+the cut but worth knowing:
 
-| Scene | Lab (per the sequence) | File name |
-|---|---|---|
-| 2 | AI Foundations for Leaders | `02-ai-foundations-for-leaders.png` |
-| 3 | Building Prototypes with AI | `03-building-prototypes-with-ai.png` |
-| 4 | Human training of AI models | `04-human-training-of-ai-models.png` |
-| 5 | Financial Analysis with AI | `05-financial-analysis-with-ai.png` |
-| 6 | AEO Strategy | `06-aeo-strategy.png` |
-| 7 | AI in Production | `07-ai-in-production.png` |
-| 8 | ElevenLabs and visual creation | `08-elevenlabs-and-visual-creation.png` |
-| 9 | The remaining five, in order of arrival | `09a-lab-title.png` to `09e-lab-title.png` |
+- On screen they are shown at 300 pixels, which is about as far as an 80-pixel source
+  stretches before it softens. Full-size originals would sharpen the cards noticeably
+  and need no other change; they are worth pulling off the MasterClass platform if you
+  can.
+- Every lab title is set as type beneath the card, because there is no title on the
+  artwork to show.
 
-Rules for the artwork: use it unchanged; position, scale and a small rotation only;
-never redraw, recolour, retitle or animate the internal design.
+Titles come from the filenames and are used verbatim, US spellings included, since they
+are product names. Two are shortened on screen to fit the dwell time; see
+`../sequence.md`.
+
+## One thing to know about this repository
+
+`rareintelligence` is public and is deployed as a live site, so the MasterClass artwork
+committed here is publicly reachable. That was fine to do and nothing is broken by it,
+but if the artwork should not be public, the fix is to move `masterclass/` into a
+private repository of its own rather than to delete files from this one: they stay in
+the git history either way.

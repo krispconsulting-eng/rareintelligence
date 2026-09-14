@@ -1,77 +1,94 @@
 # Edit guide
 
+How the cut is assembled, and what to change if you want it to behave differently.
+Everything here is in `build/render.py`.
+
 ## Layers, bottom to top
 
-1. Background clip.
-2. Bag, full image, open.
-3. Buttons: the settled ones and the one arriving.
-4. Front-edge matte: the bag layer duplicated and masked to the front panel, from the
-   front rim of the opening downwards (include the front handle if the drop path
-   crosses it). Buttons pass behind it; a settled button shows its top above the rim.
-5. Arrival effects: flare, light pool, streak.
-6. Captions.
+1. Background: near-black ground, a faint charcoal grid, and a pool of light in the
+   colour of whichever button is in play.
+2. The bag.
+3. Buttons already in the bag, fanned across the mouth.
+4. The bag's front panel, re-composited from the rim down, plus the two handle straps.
+   This is what a falling button disappears behind, so it goes into the bag rather than
+   sliding over its face.
+5. The falling button and its trail.
+6. Type: the eyebrow, the twelve dots, the lab title.
 
-Buttons are never redrawn, recoloured, retitled or internally animated. Position, scale
-and rotation only.
+The bag artwork is never redrawn. The only things done to it are a scale and, on
+landing, a brief vertical squash of about two per cent.
 
-## The drop
+## Button artwork
 
-Every button gets the same treatment so the rhythm reads. Times are for a two-bar
-scene at 120 bpm (four seconds); halve them for the one-bar montage buttons.
+The twelve lab artworks are used exactly as supplied. The renderer only scales them,
+rounds the corners, adds a hairline edge and a shadow, and rotates them a few degrees.
+Nothing is recoloured or retitled.
 
-| Beat | Time | What happens |
-|---|---|---|
-| Bar 1, beat 1 | 0.00 | Button pops in at the upper centre: scale 70% to 100% with a small overshoot, a quarter of a second |
-| Bar 1 | 0.25 to 2.00 | Hold, with a slight hover so it never sits still. This is the time to read the title. |
-| Bar 2, beats 1 and 2 | 2.00 to 3.00 | Drop: gravity ease-in, 6 to 8 degrees of tilt, a streak of the button's colour trailing behind it on a separate layer |
-| Bar 2, beat 3 | 3.00 | Impact on the beat: the button passes behind the front edge; the bag bumps 3% and recovers; a flare of the button's colour bursts at the rim and pools on the surface; the camera pushes in 3% and eases back |
-| Bar 2, beat 4 | 3.50 to 4.00 | Settle; the top of the button stays visible above the rim while the next button pops in |
+They arrived at 80 x 80 pixels, which is the one real constraint on this cut. On screen
+they are shown at 264 pixels, upscaled in two Lanczos steps with an unsharp mask at
+each, which keeps edges crisp but cannot invent detail. If full-size originals turn up,
+drop them into `masterclass/` under the same filenames and the cards sharpen with no
+other change.
 
-Montage buttons (scene 9): one bar each, the same shape at double speed, tightening
-slightly through the run.
+Because the artwork carries no lettering, every title is set as type beneath the card
+rather than lifted off the button.
 
-Keep everything sharp and physical; no slow fades. Flares are short and bright, about
-eight frames, and never repeat fast enough to strobe.
+## Light and colour
 
-## Music
+Each button's dominant colour is read from its own artwork, then pushed to a consistent
+vividness. That colour drives the trail behind the falling button, the flare when it
+lands, the pool of light on the floor and its dot in the progress row. So the palette
+comes from the labs themselves, not from a fixed scheme.
 
-Upbeat and modern, around 120 bpm, with a clear downbeat and a build that peaks in the
-montage and resolves on the final reveal. Percussive electronic or a driven pop
-instrumental. Not ambient, not cinematic swells, no slow pads. Mark the beat grid first
-and cut to it: every button lands on a downbeat. A short impact sound on each landing
-helps.
+## Motion
 
-## Continuity
+Quick on the way in, soft on the way down. A scale-up with overshoot on entry, then a
+drop that gathers speed and eases off into the bag rather than hitting it, with a slight
+tilt and a faint three-step trail. On landing the bag gives about one per cent and eases
+back with no rebound, and a flare of the button's colour blooms at the mouth. The frame
+itself does not move on a landing; the only camera movement is a slow push-in across
+the whole 32 seconds and a gentle one over the closing card.
 
-- Front-facing camera; push-ins and the closing zoom are applied to the finished
-  composition.
-- The bag never resets. Each scene starts with every earlier button in place.
-- If two background clips do not join cleanly, hard cut on the downbeat with the
-  impact flare covering the join. Avoid dissolves.
+No strobing and no flicker anywhere, deliberately. Flares are short and single, never
+repeated fast enough to flash.
 
-## Text
+## Type
 
-The official title stays on the button. If the full-size artwork does not carry its
-title, add it as a caption directly under the button during the hold, clean
-sans-serif, and drop it with the button. Capability explanations live in the post, not
-on screen.
+The titles are the official lab names. Two-line titles are broken evenly rather than
+greedily, so no title hangs on a single orphan word.
 
-| Scene | Caption |
+The title fades out as the drop begins, which is what keeps the falling card from
+crossing the text.
+
+## The ending
+
+Three bars. The bed drops out on the bar line after the twelfth landing. The bag,
+with all twelve buttons in it, is rendered as one group together with a reflection of
+itself on the floor; it lifts fourteen pixels over nine tenths of a second while the
+reflection deepens. Then the flat grid crossfades into a stage: a perspective floor
+converging on a horizon, hazed near the vanishing point, with a single beam and a pool
+of light where the bag will stand. The group scales down to about a third and rises to
+that spot over three and a half seconds on the same curve as the drops. "This is the
+start." fades up in Playfair Display at 600 weight, the eyebrow follows beneath it, and
+the frame fades to black over the last second. The scale flip is the point: it stops
+being a handbag and becomes a foundation.
+
+The stage geometry is four constants: `STAGE_HORIZON`, `STAGE_BASE` (where the bag
+stands), `STAGE_SCALE` and `REFL_H`.
+
+## Safe areas
+
+The bag and every caption sit above y=1655, clear of the roughly 260 pixels of controls
+that Reels and TikTok put over the bottom of the frame. The eyebrow and dots sit below
+y=100 for the same reason at the top. Keep both if you move anything.
+
+## Common changes
+
+| To do this | Change |
 |---|---|
-| 1 | What MasterClass Executive is adding to my toolkit |
-| 10 | Kris Pierce Toolkit, then: New skills and perspectives, applied to my work. |
-
-Optional one-line captions for the featured labs, only if the edit stays readable at
-two bars: Understanding where AI creates real value (2); Turning real problems into
-testable tools (3); Using human expertise to define quality (4); Turning data into
-evidence-based decisions (5); Helping expertise become findable and trusted (6);
-Building safe and accountable AI systems (7); Communicating complex ideas through
-voice and visuals (8).
-
-## Opening and closing
-
-Scene 1: the bag pops in on the first downbeat with a scale-in and overshoot and a
-gold sweep across it; caption in; the first button pops in on bar 3.
-
-Scene 10: the bag with twelve buttons peeking out; a slow push-in over the four
-seconds; closing caption; the music resolves.
+| Slow the titles down | `PER_BUTTON` (see `sequence.md` on the beat grid) |
+| Change a title | `LABS` |
+| Reorder the labs | `LABS`, order is the order they drop |
+| Shift the bag | `BAG_W`, `BAG_BOTTOM_MARGIN` |
+| Move where buttons disappear | `BAG_FRONT_Y`, measured on the bag artwork |
+| Change how wide they fan in the bag | `BAG_MOUTH` |

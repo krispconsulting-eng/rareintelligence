@@ -1,23 +1,45 @@
 # Sequence
 
-About 46 seconds at 120 bpm, where one bar is two seconds. Featured labs get two bars,
-montage buttons one bar each, so every landing falls on a downbeat. The seven featured
-labs follow the brief; the remaining five buttons run as a montage once their titles
-are confirmed (`assets/README.md`).
+34 seconds at 120 bpm, where one bar is two seconds. Each lab gets one bar, so every
+landing falls on a downbeat, and the ending takes three bars. Titles are the official lab names, taken from the supplied
+artwork filenames and used verbatim, including US spellings.
 
-| Time | Scene | Content | On screen |
+| Time | Lab | Title on screen | Lands |
 |---|---|---|---|
-| 00–04 | 1 | Toolkit reveal | What MasterClass Executive is adding to my toolkit |
-| 04–08 | 2 | AI Foundations for Leaders | |
-| 08–12 | 3 | Building Prototypes with AI | |
-| 12–16 | 4 | Human training of AI models | |
-| 16–20 | 5 | Financial Analysis with AI | |
-| 20–24 | 6 | AEO Strategy | |
-| 24–28 | 7 | AI in Production | |
-| 28–32 | 8 | ElevenLabs and visual creation | |
-| 32–42 | 9 | The remaining five buttons, one bar each | |
-| 42–46 | 10 | Completed toolkit | Kris Pierce Toolkit. New skills and perspectives, applied to my work. |
+| 0.0–4.0 | | Twelve AI labs. One toolkit. | |
+| 4.0–6.0 | 01 | Data Analysis with AI | 5.5 |
+| 6.0–8.0 | 02 | Build Full Marketing Campaigns with AI | 7.5 |
+| 8.0–10.0 | 03 | Training AI Agents | 9.5 |
+| 10.0–12.0 | 04 | Financial Analysis and Modeling with AI | 11.5 |
+| 12.0–14.0 | 05 | Answer Engine Optimization | 13.5 |
+| 14.0–16.0 | 06 | Build Prototypes with AI | 15.5 |
+| 16.0–18.0 | 07 | How AI Teams Build and Govern Agents | 17.5 |
+| 18.0–20.0 | 08 | Turn Your Workflow into an AI Superpower | 19.5 |
+| 20.0–22.0 | 09 | Customer Research with Synthetic Users | 21.5 |
+| 22.0–24.0 | 10 | Build AI Agents for Sales and GTM | 23.5 |
+| 24.0–26.0 | 11 | Storytelling and Slide Decks with AI | 25.5 |
+| 26.0–28.0 | 12 | AI for Customer Support | 27.5 |
+| 28.0–28.9 | | The bag lifts a fraction; its reflection deepens on the floor; the dots and eyebrow fade | |
+| 28.7–32.2 | | The pull-back: the stage floor fades in and the bag shrinks to a third, standing under one spotlight | |
+| 31.0–34.0 | | "This is the start." rises in at 31.0; the eyebrow beneath it at 32.4; fade to black from 33.0 | |
 
-If a title is not readable inside two bars, give that scene three bars rather than
-slowing the whole edit. If the track is not 120 bpm, keep the rule (whole bars per
-scene) and let the running time move with it.
+Two titles are shortened on screen because the full names do not fit the dwell time:
+lab 03 is *Training AI Agents: From Domain Expertise to Working Agent* and lab 05 is
+*Answer Engine Optimization: AI Search Beyond SEO*. Both appear in full in `post.md`.
+
+## Inside one bar
+
+| Beat | Time in bar | What happens |
+|---|---|---|
+| 1 | 0.00 | Button pops in at the upper centre, scaling up with a slight overshoot |
+| 1–2 | 0.00–0.95 | Holds still enough to read, title and LAB nn / 12 beneath it |
+| 3 | 0.95–1.50 | Drops, gathering speed then easing off into the bag, tilting slightly, with a faint colour trail |
+| 4 | 1.50 | Lands: passes behind the bag's front panel, the bag gives a little and settles, a flare in the button's own colour blooms at the mouth |
+| 4 | 1.50–2.00 | Settles. The button is now visible peeking out of the bag and its dot fills |
+
+## Changing the pace
+
+`PER_BUTTON` in `build/render.py` sets the dwell. At 2.0 seconds a two-line title gets
+about 1.1 seconds of clear reading time. Raising it to 2.5 makes the cut 38 seconds and
+is the change to make if the titles feel rushed; the beat grid then no longer lines up
+with whole bars, so either accept that or use a 96 bpm track.
