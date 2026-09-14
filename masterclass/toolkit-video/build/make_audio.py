@@ -316,10 +316,19 @@ def main() -> int:
     if args.mux:
         video = HERE.parent / "kris-pierce-toolkit.mp4"
         out = HERE.parent / "kris-pierce-toolkit-sound.mp4"
+        poster = HERE.parent / "poster.png"
+        # The poster rides along as embedded cover art for players that show one
+        # (Files, WhatsApp, some messengers). Social platforms ignore it and use frame
+        # one, which is why the picture now opens on the finished title frame.
         subprocess.run(
-            ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video), "-i", str(wav),
-             "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest",
-             "-movflags", "+faststart", str(out)],
+            ["ffmpeg", "-y", "-loglevel", "error", "-ss", "0.5", "-i", str(video), "-frames:v", "1", str(poster)],
+            check=True,
+        )
+        subprocess.run(
+            ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video), "-i", str(wav), "-i", str(poster),
+             "-map", "0:v:0", "-map", "1:a:0", "-map", "2:v:0",
+             "-c:v:0", "copy", "-c:a", "aac", "-b:a", "192k", "-c:v:1", "png",
+             "-disposition:v:1", "attached_pic", "-movflags", "+faststart", str(out)],
             check=True,
         )
         print(out)
