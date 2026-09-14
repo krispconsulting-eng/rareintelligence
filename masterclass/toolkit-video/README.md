@@ -1,13 +1,29 @@
 # Kris Pierce Toolkit: the video
 
-`kris-pierce-toolkit.mp4` is the finished cut. Vertical 9:16, 1080 x 1920, 30fps, 32
-seconds, no audio yet.
+Two finished cuts, both vertical 9:16, 1080 x 1920, 30fps, 32 seconds:
+
+- `kris-pierce-toolkit-sound.mp4` has the sound design and is the one to post.
+- `kris-pierce-toolkit.mp4` is the same picture with no audio, for adding a music track
+  of your own.
 
 Twelve official MasterClass Executive lab buttons pop in one at a time, each held long
 enough to read, then drop into the black leather bag marked KRIS PIERCE TOOLKIT. The
 bag fills up as it goes, and the dots across the top track twelve of twelve.
 
 `poster.png` is a frame for the thumbnail.
+
+## The sound
+
+Sound design rather than music: a whoosh on each drop, a weighted impact on each
+landing, and a very quiet bed underneath so it is never dead silent. The twelve
+landings are tuned to an ascending A minor pentatonic, so the bag audibly fills up
+as it visually does, and the closing card lands on an A minor chord. Every hit is on
+its frame, peaks at -1 dBFS, and the mix is balanced so the impacts still read on a
+phone speaker.
+
+It stands on its own for Reels and TikTok, and it sits under a music track if you
+add one there or in the edit. `build/make_audio.py` builds it from the same timing
+constants as the picture.
 
 ## What is in the cut
 
@@ -17,15 +33,16 @@ bag fills up as it goes, and the dots across the top track twelve of twelve.
 | 4.0–28.0 | Twelve labs, two seconds each: pop in, hold with the title and LAB nn / 12, drop, land |
 | 28.0–32.0 | "KRIS PIERCE TOOLKIT" / "Twelve labs. New capability, applied to my work." |
 
-## Before it goes out
+## Adding music
 
-Add music. The cut runs on a 120 bpm grid with a landing on the fourth beat of every
+Optional. The cut runs on a 120 bpm grid with a landing on the fourth beat of every
 bar, so any 120 bpm track drops straight in with no nudging. Landings are at 5.5, 7.5,
 9.5, 11.5, 13.5, 15.5, 17.5, 19.5, 21.5, 23.5, 25.5 and 27.5 seconds. Pick something
-driving rather than ambient, and put a short impact sound on each landing.
+driving rather than ambient. Instagram and TikTok can add a licensed track over the
+sound version in-app; for LinkedIn, mix a track under `kris-pierce-toolkit.mp4` in the
+edit.
 
 Narration is optional and the twenty-second script in `voiceover.md` fits this cut.
-Music alone works, with `post.md` carrying the detail.
 
 ## Rebuilding it
 
@@ -35,6 +52,7 @@ cd build
 python3 prepare_bag.py              # keys the checkerboard out of the supplied bag
 python3 render.py                   # writes ../kris-pierce-toolkit.mp4, about 2.5 min
 python3 render.py --stills 6.35 20  # single frames instead, for checking a change
+python3 make_audio.py --mux         # builds the sound and writes ../kris-pierce-toolkit-sound.mp4
 ```
 
 Set `TOOLKIT_FONT_DIR` to a folder of Inter TTFs to match the delivered cut; without it
@@ -48,7 +66,8 @@ dwell time, `BPM`, the layout positions, and `LABS` for the titles and their ord
 
 | File | What it is |
 |---|---|
-| `kris-pierce-toolkit.mp4` | The cut |
+| `kris-pierce-toolkit-sound.mp4` | The cut with sound design, ready to post |
+| `kris-pierce-toolkit.mp4` | The cut with no audio, for a music track of your own |
 | `poster.png` | Thumbnail frame |
 | `sequence.md` | The timeline, lab by lab |
 | `edit-guide.md` | How the animation works and how to change it |
@@ -56,4 +75,4 @@ dwell time, `BPM`, the layout positions, and `LABS` for the titles and their ord
 | `post.md` | Draft of the accompanying post |
 | `assets/` | The keyed bag and where the source artwork lives |
 | `prompts.md` | Unused: prompts for generating the backgrounds with a video model instead |
-| `build/` | `prepare_bag.py` and `render.py` |
+| `build/` | `prepare_bag.py`, `render.py` and `make_audio.py` |

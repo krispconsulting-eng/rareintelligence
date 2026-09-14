@@ -11,5 +11,6 @@ __pycache__/
 # not in this public one. build/render.py rebuilds it from the artwork in about 2.5 min.
 masterclass/toolkit-video/build/out/
 masterclass/toolkit-video/kris-pierce-toolkit.mp4
+masterclass/toolkit-video/kris-pierce-toolkit-sound.mp4
 masterclass/toolkit-video/poster.png
 masterclass/toolkit-video/assets/bag/
