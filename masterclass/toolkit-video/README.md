@@ -1,6 +1,6 @@
 # Kris Pierce Toolkit: the video
 
-Two finished cuts, both vertical 9:16, 1080 x 1920, 30fps, 32 seconds:
+Two finished cuts, both vertical 9:16, 1080 x 1920, 30fps, 34 seconds:
 
 - `kris-pierce-toolkit-sound.mp4` has the sound design and is the one to post.
 - `kris-pierce-toolkit.mp4` is the same picture with no audio, for adding a music track
@@ -19,14 +19,17 @@ the picture.
 
 Sound design on top: a whoosh on each drop, a soft weighted thump on each landing,
 and the twelve landings tuned to an ascending A minor pentatonic so the bag audibly
-fills up as it visually does. The closing card lands on an A minor chord.
+fills up as it visually does.
 
 A quiet music bed underneath, at 120 bpm in A minor: four-on-the-floor kick, eighth-note
 hats, a syncopated bass and a rolling pentatonic pluck, building through the twelve
-labs and dropping to a pad alone under the closing card. It sits about 6 dB under the
-landings and ducks briefly on each one so the hits stay clear. Every hit is on its
-frame, the mix peaks at -1 dBFS, and it is balanced so the landings still read on a
-phone speaker.
+labs. It sits about 6 dB under the landings and ducks briefly on each one so the hits
+stay clear.
+
+The ending is scored on its own. The bed drops out on the last bar line, a low swell
+rises under the pull-back for three seconds, and it resolves into one held A as the
+closing line lands, decaying to the end. Every hit is on its frame, the mix peaks at
+-1 dBFS, and it is balanced so the landings still read on a phone speaker.
 
 The bed is synthesised, not a licensed track, so it is deliberately understated. If you
 want something with more character, mix a track under the silent cut instead; the beat
@@ -38,7 +41,7 @@ grid is below.
 |---|---|
 | 0.0–4.0 | Bag reveals. "Twelve AI labs. One toolkit." / "What MasterClass Executive is adding to my work in rare disease, policy and HTA" |
 | 4.0–28.0 | Twelve labs, two seconds each: pop in, hold with the title and LAB nn / 12, drop, land |
-| 28.0–32.0 | "KRIS PIERCE TOOLKIT" / "Twelve labs. New capability, applied to my work." |
+| 28.0–34.0 | The pull-back. The bag lifts a fraction, its reflection deepens, and the camera pulls back until it stands small under one spotlight on a stage whose floor runs to the horizon. "This is the start." in gold serif, then the eyebrow, then out. |
 
 ## Adding music
 

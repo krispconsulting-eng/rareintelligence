@@ -1,7 +1,7 @@
 # Sequence
 
-32 seconds at 120 bpm, where one bar is two seconds. Each lab gets one bar, so every
-landing falls on a downbeat. Titles are the official lab names, taken from the supplied
+34 seconds at 120 bpm, where one bar is two seconds. Each lab gets one bar, so every
+landing falls on a downbeat, and the ending takes three bars. Titles are the official lab names, taken from the supplied
 artwork filenames and used verbatim, including US spellings.
 
 | Time | Lab | Title on screen | Lands |
@@ -19,7 +19,9 @@ artwork filenames and used verbatim, including US spellings.
 | 22.0–24.0 | 10 | Build AI Agents for Sales and GTM | 23.5 |
 | 24.0–26.0 | 11 | Storytelling and Slide Decks with AI | 25.5 |
 | 26.0–28.0 | 12 | AI for Customer Support | 27.5 |
-| 28.0–32.0 | | Kris Pierce Toolkit | |
+| 28.0–28.9 | | The bag lifts a fraction; its reflection deepens on the floor; the dots and eyebrow fade | |
+| 28.7–32.2 | | The pull-back: the stage floor fades in and the bag shrinks to a third, standing under one spotlight | |
+| 31.0–34.0 | | "This is the start." rises in at 31.0; the eyebrow beneath it at 32.4; fade to black from 33.0 | |
 
 Two titles are shortened on screen because the full names do not fit the dwell time:
 lab 03 is *Training AI Agents: From Domain Expertise to Working Agent* and lab 05 is

@@ -214,12 +214,35 @@ def music() -> np.ndarray:
 
     t = np.arange(buf.shape[0]) / SR
     duck = np.ones_like(t)
-    for at in LANDINGS + [FINAL]:
+    for at in LANDINGS:
         age = t - at
         duck = np.minimum(duck, np.where(age >= 0, 1 - 0.55 * np.exp(-age / 0.16), 1.0))
-    outro = np.clip((TOTAL - 1.0 - t) / 3.0, 0, 1)
-    outro = np.where(t < FINAL, 1.0, outro)
-    return buf * (duck * outro)[:, None]
+    # The bed drops out at the last bar line; the ending is scored separately.
+    drop_out = np.where(t < FINAL, 1.0, np.clip(1 - (t - FINAL) / 0.35, 0, 1))
+    return buf * (duck * drop_out)[:, None]
+
+
+def swell(length: float = 3.0, gain: float = 0.16) -> np.ndarray:
+    """Low and rising under the pull-back: a sub tone and closed noise opening up
+    over three seconds, into the held note."""
+    n = int(length * SR)
+    t = np.arange(n) / SR
+    p = t / length
+    tone = np.sin(2 * np.pi * 55.0 * t) + 0.6 * np.sin(2 * np.pi * 110.0 * t) + 0.3 * np.sin(2 * np.pi * 165.0 * t)
+    rng = np.random.default_rng(23)
+    air = lowpass(rng.standard_normal(n), 150.0 + 2400.0 * p ** 2.5)
+    air /= np.abs(air).max() or 1.0
+    return (tone * 0.5 + air * 0.35) * p ** 2.2 * gain
+
+
+def sustain(freq: float = 220.0, length: float = 3.2, gain: float = 0.22) -> np.ndarray:
+    """One held note that the swell resolves into, decaying to the end of the cut."""
+    t = np.arange(int(length * SR)) / SR
+    w = np.sin(2 * np.pi * freq * t) + 0.45 * np.sin(2 * np.pi * 2 * freq * t)
+    w += 0.2 * np.sin(2 * np.pi * 0.5 * freq * t) + 0.15 * np.sin(2 * np.pi * freq * 1.005 * t)
+    attack = 1 - np.exp(-t / 0.02)
+    release = np.clip((length - t) / 1.6, 0, 1) ** 1.2
+    return w / 1.8 * attack * release * gain
 
 
 def bed(length: float) -> np.ndarray:
@@ -255,13 +278,13 @@ def build() -> np.ndarray:
     for at in POPS:
         add(buf, at, tick(0.028), 0.0)
 
-    add(buf, FINAL - 1.1, riser(1.1, 0.13))
-    add(buf, FINAL, thud(0.9, 0.40))
-    add(buf, FINAL, knock(0.22))
-    for freq, pan in ((220.0, -0.3), (261.63, 0.0), (329.63, 0.3), (440.0, -0.15)):
-        add(buf, FINAL, bell(freq, 3.2, 0.20), pan)
+    # The ending: the bed has dropped out, a swell rises under the pull-back and
+    # resolves into one held note as the closing line lands.
+    add(buf, FINAL, swell(3.0))
+    add(buf, FINAL + 3.0, sustain(220.0, TOTAL - FINAL - 3.0))
+    add(buf, FINAL + 3.0, bell(440.0, 2.5, 0.10), 0.2)
 
-    tail = np.clip((TOTAL - np.arange(buf.shape[0]) / SR) / 0.9, 0, 1)
+    tail = np.clip((TOTAL - np.arange(buf.shape[0]) / SR) / 1.2, 0, 1)
     buf *= tail[:, None]
     peak = np.abs(buf).max()
     if peak:

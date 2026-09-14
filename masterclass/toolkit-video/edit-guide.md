@@ -60,6 +60,22 @@ greedily, so no title hangs on a single orphan word.
 The title fades out as the drop begins, which is what keeps the falling card from
 crossing the text.
 
+## The ending
+
+Three bars. The bed drops out on the bar line after the twelfth landing. The bag,
+with all twelve buttons in it, is rendered as one group together with a reflection of
+itself on the floor; it lifts fourteen pixels over nine tenths of a second while the
+reflection deepens. Then the flat grid crossfades into a stage: a perspective floor
+converging on a horizon, hazed near the vanishing point, with a single beam and a pool
+of light where the bag will stand. The group scales down to about a third and rises to
+that spot over three and a half seconds on the same curve as the drops. "This is the
+start." fades up in Playfair Display at 600 weight, the eyebrow follows beneath it, and
+the frame fades to black over the last second. The scale flip is the point: it stops
+being a handbag and becomes a foundation.
+
+The stage geometry is four constants: `STAGE_HORIZON`, `STAGE_BASE` (where the bag
+stands), `STAGE_SCALE` and `REFL_H`.
+
 ## Safe areas
 
 The bag and every caption sit above y=1655, clear of the roughly 260 pixels of controls

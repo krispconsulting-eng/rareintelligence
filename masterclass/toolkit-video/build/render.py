@@ -19,7 +19,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont, ImageOps
 
 HERE = Path(__file__).resolve().parent
 ASSETS = HERE.parent.parent
@@ -46,7 +46,14 @@ BEAT = 60.0 / BPM
 
 INTRO = 4 * BEAT * 2          # 4.0s, two bars
 PER_BUTTON = 4 * BEAT         # 2.0s, one bar
-OUTRO = 4 * BEAT * 2          # 4.0s, two bars
+OUTRO = 4 * BEAT * 3          # 6.0s, three bars: the pull-back needs room
+
+# The closing pull-back: where the horizon sits, where the bag ends up standing, how
+# small it gets, and how much of its reflection shows on the floor.
+STAGE_HORIZON = 1000
+STAGE_BASE = 1250
+STAGE_SCALE = 0.32
+REFL_H = 260
 
 POP_END = 0.18
 DROP_START = 0.95
@@ -101,6 +108,28 @@ def font(name: str, size: int) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(
         f"/usr/share/fonts/truetype/liberation/{FONT_FALLBACK.get(name, 'LiberationSans-Regular.ttf')}", size
     )
+
+
+def serif_font(size: int) -> ImageFont.FreeTypeFont:
+    """A high-contrast serif for the closing line, in the MasterClass wordmark idiom."""
+    for directory in FONT_DIRS:
+        if not directory:
+            continue
+        for name, weight in (("PlayfairDisplay[wght].ttf", 600), ("CormorantGaramond-SemiBold.ttf", None)):
+            path = directory / name
+            if path.exists() and path.stat().st_size > 10_000:
+                loaded = ImageFont.truetype(str(path), size)
+                if weight:
+                    try:
+                        loaded.set_variation_by_axes([weight])
+                    except Exception:
+                        pass
+                return loaded
+    return ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf", size)
+
+
+def clamp(t: float) -> float:
+    return min(1.0, max(0.0, t))
 
 
 def ease_out_back(t: float) -> float:
@@ -251,8 +280,10 @@ class Scene:
         self.f_big = font("InterDisplay-Bold.ttf", 82)
         self.f_sub = font("InterDisplay-Medium.ttf", 38)
         self.f_kicker = font("InterDisplay-Medium.ttf", 30)
+        self.f_serif = serif_font(96)
 
         self.base = self.make_base()
+        self.stage = self.make_stage()
         mouth_l = self.bag_x + int(BAG_MOUTH[0] * scale)
         mouth_r = self.bag_x + int(BAG_MOUTH[1] * scale)
         step = (mouth_r - mouth_l) / (len(LABS) - 1)
@@ -317,6 +348,68 @@ class Scene:
         add_glow(base, (540, 640), 1400, (40, 70, 130), 0.55)
         return base
 
+    def make_stage(self) -> Image.Image:
+        """The pulled-back view: a floor grid running off to a horizon, hazed near the
+        vanishing point, and one spotlight on the spot where the bag will stand."""
+        stage = Image.new("RGBA", (W, H), (*INK, 255))
+        d = ImageDraw.Draw(stage)
+        yh, depth = STAGE_HORIZON, H - STAGE_HORIZON
+        for xb in range(-2600, W + 2600, 96):
+            d.line([(540, yh), (xb, H)], fill=(120, 140, 180, 14), width=1)
+        for n in range(80):
+            y = yh + depth / (1 + n * 0.16)
+            a = int(24 * ((y - yh) / depth) ** 0.6)
+            if a < 2:
+                break
+            d.line([(0, y), (W, y)], fill=(120, 140, 180, a), width=1)
+        haze = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        hd = ImageDraw.Draw(haze)
+        for y in range(yh, yh + 300):
+            hd.line([(0, y), (W, y)], fill=(*INK, int(255 * (1 - (y - yh) / 300) ** 1.6)))
+        stage.alpha_composite(haze)
+        glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ImageDraw.Draw(glow).line([(0, yh), (W, yh)], fill=(150, 170, 215, 46), width=3)
+        stage.alpha_composite(glow.filter(ImageFilter.GaussianBlur(20)))
+        beam = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ImageDraw.Draw(beam).polygon(
+            [(490, -60), (590, -60), (790, STAGE_BASE + 20), (290, STAGE_BASE + 20)], fill=(255, 236, 190, 26)
+        )
+        stage.alpha_composite(beam.filter(ImageFilter.GaussianBlur(48)))
+        pool = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ImageDraw.Draw(pool).ellipse([240, STAGE_BASE - 64, 840, STAGE_BASE + 64], fill=(255, 226, 160, 130))
+        stage.alpha_composite(pool.filter(ImageFilter.GaussianBlur(55)))
+        return stage
+
+    def bag_group(self, lift: float, mirror: float) -> tuple[Image.Image, int]:
+        """The finished bag with all twelve buttons and its reflection on the floor, as
+        one layer so the pull-back can scale it as a whole. Returns the layer and the
+        y of the bag's base within it."""
+        top = 24
+        layer = Image.new("RGBA", (BAG_W, top + self.bag.height + REFL_H + 48), (0, 0, 0, 0))
+        yb = int(top - lift)
+        base = yb + self.bag.height
+        if mirror > 0.01:
+            refl = ImageOps.flip(self.bag).crop((0, 0, BAG_W, REFL_H))
+            r, g, b, a = refl.split()
+            grad = ImageOps.invert(Image.linear_gradient("L").resize((BAG_W, REFL_H)))
+            grad = grad.point(lambda v: int(v * 0.45 * mirror))
+            dim = 0.55
+            refl = Image.merge("RGBA", (
+                r.point(lambda v: int(v * dim)), g.point(lambda v: int(v * dim)),
+                b.point(lambda v: int(v * dim)), ImageChops.multiply(a, grad),
+            ))
+            layer.alpha_composite(refl.filter(ImageFilter.GaussianBlur(2.5)), (0, base + int(2 * lift)))
+        layer.alpha_composite(self.bag, (0, yb))
+        dx, dy = -self.bag_x, yb - self.bag_y
+        for i in range(len(LABS)):
+            peek = self.peeks[i]
+            arc = int(10 * math.sin(math.pi * (i + 0.5) / len(LABS)))
+            layer.alpha_composite(peek, (self.landing_x[i] - peek.width // 2 + dx, self.rim_y - 76 - arc + dy))
+        layer.alpha_composite(self.front, (0, self.front_y + dy))
+        for strap, (sx, sy) in self.straps:
+            layer.alpha_composite(strap, (sx + dx, sy + dy))
+        return layer, base
+
     def vignette(self) -> Image.Image:
         v = Image.new("RGBA", (W, H), (0, 0, 0, 0))
         d = ImageDraw.Draw(v)
@@ -370,15 +463,16 @@ class Scene:
             pool += 0.40 * math.exp(-impact_age * 4.0)
         add_glow(img, (540, self.rim_y + 40), 1500, colour, pool)
 
-        self.draw_bag(img, kind, local, impact_age, landed, colour)
+        if kind == "outro":
+            img = self.draw_outro_scene(img, local)
+            img.alpha_composite(self.vig)
+            return img
 
+        self.draw_bag(img, kind, local, impact_age, landed, colour)
         if kind == "button":
             self.draw_button(img, index, local, colour)
-        elif kind == "intro":
-            self.draw_intro(img, local)
         else:
-            self.draw_outro(img, local)
-
+            self.draw_intro(img, local)
         self.draw_chrome(img, landed, kind, local)
         img.alpha_composite(self.vig)
         return img
@@ -500,17 +594,46 @@ class Scene:
         layer.putalpha(layer.getchannel("A").point(lambda v: int(v * a * out)))
         img.alpha_composite(layer)
 
-    def draw_outro(self, img, local) -> None:
-        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
-        a = min(1.0, local / 0.5)
-        rise = int(18 * (1 - ease_out(a)))
-        tracked_text(d, (540, 430 + rise), "KRIS PIERCE", self.f_big, (*WHITE, 255), 6.0)
-        tracked_text(d, (540, 526 + rise), "TOOLKIT", self.f_big, (*GOLD, 255), 10.0)
-        d.text((540, 668 + rise), "Twelve labs. New capability,", font=self.f_sub, fill=(*MUTED, 255), anchor="ma")
-        d.text((540, 716 + rise), "applied to my work.", font=self.f_sub, fill=(*MUTED, 255), anchor="ma")
-        layer.putalpha(layer.getchannel("A").point(lambda v: int(v * a)))
-        img.alpha_composite(layer)
+    def draw_outro_scene(self, img: Image.Image, local: float) -> Image.Image:
+        """The pull-back. The bag lifts a fraction and its reflection deepens, then the
+        camera pulls back until it stands small under one spotlight on a stage whose
+        floor runs off to the horizon. One line, the eyebrow, and out."""
+        lift_p = ease_out(clamp((local - 0.2) / 0.9))
+        p = drop_curve(clamp((local - 0.7) / 3.5))
+
+        chrome_fade = 1.0 - clamp(local / 0.5)
+        if chrome_fade > 0:
+            chrome = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+            self.draw_chrome(chrome, len(LABS), "outro", local)
+            chrome.putalpha(chrome.getchannel("A").point(lambda v: int(v * chrome_fade)))
+            img.alpha_composite(chrome)
+
+        if p > 0:
+            img = Image.blend(img, self.stage, p)
+
+        group, base_y = self.bag_group(14 * lift_p, lift_p)
+        s = 1.0 - (1.0 - STAGE_SCALE) * p
+        floor = self.bag_y + self.bag.height
+        ay = floor + (STAGE_BASE - floor) * p
+        if s < 0.999:
+            group = group.resize((max(1, int(group.width * s)), max(1, int(group.height * s))), Image.LANCZOS)
+        img.alpha_composite(group, (int(540 - group.width / 2), int(ay - base_y * s)))
+
+        text = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        d = ImageDraw.Draw(text)
+        ta = ease_out(clamp((local - 3.0) / 1.0))
+        if ta > 0:
+            rise = int(22 * (1 - ta))
+            d.text((540, 720 + rise), "This is the start.", font=self.f_serif, fill=(*GOLD, int(255 * ta)), anchor="ma")
+        ea = clamp((local - 4.4) / 0.6)
+        if ea > 0:
+            tracked_text(d, (540, 862), "MASTERCLASS EXECUTIVE", self.f_eyebrow, (*GOLD, int(220 * ea)), 7.0)
+        img.alpha_composite(text)
+
+        black = clamp((local - (OUTRO - 1.0)) / 1.0)
+        if black > 0:
+            img.alpha_composite(Image.new("RGBA", (W, H), (0, 0, 0, int(255 * black))))
+        return img
 
     def draw_chrome(self, img, landed, kind, local) -> None:
         layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
@@ -535,8 +658,6 @@ class Scene:
         # A slow push-in across the whole cut and a gentle one over the closing card.
         # No kick on the landings: the bag takes the weight, the frame stays still.
         zoom = 1.0 + 0.016 * (t / TOTAL)
-        if kind == "outro":
-            zoom += 0.022 * ease_out(min(1.0, local / OUTRO))
         if zoom <= 1.0005:
             return img
         cw, ch = int(W / zoom), int(H / zoom)
